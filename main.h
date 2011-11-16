@@ -2,6 +2,8 @@
 #define __MAIN_H__
 
 #include "trigonum.h"
+#include "photon.h"
+#include "photon_map.h"
 #include "image.h"
 #include "box.h"
 #include "bvh.h"
