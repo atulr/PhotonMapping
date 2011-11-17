@@ -85,7 +85,7 @@ void PhotonMap::generate(Photon photons[], Photon photonHeap[], int count, int c
 			else
 				sort_dim=2;
 
-			sort(photons, sort_dim, count);
+			sort(photons, sort_dim, count, 0, count);
 
 
 			Photon upper[count];
@@ -125,6 +125,49 @@ void PhotonMap::generate(Photon photons[], Photon photonHeap[], int count, int c
 
 }
 
-void PhotonMap::sort(Photon photons[], int sort_dim, int count) {
+void PhotonMap::sort(Photon photons[], int sort_dim, int size, int left, int right) {
 	//use iterative quicksort..
+	Photon temp, pivot;
+
+	int stack[size], sp = 0, l2, r2;
+	stack[sp++] = left;
+	stack[sp++] = right;
+	while(sp > 0) {
+
+		right = stack[--sp];
+		left = stack[--sp];
+		do {
+			pivot = photons[(left + right)/2];
+			l2 = left;
+			r2 = right;
+			do {
+				while(photons[l2].get_axis(sort_dim) < pivot.get_axis(sort_dim))
+					l2 = l2 + 1;
+				while(photons[r2] > pivot)
+					r2 = r2 - 1;
+				if (l2 <= r2) {
+					if (l2 != r2) {
+						temp = photon[l2];
+						photon[l2] = photon[r2];
+						photon[r2] = temp;
+					}
+					l2 = l2 + 1;
+					r2 = r2 - 1;
+				}
+			}while(l2 < r2);
+			if(r2 - left > right - l2) {
+				if (left < r2) {
+					stack[sp++] = left;
+					stack[sp++] = r2;
+				}
+				left = l2;
+			}else {
+				if(l2 < right) {
+					stack[sp++] = l2;
+					stack[sp++] = right;
+				}
+				right = r2;
+			}
+		}while(left < right);
+	}
 }

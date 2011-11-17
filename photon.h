@@ -24,6 +24,7 @@ public:
 		position = pos;
 	}
 	Vector get_position();
+	float get_axis(int dim);
 	void set_flag(int f);
 	void set_position(Vector position);
 	float get_power();

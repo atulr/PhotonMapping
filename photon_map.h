@@ -12,7 +12,7 @@
 
 class PhotonMap {
 	Photon photon;
-	void sort(Photon photons[], int sort_dimension, int count);
+	void sort(Photon photons[], int sort_dimension, int count, int left, int right);
 public:
 	PhotonMap() {};
 	PhotonMap(Photon ph) {
