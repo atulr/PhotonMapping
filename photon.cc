@@ -11,16 +11,38 @@ Vector Photon::get_position(){
 	return position;
 }
 
+Vector Photon::get_incidence() {
+	return incident;
+}
+
 void Photon::set_position(Vector pos) {
 	position = pos;
 }
 
-float Photon::get_power() {
-	return power;
+int Photon::get_dimension() {
+	return flag;
 }
 
-void Photon::set_power(float pow[]) {
-	power = pow;
+float Photon::get_powerr() {
+	return power[0];
+}
+
+float Photon::get_powerg() {
+	return power[1];
+}
+
+float Photon::get_powerb() {
+	return power[2];
+}
+
+void Photon::set_power(float Kd) {
+	power[0] = power[0] * Kd;
+	power[1] = power[1] * Kd;
+	power[2] = power[2] * Kd;
+}
+
+void Photon::set_incident(Vector inc) {
+	incident = inc;
 }
 
 float Photon::get_axis(int dim) {

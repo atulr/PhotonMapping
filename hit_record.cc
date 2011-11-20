@@ -33,6 +33,10 @@ bool HitRecord::hit(float t, const int &tri_address) {
 	return false;
 }
 
+Vector HitRecord::hit_position(Ray ray) {
+	return (ray.get_direction().scmult(distance));
+}
+
 bool HitRecord::did_hit(){
 	if (distance < max_t)
 		return true;

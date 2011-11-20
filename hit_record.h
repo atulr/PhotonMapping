@@ -22,6 +22,7 @@ public:
 	HitRecord() {
 		distance = max_t;
 	}
+	Vector hit_position(Ray ray);
 	void set_t(float t);
 	float min_t();
 	bool did_hit();

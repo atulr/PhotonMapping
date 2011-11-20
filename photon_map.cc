@@ -15,6 +15,10 @@ inline int split(int x)//this finds which node of the list should be the splitte
 
 }
 
+inline float distance_square(Vector v1, Vector v2) {
+	return ((v1.getx() - v2.getx()) * (v1.getx() - v2.getx()) + (v1.gety() - v2.gety()) * (v1.gety() - v2.gety()) + (v1.getz() - v2.getz()) * (v1.getz() - v2.getz()));
+}
+
 inline int min(int x, int y) {
 	if(x < y)
 		return x;
@@ -23,24 +27,31 @@ inline int min(int x, int y) {
 
 int sort_dim = 0;
 
-void PhotonMap::locate_photons(double *point, double *dSquare,int p, priority_queue<photonQueue,deque<photonQueue>,eventComparison> &nearest,photon* heap, int sizeHeap, int type){
-	if((2*p+2)<sizeHeap)//visit children
+void PhotonMap::locate_photons(Vector position, double *dSquare,int p, priority_queue<photonQueue,deque<photonQueue>,eventComparison> &nearest, Photon heap[], int sizeHeap, int type){
+	if((2*p+2) < sizeHeap)//visit children
 	{
-		int dim=heap[p].flag;
-		double phi=point[dim]-heap[p].pos[dim];
+		int dim=heap[p].get_dimension();
+		float phi;
+		if (dim==0)
+			phi = position.getx() - heap[p].get_axis(dim);
+		else if (dim==1)
+			phi = position.gety() - heap[p].get_axis(dim);
+		else
+			phi = position.getz() - heap[p].get_axis(dim);
+
 		if(phi<0.0){
-			locate_photons(point,dSquare,2*p+1,nearest,heap,sizeHeap, type);
+			locate_photons(position,dSquare,2*p+1,nearest,heap,sizeHeap, type);
 			if((phi*phi)<dSquare[0])
-				locate_photons(point,dSquare,2*p+2,nearest,heap,sizeHeap, type);
+				locate_photons(position,dSquare,2*p+2,nearest,heap,sizeHeap, type);
 		}
 		else
 		{
-			locate_photons(point,dSquare,2*p+2,nearest,heap,sizeHeap, type);
+			locate_photons(position,dSquare,2*p+2,nearest,heap,sizeHeap, type);
 			if((phi*phi)<dSquare[0])
-				locate_photons(point,dSquare,2*p+1,nearest,heap,sizeHeap, type);
+				locate_photons(position,dSquare,2*p+1,nearest,heap,sizeHeap, type);
 		}
 	}
-	double phiSquare=squareDist(heap[p].pos,point);
+	float phiSquare=distance_square(heap[p].get_position(),position);
 	if(phiSquare<dSquare[0]){
 		photonQueue temp;
 		temp.dSquare=phiSquare;
@@ -53,24 +64,36 @@ void PhotonMap::locate_photons(double *point, double *dSquare,int p, priority_qu
 }
 
 void PhotonMap::generate(Photon photons[], Photon photonHeap[], int count, int currentPos) {
+	// add the rgb shit..
+	if(count)
+	if(count==1)//base case
+	{
+
+		photonHeap[currentPos].set_flag(-1);
+		photonHeap[currentPos].set_incident(photons[0].get_incidence());
+		photonHeap[currentPos].set_position(photons[0].get_position()); //find out the correct index
+//		ASSIGN(photonHeap[currentPos].rgb,it->rgb); //will be required later..
+	}
+	else {
+
 			float minXYZ[3],maxXYZ[3];
 			minXYZ[0] = minXYZ[1] = minXYZ[2] = MAX_NUM;
 			maxXYZ[0] = maxXYZ[1] = maxXYZ[2] = -MAX_NUM;
-
-			for(int it = 0; it! = count; ++ it)//find bounding box
+			int i = 0;
+			for(i = 0; i!= count; ++i)//find bounding box
 			{
-				if(photons[it].get_position().getx() < minXYZ[0])
-					minXYZ[0] = photons[it].get_position().getx();
-				if(photons[it].get_position().gety() < minXYZ[1])
-					minXYZ[1] = photons[it].get_position().gety();
-				if(photons[it].get_position().getz() < minXYZ[2])
-					minXYZ[2] = photons[it].get_position().getz();
-				if(photons[it].get_position().getx() > maxXYZ[0])
-					maxXYZ[0] = photons[it].get_position().getx();
-				if(photons[it].get_position().gety() > maxXYZ[1])
-					maxXYZ[1] = photons[it].get_position().gety();
-				if(photons[it].get_position().getz() > maxXYZ[2])
-					maxXYZ[2] = photons[it].get_position().getz();
+				if(photons[i].get_position().getx() < minXYZ[0])
+					minXYZ[0] = photons[i].get_position().getx();
+				if(photons[i].get_position().gety() < minXYZ[1])
+					minXYZ[1] = photons[i].get_position().gety();
+				if(photons[i].get_position().getz() < minXYZ[2])
+					minXYZ[2] = photons[i].get_position().getz();
+				if(photons[i].get_position().getx() > maxXYZ[0])
+					maxXYZ[0] = photons[i].get_position().getx();
+				if(photons[i].get_position().gety() > maxXYZ[1])
+					maxXYZ[1] = photons[i].get_position().gety();
+				if(photons[i].get_position().getz() > maxXYZ[2])
+					maxXYZ[2] = photons[i].get_position().getz();
 			}
 
 			float xd,yd,zd;
@@ -98,21 +121,20 @@ void PhotonMap::generate(Photon photons[], Photon photonHeap[], int count, int c
 			int count_upper = 0;
 			int count_lower = 0;
 			Photon tempPhoton;
-			int i=1;
+			i=1;
+			int it;
 			for(it=0; it != count; ++it,++i)//create 2 lists
 			{
 				tempPhoton.set_position(photons[it].get_position());
-//				tempPhoton.pos,it->pos); find out what this is all about.
-				tempPhoton.set_power(photons[it].get_power());
+				tempPhoton.set_incident(photons[it].get_incidence()));
 
 				if(i<median)
 					lower[count_lower++] = tempPhoton;
 				else if(i==median)//"median", store the photon
 				{
 					photonHeap[currentPos].set_flag(sort_dim);
-//					photonHeap[currentPos].incident,it->incident);
+					photonHeap[currentPos].set_incident(photons[it].get_incidence());
 					photonHeap[currentPos].set_position(photons[it].get_position());
-					photonHeap[currentPos].set_power(photons[it].get_power());
 				}
 				else
 					upper[count_upper++] = tempPhoton;
@@ -126,7 +148,7 @@ void PhotonMap::generate(Photon photons[], Photon photonHeap[], int count, int c
 }
 
 void PhotonMap::sort(Photon photons[], int sort_dim, int size, int left, int right) {
-	//use iterative quicksort..
+	//iterative quicksort..
 	Photon temp, pivot;
 
 	int stack[size], sp = 0, l2, r2;
