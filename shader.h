@@ -13,12 +13,16 @@
 #include "ray.h"
 #include "color.h"
 #include "point_light.h"
+#include "photon_map.h"
+#include "photon.h"
+
 class BVH;
 
 class Shader{
 
 public:
 	Color lambertian(BVH &bvh, HitRecord hit_record, Ray ray, PointLight lights, Color ambient_light);
+	Color test(BVH &bvh, HitRecord hit_record, Ray ray, PointLight lights, Color ambient_light, PhotonMap map, Photon heap[], int size);
 };
 
 #endif /* SHADER_H_ */

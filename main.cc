@@ -83,8 +83,6 @@ int main()
 				photon.set_position(hit_record.hit_position(ray));
 				indirect_photons[count++] = photon;
 				ray_origin = hit_record.hit_position(ray);
-				Color temp(photon.get_powerr(), photon.get_powerg(), photon.get_powerb());
-				image(hit_record.hit_position(ray).getx(), hit_record.hit_position(ray).gety(), temp);
 			}
 		}
 
@@ -92,31 +90,32 @@ int main()
 		absorbed = 0;
 	}
 //figure out a way to bounce photons around... and multiply the photons with the Kd of the material they intersect
-//	PhotonMap map;
-//	map.generate(indirect_photons, indirect_heap, count, 0);
+	PhotonMap map;
+	map.generate(indirect_photons, indirect_heap, count, 0);
 //
 //	count = 0;
-//	for(int pix = atomicinc(0); pix < xres*yres; pix = atomicinc(0)){
-//		int i = pix / xres;
-//		int j = pix % xres;
-//		float x = (float)(2.f * (j - xres/2.0f + 0.5f)/xres);
-//		float y = (float)(2.f * (i - yres/2.0f + 0.5f)/yres);
-//		result = col;
-//		for (int i = 0; i < num_of_samples; i++) {
-//			attenuation = Color(1.f, 1.f, 1.f);
-//			x_off = (trax_rand() - .5f) * 2.f;
-//			y_off = (trax_rand() - .5f) * 2.f;
-//			x_off *= inv_width;
-//			y_off *= inv_height;
-//			camera.make_ray(ray, x + x_off, y + y_off);
-//			HitRecord hit_record;
-//			bvh.intersect(hit_record, ray);
-//
+	for(int pix = atomicinc(0); pix < xres*yres; pix = atomicinc(0)){
+		int i = pix / xres;
+		int j = pix % xres;
+		float x = (float)(2.f * (j - xres/2.0f + 0.5f)/xres);
+		float y = (float)(2.f * (i - yres/2.0f + 0.5f)/yres);
+		result = col;
+		for (int i = 0; i < num_of_samples; i++) {
+			attenuation = Color(1.f, 1.f, 1.f);
+			x_off = (trax_rand() - .5f) * 2.f;
+			y_off = (trax_rand() - .5f) * 2.f;
+			x_off *= inv_width;
+			y_off *= inv_height;
+			camera.make_ray(ray, x + x_off, y + y_off);
+			HitRecord hit_record;
+			bvh.intersect(hit_record, ray);
+
 //			result = shade.lambertian(bvh, hit_record, ray, light, ambient_light);
-//
-//		}
-//		result = result.times(1.f/num_of_samples);
-//		image.set(i, j, result);
-//	}
+			result = shade.test(bvh, hit_record, ray, light, ambient_light, map, indirect_heap, count);
+
+		}
+		result = result.times(1.f/num_of_samples);
+		image.set(i, j, result);
+	}
 	trax_cleanup();
 }

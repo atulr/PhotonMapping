@@ -27,7 +27,7 @@ inline int min(int x, int y) {
 
 int sort_dim = 0;
 
-void PhotonMap::locate_photons(Vector position, double *dSquare,int p, priority_queue<photonQueue,deque<photonQueue>,eventComparison> &nearest, Photon heap[], int sizeHeap, int type){
+void PhotonMap::locate_photons(Vector position, float dSquare,int p, Photon nearest[], Photon heap[], int sizeHeap){
 	if((2*p+2) < sizeHeap)//visit children
 	{
 		int dim=heap[p].get_dimension();
@@ -40,19 +40,20 @@ void PhotonMap::locate_photons(Vector position, double *dSquare,int p, priority_
 			phi = position.getz() - heap[p].get_axis(dim);
 
 		if(phi<0.0){
-			locate_photons(position,dSquare,2*p+1,nearest,heap,sizeHeap, type);
-			if((phi*phi)<dSquare[0])
-				locate_photons(position,dSquare,2*p+2,nearest,heap,sizeHeap, type);
+			locate_photons(position,dSquare,2*p+1,nearest,heap,sizeHeap);
+			if((phi*phi)<dSquare)
+				locate_photons(position,dSquare,2*p+2,nearest,heap,sizeHeap);
 		}
 		else
 		{
-			locate_photons(position,dSquare,2*p+2,nearest,heap,sizeHeap, type);
-			if((phi*phi)<dSquare[0])
-				locate_photons(position,dSquare,2*p+1,nearest,heap,sizeHeap, type);
+			locate_photons(position,dSquare,2*p+2,nearest,heap,sizeHeap);
+			if((phi*phi)<dSquare)
+				locate_photons(position,dSquare,2*p+1,nearest,heap,sizeHeap);
 		}
 	}
 	float phiSquare=distance_square(heap[p].get_position(),position);
-	if(phiSquare<dSquare[0]){
+	//shove it into an array for now...
+	if(phiSquare<dSquare){
 		photonQueue temp;
 		temp.dSquare=phiSquare;
 		temp.pho=&heap[p];
@@ -66,12 +67,12 @@ void PhotonMap::locate_photons(Vector position, double *dSquare,int p, priority_
 void PhotonMap::generate(Photon photons[], Photon photonHeap[], int count, int currentPos) {
 	// add the rgb shit..
 	if(count)
-	if(count==1)//base case
+	if(count==0)//base case
 	{
 
 		photonHeap[currentPos].set_flag(-1);
 		photonHeap[currentPos].set_incident(photons[0].get_incidence());
-		photonHeap[currentPos].set_position(photons[0].get_position()); //find out the correct index
+		photonHeap[currentPos].set_position(photons[0].get_position());
 //		ASSIGN(photonHeap[currentPos].rgb,it->rgb); //will be required later..
 	}
 	else {
@@ -126,7 +127,7 @@ void PhotonMap::generate(Photon photons[], Photon photonHeap[], int count, int c
 			for(it=0; it != count; ++it,++i)//create 2 lists
 			{
 				tempPhoton.set_position(photons[it].get_position());
-				tempPhoton.set_incident(photons[it].get_incidence()));
+				tempPhoton.set_incident(photons[it].get_incidence());
 
 				if(i<median)
 					lower[count_lower++] = tempPhoton;
