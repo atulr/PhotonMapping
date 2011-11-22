@@ -8,18 +8,18 @@
 #ifndef PHOTONS_H_
 #define PHOTONS_H_
 
-#include "photon.h"
-
-class Photons{
-	Photon photons[1000];
-	int size;
-public:
-	Photons(Photon phos[1000], int count) {
-		photons = phos;
-		size = count;
-	}
-	int return_size();
-};
-
+//#include "photon.h"
+//
+//class Photons{
+//	Photon photons[1000];
+//	int size;
+//public:
+//	Photons(Photon phos[1000], int count) {
+//		photons = phos;
+//		size = count;
+//	}
+//	int return_size();
+//};
+//
 
 #endif /* PHOTONS_H_ */

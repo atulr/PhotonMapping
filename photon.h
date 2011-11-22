@@ -21,6 +21,7 @@ private:
 	int flag;
 
 public:
+	float distance;
 	Photon() {
 		power[0] = 1.f;
 		power[1] = 1.f;

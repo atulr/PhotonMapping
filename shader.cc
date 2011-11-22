@@ -92,7 +92,7 @@ Color Shader::test(BVH &bvh, HitRecord hit_record, Ray ray, PointLight point_lig
 //		}
 //	}
 
-	map.locate_photons(hit_position, MAX_DISTANCE*MAX_DISTANCE, 0,nearest, heap, size);
+	map.locate_photons(hit_position, MAX_DISTANCE*MAX_DISTANCE, 0,nearest, heap, size, count_nearest);
 	 //find a way to check if the heap is empty
 		Photon tempPhotons[1000];
 		//assumes color is already set to 0 or just want to add to it

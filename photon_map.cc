@@ -27,7 +27,7 @@ inline int min(int x, int y) {
 
 int sort_dim = 0;
 
-void PhotonMap::locate_photons(Vector position, float dSquare,int p, Photon nearest[], Photon heap[], int sizeHeap){
+void PhotonMap::locate_photons(Vector position, float dSquare,int p, Photon nearest[], Photon heap[], int sizeHeap, int &size_nearest){
 	if((2*p+2) < sizeHeap)//visit children
 	{
 		int dim=heap[p].get_dimension();
@@ -40,28 +40,29 @@ void PhotonMap::locate_photons(Vector position, float dSquare,int p, Photon near
 			phi = position.getz() - heap[p].get_axis(dim);
 
 		if(phi<0.0){
-			locate_photons(position,dSquare,2*p+1,nearest,heap,sizeHeap);
+			locate_photons(position,dSquare,2*p+1,nearest,heap,sizeHeap, size_nearest);
 			if((phi*phi)<dSquare)
-				locate_photons(position,dSquare,2*p+2,nearest,heap,sizeHeap);
+				locate_photons(position,dSquare,2*p+2,nearest,heap,sizeHeap, size_nearest);
 		}
 		else
 		{
-			locate_photons(position,dSquare,2*p+2,nearest,heap,sizeHeap);
+			locate_photons(position,dSquare,2*p+2,nearest,heap,sizeHeap, size_nearest);
 			if((phi*phi)<dSquare)
-				locate_photons(position,dSquare,2*p+1,nearest,heap,sizeHeap);
+				locate_photons(position,dSquare,2*p+1,nearest,heap,sizeHeap, size_nearest);
 		}
 	}
 	float phiSquare=distance_square(heap[p].get_position(),position);
 	//shove it into an array for now...
 	if(phiSquare<dSquare){
-		photonQueue temp;
-		temp.dSquare=phiSquare;
-		temp.pho=&heap[p];
-		nearest.push(temp);
-		if(((type==0)&&(nearest.size()>NEAREST_INDIRECT))||((type==1)&&(nearest.size()>NEAREST_CAUSTIC))){
-			nearest.pop();
-			dSquare[0]=nearest.top().dSquare;}
+		Photon temp;
+		temp.distance = phiSquare;
+		temp = heap[p];
+		nearest[size_nearest++] = temp;
+		if(size_nearest> 50) { //fix the hard coding..
+			nearest[size_nearest--];
+			dSquare = nearest[size_nearest].distance;
 	}
+}
 }
 
 void PhotonMap::generate(Photon photons[], Photon photonHeap[], int count, int currentPos) {
@@ -73,7 +74,7 @@ void PhotonMap::generate(Photon photons[], Photon photonHeap[], int count, int c
 		photonHeap[currentPos].set_flag(-1);
 		photonHeap[currentPos].set_incident(photons[0].get_incidence());
 		photonHeap[currentPos].set_position(photons[0].get_position());
-//		ASSIGN(photonHeap[currentPos].rgb,it->rgb); //will be required later..
+//		ASSIGN(photonHeap[currentPos].rgb,it->rgb); //will be required later.. mostly for the relfected photons
 	}
 	else {
 
@@ -166,13 +167,13 @@ void PhotonMap::sort(Photon photons[], int sort_dim, int size, int left, int rig
 			do {
 				while(photons[l2].get_axis(sort_dim) < pivot.get_axis(sort_dim))
 					l2 = l2 + 1;
-				while(photons[r2] > pivot)
+				while(photons[r2].get_axis(sort_dim) > pivot.get_axis(sort_dim))
 					r2 = r2 - 1;
 				if (l2 <= r2) {
 					if (l2 != r2) {
-						temp = photon[l2];
-						photon[l2] = photon[r2];
-						photon[r2] = temp;
+						temp = photons[l2];
+						photons[l2] = photons[r2];
+						photons[r2] = temp;
 					}
 					l2 = l2 + 1;
 					r2 = r2 - 1;

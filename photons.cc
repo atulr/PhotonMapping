@@ -8,7 +8,7 @@
 
 #include "photons.h"
 
-int Photons::return_size() {
-	return size;
-}
+//int Photons::return_size() {
+//	return size;
+//}
 

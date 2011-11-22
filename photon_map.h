@@ -18,7 +18,7 @@ public:
 	PhotonMap(Photon ph) {
 		photon = ph;
 	}
-	void locate_photons(Vector position, float dSquare,int p, Photon nearest[], Photon heap[], int sizeHeap);
+	void locate_photons(Vector position, float dSquare,int p, Photon nearest[], Photon heap[], int sizeHeap, int &size_nearest);
 	void generate(Photon photons[], Photon heap[], int count, int depth);
 	void balance();
 };
