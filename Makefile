@@ -34,9 +34,10 @@ INCLUDEDIR=../include
 LINKERDIR=../linker
 
 # Cornell Scene
-#VIEWFILE=\"${SIMDIR}/views/cornell_obj.view\"
-#MODELFILE=\"${SIMDIR}/test_models/cornell/CornellBox.obj\"
-#LIGHTFILE=\"${SIMDIR}/lights/cornell.light\"
+VIEWFILE=\"${SIMDIR}/views/cornell_obj.view\"
+MODELFILE=\"${SIMDIR}/test_models/cornell/CornellBox.obj\"
+LIGHTFILE=\"${SIMDIR}/lights/cornell.light\"
+
 # Conference Scene
 #VIEWFILE=\"${SIMDIR}/views/conference.view\"
 #MODELFILE=\"${SIMDIR}/test_models/conference.obj\"
@@ -48,11 +49,6 @@ LINKERDIR=../linker
 #MODELFILE=\"${SIMDIR}/test_models/sponza.obj\"
 #LIGHTFILE=\"${SIMDIR}/lights/sponza.light\"
 
-# Buddha
-
-VIEWFILE=\"${SIMDIR}/views/try.view\"
-MODELFILE=\"../../SCENES/buddha.obj\"
-LIGHTFILE=\"${SIMDIR}/lights/try.light\"
 
 # Should not need to edit below this point unless you know what you're doing
 # The compiler to use for the executable

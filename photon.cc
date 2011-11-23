@@ -4,7 +4,7 @@
  *  Created on: Nov 4, 2011
  *      Author: atulrungta
  */
-
+#include "trax.hpp"
 #include "photon.h"
 
 Vector Photon::get_position(){

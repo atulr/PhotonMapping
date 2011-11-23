@@ -18,8 +18,6 @@ target triple = "x86_64-apple-darwin11.1"
 %struct.Trigonum = type { %struct.Color, %struct.Color, %struct.Color, i32, %struct.Mat }
 %struct.Vector = type { float, float, float }
 
-@sort_dim = internal unnamed_addr global i32 0
-
 declare float @llvm.trax.loadf(i32, i32) nounwind
 
 define internal fastcc void @_ZN8TrigonumC1E6VectorS0_S0_ii(%struct.Trigonum* %this, double %point1.0, float %point1.1, double %point2.0, float %point2.1, double %point3.0, float %point3.1, i32 %i, i32 %mat_id) nounwind ssp align 2 {
@@ -629,16 +627,12 @@ invcont11:
   %edge1.i.i = alloca %struct.Color, align 8
   %n.i.i = alloca %struct.Color, align 8
   %3 = alloca %struct.Color, align 8
-  %nearest.i = alloca [1000 x %struct.Photon], align 8
-  %count_nearest.i = alloca i32, align 4
-  %tempPhotons.i = alloca [1000 x %struct.Photon], align 8
-  %map23 = alloca %struct.PhotonMap, align 8
+  %nearest.i = alloca [10000 x %struct.Photon], align 8
   %ray = alloca %struct.Box, align 8
   %bvh = alloca %struct.BVH, align 8
-  %map = alloca %struct.PhotonMap, align 8
   %ray27 = alloca %struct.Box, align 8
   %hit_record = alloca %struct.HitRecord, align 8
-  %hit_record85 = alloca %struct.HitRecord, align 8
+  %hit_record81 = alloca %struct.HitRecord, align 8
   %4 = call i8* @llvm.stacksave()
   %5 = call i32 @llvm.trax.loadi(i32 0, i32 1)
   %6 = call i32 @llvm.trax.loadi(i32 0, i32 4)
@@ -682,8 +676,8 @@ invcont11:
   %41 = call i32 @llvm.trax.loadi(i32 0, i32 8)
   %42 = getelementptr inbounds %struct.BVH* %bvh, i64 0, i32 0
   store i32 %41, i32* %42, align 8
-  %43 = alloca [1000 x %struct.Photon], align 1
-  %.sub = getelementptr inbounds [1000 x %struct.Photon]* %43, i64 0, i64 0
+  %43 = alloca [15000 x %struct.Photon], align 1
+  %.sub = getelementptr inbounds [15000 x %struct.Photon]* %43, i64 0, i64 0
   br label %bb12
 
 bb:                                               ; preds = %bb12
@@ -705,132 +699,133 @@ bb:                                               ; preds = %bb12
 
 bb12:                                             ; preds = %bb, %invcont11
   %.0 = phi %struct.Photon* [ %.sub, %invcont11 ], [ %50, %bb ]
-  %storemerge = phi i64 [ 999, %invcont11 ], [ %51, %bb ]
+  %storemerge = phi i64 [ 14999, %invcont11 ], [ %51, %bb ]
   %52 = icmp eq i64 %storemerge, -1
   br i1 %52, label %bb13, label %bb
 
 bb13:                                             ; preds = %bb12
-  %53 = alloca [1000 x %struct.Photon], align 1
-  %.sub2737 = getelementptr inbounds [1000 x %struct.Photon]* %53, i64 0, i64 0
+  %53 = alloca [15000 x %struct.Photon], align 1
+  %.sub2560 = getelementptr inbounds [15000 x %struct.Photon]* %53, i64 0, i64 0
   br label %bb15
 
 bb14:                                             ; preds = %bb15
-  %54 = getelementptr inbounds %struct.Photon* %.0198, i64 0, i32 1, i32 1
-  %55 = bitcast %struct.Photon* %.0198 to i8*
+  %storemerge1 = add nsw i64 %storemerge1.in, -1
+  %54 = getelementptr inbounds %struct.Photon* %.0180, i64 0, i32 1, i32 1
+  %55 = bitcast %struct.Photon* %.0180 to i8*
   call void @llvm.memset.p0i8.i64(i8* %55, i8 0, i64 16, i32 4, i1 false)
   store float 0.000000e+00, float* %54, align 4
-  %56 = getelementptr inbounds %struct.Photon* %.0198, i64 0, i32 1, i32 2
+  %56 = getelementptr inbounds %struct.Photon* %.0180, i64 0, i32 1, i32 2
   store float 0.000000e+00, float* %56, align 4
-  %57 = getelementptr inbounds %struct.Photon* %.0198, i64 0, i32 2, i64 0
+  %57 = getelementptr inbounds %struct.Photon* %.0180, i64 0, i32 2, i64 0
   store float 1.000000e+00, float* %57, align 4
-  %58 = getelementptr inbounds %struct.Photon* %.0198, i64 0, i32 2, i64 1
+  %58 = getelementptr inbounds %struct.Photon* %.0180, i64 0, i32 2, i64 1
   store float 1.000000e+00, float* %58, align 4
-  %59 = getelementptr inbounds %struct.Photon* %.0198, i64 0, i32 2, i64 2
+  %59 = getelementptr inbounds %struct.Photon* %.0180, i64 0, i32 2, i64 2
   store float 1.000000e+00, float* %59, align 4
-  %60 = getelementptr inbounds %struct.Photon* %.0198, i64 1
-  %61 = add nsw i64 %storemerge1, -1
+  %60 = getelementptr inbounds %struct.Photon* %.0180, i64 1
   br label %bb15
 
 bb15:                                             ; preds = %bb14, %bb13
-  %.0198 = phi %struct.Photon* [ %.sub2737, %bb13 ], [ %60, %bb14 ]
-  %storemerge1 = phi i64 [ 999, %bb13 ], [ %61, %bb14 ]
-  %62 = icmp eq i64 %storemerge1, -1
-  br i1 %62, label %invcont18, label %bb14
+  %.0180 = phi %struct.Photon* [ %.sub2560, %bb13 ], [ %60, %bb14 ]
+  %storemerge1.in = phi i64 [ 15000, %bb13 ], [ %storemerge1, %bb14 ]
+  %61 = icmp eq i64 %storemerge1.in, 0
+  br i1 %61, label %invcont18, label %bb14
 
 invcont18:                                        ; preds = %bb15
-  %63 = call i32 @llvm.trax.loadi(i32 0, i32 12)
-  %64 = call float @llvm.trax.loadf(i32 %63, i32 0) nounwind
-  %65 = call float @llvm.trax.loadf(i32 %63, i32 1) nounwind
-  %66 = call float @llvm.trax.loadf(i32 %63, i32 2) nounwind
-  %tmp414 = bitcast float %64 to i32
-  %tmp408 = bitcast float %65 to i32
-  %tmp402 = bitcast float %66 to i32
-  %67 = getelementptr inbounds %struct.Box* %ray27, i64 0, i32 0, i32 0
-  %68 = getelementptr inbounds %struct.Box* %ray27, i64 0, i32 1, i32 0
-  %69 = getelementptr inbounds %struct.Box* %ray27, i64 0, i32 1, i32 1
-  %70 = getelementptr inbounds %struct.Box* %ray27, i64 0, i32 1, i32 2
-  %71 = getelementptr inbounds %struct.Box* %ray27, i64 0, i32 0, i32 1
-  %72 = getelementptr inbounds %struct.Box* %ray27, i64 0, i32 0, i32 2
-  %73 = getelementptr inbounds %struct.Box* %ray27, i64 0, i32 1, i32 1
-  %74 = getelementptr inbounds %struct.Box* %ray27, i64 0, i32 1, i32 2
-  %75 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 0, i32 0
-  %76 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 0, i32 1
-  %77 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 0, i32 2
-  %78 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 1, i32 0
-  %79 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 1, i32 1
-  %80 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 1, i32 2
-  %81 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 2, i32 0
-  %82 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 2, i32 1
-  %83 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 2, i32 2
-  %84 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 4, i32 0, i32 0
-  %85 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 4, i32 0, i32 1
-  %86 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 4, i32 0, i32 2
-  %87 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 0
-  %.4684.2 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 4, i32 2
+  %62 = call i32 @llvm.trax.loadi(i32 0, i32 12)
+  %63 = call float @llvm.trax.loadf(i32 %62, i32 0) nounwind
+  %64 = call float @llvm.trax.loadf(i32 %62, i32 1) nounwind
+  %65 = call float @llvm.trax.loadf(i32 %62, i32 2) nounwind
+  %tmp378 = bitcast float %63 to i32
+  %tmp372 = bitcast float %64 to i32
+  %tmp366 = bitcast float %65 to i32
+  %66 = getelementptr inbounds %struct.Box* %ray27, i64 0, i32 0, i32 0
+  %67 = getelementptr inbounds %struct.Box* %ray27, i64 0, i32 1, i32 0
+  %68 = getelementptr inbounds %struct.Box* %ray27, i64 0, i32 1, i32 1
+  %69 = getelementptr inbounds %struct.Box* %ray27, i64 0, i32 1, i32 2
+  %70 = getelementptr inbounds %struct.Box* %ray27, i64 0, i32 0, i32 1
+  %71 = getelementptr inbounds %struct.Box* %ray27, i64 0, i32 0, i32 2
+  %72 = getelementptr inbounds %struct.Box* %ray27, i64 0, i32 1, i32 1
+  %73 = getelementptr inbounds %struct.Box* %ray27, i64 0, i32 1, i32 2
+  %74 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 0, i32 0
+  %75 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 0, i32 1
+  %76 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 0, i32 2
+  %77 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 1, i32 0
+  %78 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 1, i32 1
+  %79 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 1, i32 2
+  %80 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 2, i32 0
+  %81 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 2, i32 1
+  %82 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 2, i32 2
+  %83 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 4, i32 0, i32 0
+  %84 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 4, i32 0, i32 1
+  %85 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 4, i32 0, i32 2
+  %86 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 0
+  %.4620.2 = getelementptr inbounds %struct.HitRecord* %hit_record, i64 0, i32 1, i32 4, i32 2
   br label %bb71
 
 bb23:                                             ; preds = %bb69
-  %88 = add nsw i32 %bounces.0, 1
-  br label %bb.i99
+  %87 = add nsw i32 %bounces.0, 1
+  br label %bb.i84
 
-bb.i99:                                           ; preds = %.noexc106, %bb23
-  %89 = invoke float @llvm.trax.rand()
+bb.i84:                                           ; preds = %.noexc91, %bb23
+  %88 = invoke float @llvm.trax.rand()
           to label %.noexc unwind label %Unwind
 
-.noexc:                                           ; preds = %bb.i99
-  %90 = fadd float %89, -5.000000e-01
-  %91 = fmul float %90, 2.000000e+00
-  %92 = invoke float @llvm.trax.rand()
-          to label %.noexc105 unwind label %Unwind
+.noexc:                                           ; preds = %bb.i84
+  %89 = fadd float %88, -5.000000e-01
+  %90 = fmul float %89, 2.000000e+00
+  %91 = invoke float @llvm.trax.rand()
+          to label %.noexc90 unwind label %Unwind
 
-.noexc105:                                        ; preds = %.noexc
-  %93 = fadd float %92, -5.000000e-01
-  %94 = fmul float %93, 2.000000e+00
-  %95 = invoke float @llvm.trax.rand()
-          to label %.noexc106 unwind label %Unwind
+.noexc90:                                         ; preds = %.noexc
+  %92 = fadd float %91, -5.000000e-01
+  %93 = fmul float %92, 2.000000e+00
+  %94 = invoke float @llvm.trax.rand()
+          to label %.noexc91 unwind label %Unwind
 
-.noexc106:                                        ; preds = %.noexc105
-  %96 = fadd float %95, -5.000000e-01
-  %97 = fmul float %96, 2.000000e+00
-  %98 = fmul float %91, %91
-  %99 = fmul float %94, %94
-  %100 = fadd float %98, %99
-  %101 = fmul float %97, %97
-  %102 = fadd float %100, %101
-  %103 = fcmp ogt float %102, 1.000000e+00
-  br i1 %103, label %bb.i99, label %invcont42
+.noexc91:                                         ; preds = %.noexc90
+  %95 = fadd float %94, -5.000000e-01
+  %96 = fmul float %95, 2.000000e+00
+  %97 = fmul float %90, %90
+  %98 = fmul float %93, %93
+  %99 = fadd float %97, %98
+  %100 = fmul float %96, %96
+  %101 = fadd float %99, %100
+  %102 = fcmp ogt float %101, 1.000000e+00
+  br i1 %102, label %bb.i84, label %invcont42
 
-invcont42:                                        ; preds = %.noexc106
-  %tmp2372 = bitcast float %91 to i32
-  %tmp2373 = zext i32 %tmp2372 to i96
-  %tmp2366 = bitcast float %94 to i32
-  %tmp2367 = zext i32 %tmp2366 to i96
-  %tmp2368 = shl nuw nsw i96 %tmp2367, 32
-  %ins2370 = or i96 %tmp2373, %tmp2368
-  %tmp2360 = bitcast float %97 to i32
-  %tmp305 = zext i96 %ins2370 to i128
-  %mask306 = and i128 %memtmp30.0, -79228162514264337593543950336
-  %tmp299 = zext i32 %tmp2360 to i128
-  %tmp300 = shl nuw nsw i128 %tmp299, 64
-  %mask301 = or i128 %mask306, %tmp305
-  %ins302 = or i128 %mask301, %tmp300
-  %ins302.tr = trunc i128 %ins302 to i96
-  %104 = bitcast %struct.Box* %ray27 to i8*
-  call void @llvm.memset.p0i8.i64(i8* %104, i8 0, i64 16, i32 8, i1 false)
+invcont42:                                        ; preds = %.noexc91
+  %tmp2191 = bitcast float %90 to i32
+  %tmp2192 = zext i32 %tmp2191 to i96
+  %tmp2185 = bitcast float %93 to i32
+  %tmp2186 = zext i32 %tmp2185 to i96
+  %tmp2187 = shl nuw nsw i96 %tmp2186, 32
+  %ins2189 = or i96 %tmp2192, %tmp2187
+  %tmp2179 = bitcast float %96 to i32
+  %tmp265 = zext i96 %ins2189 to i128
+  %mask266 = and i128 %memtmp30.0, -79228162514264337593543950336
+  %tmp259 = zext i32 %tmp2179 to i128
+  %tmp260 = shl nuw nsw i128 %tmp259, 64
+  %mask261 = or i128 %mask266, %tmp265
+  %ins262 = or i128 %mask261, %tmp260
+  %ins262.tr = trunc i128 %ins262 to i96
+  %103 = bitcast %struct.Box* %ray27 to i8*
+  call void @llvm.memset.p0i8.i64(i8* %103, i8 0, i64 16, i32 8, i1 false)
+  store float 0.000000e+00, float* %68, align 4
   store float 0.000000e+00, float* %69, align 4
-  store float 0.000000e+00, float* %70, align 4
-  %tmp2408 = bitcast i32 %ray_origin.0.ph.off0 to float
-  store float %tmp2408, float* %67, align 8
-  %tmp2405 = bitcast i32 %ray_origin.0.ph.off32 to float
-  store float %tmp2405, float* %71, align 4
-  %tmp2401 = bitcast i32 %ray_origin.0.ph.off64 to float
-  store float %tmp2401, float* %72, align 8
-  store float %91, float* %68, align 4
-  store float %94, float* %73, align 4
-  %tmp2377 = lshr i96 %ins302.tr, 64
-  %tmp2378 = trunc i96 %tmp2377 to i32
-  %tmp2379 = bitcast i32 %tmp2378 to float
-  store float %tmp2379, float* %74, align 4
+  %tmp2227 = bitcast i32 %ray_origin.0.ph.off0 to float
+  store float %tmp2227, float* %66, align 8
+  %tmp2224 = bitcast i32 %ray_origin.0.ph.off32 to float
+  store float %tmp2224, float* %70, align 4
+  %tmp2220 = bitcast i32 %ray_origin.0.ph.off64 to float
+  store float %tmp2220, float* %71, align 8
+  store float %90, float* %67, align 4
+  store float %93, float* %72, align 4
+  %tmp2196 = lshr i96 %ins262.tr, 64
+  %tmp2197 = trunc i96 %tmp2196 to i32
+  %tmp2198 = bitcast i32 %tmp2197 to float
+  store float %tmp2198, float* %73, align 4
+  store float 0.000000e+00, float* %74, align 4
   store float 0.000000e+00, float* %75, align 4
   store float 0.000000e+00, float* %76, align 4
   store float 0.000000e+00, float* %77, align 4
@@ -842,833 +837,736 @@ invcont42:                                        ; preds = %.noexc106
   store float 0.000000e+00, float* %83, align 4
   store float 0.000000e+00, float* %84, align 4
   store float 0.000000e+00, float* %85, align 4
-  store float 0.000000e+00, float* %86, align 4
-  store float 1.000000e+10, float* %87, align 8
+  store float 1.000000e+10, float* %86, align 8
   call fastcc void @_ZN3BVH9intersectER9HitRecordR3Ray(%struct.BVH* %bvh, %struct.HitRecord* %hit_record, %struct.Box* %ray27)
-  %105 = load float* %87, align 8
-  %106 = fcmp olt float %105, 1.000000e+10
-  br i1 %106, label %invcont61, label %bb69
+  %104 = load float* %86, align 8
+  %105 = fcmp olt float %104, 1.000000e+10
+  br i1 %105, label %invcont61, label %bb69
 
 invcont61:                                        ; preds = %invcont42
-  %tmp686 = load float* %.4684.2, align 4
-  %ray27.idx191.val = load float* %68, align 4
-  %ray27.idx192.val = load float* %73, align 4
-  %ray27.idx193.val = load float* %74, align 4
-  %107 = call fastcc %0 @_ZN9HitRecord12hit_positionE3Ray(float %105, float %ray27.idx191.val, float %ray27.idx192.val, float %ray27.idx193.val)
-  %mrv_gr51 = extractvalue %0 %107, 0
-  %tmp282 = bitcast double %mrv_gr51 to i64
-  %mrv_gr53 = extractvalue %0 %107, 1
-  %tmp276 = bitcast float %mrv_gr53 to i32
-  %tmp272 = lshr i64 %tmp282, 32
-  %tmp2429 = trunc i64 %tmp282 to i32
-  %tmp2430 = bitcast i32 %tmp2429 to float
-  %tmp2426 = trunc i64 %tmp272 to i32
-  %tmp2427 = bitcast i32 %tmp2426 to float
-  %108 = sext i32 %count.0.ph to i64
-  %.0325 = getelementptr inbounds [1000 x %struct.Photon]* %43, i64 0, i64 %108, i32 0, i32 0
-  store float %tmp2430, float* %.0325, align 4
-  %.1327 = getelementptr inbounds [1000 x %struct.Photon]* %43, i64 0, i64 %108, i32 0, i32 1
-  store float %tmp2427, float* %.1327, align 4
-  %.2329 = getelementptr inbounds [1000 x %struct.Photon]* %43, i64 0, i64 %108, i32 0, i32 2
-  store float %mrv_gr53, float* %.2329, align 4
-  %.1.0 = getelementptr inbounds [1000 x %struct.Photon]* %43, i64 0, i64 %108, i32 1, i32 0
+  %tmp622 = load float* %.4620.2, align 4
+  %ray27.idx173.val = load float* %67, align 4
+  %ray27.idx174.val = load float* %72, align 4
+  %ray27.idx175.val = load float* %73, align 4
+  %106 = call fastcc %0 @_ZN9HitRecord12hit_positionE3Ray(float %104, float %ray27.idx173.val, float %ray27.idx174.val, float %ray27.idx175.val)
+  %mrv_gr51 = extractvalue %0 %106, 0
+  %tmp242 = bitcast double %mrv_gr51 to i64
+  %mrv_gr53 = extractvalue %0 %106, 1
+  %tmp236 = bitcast float %mrv_gr53 to i32
+  %tmp232 = lshr i64 %tmp242, 32
+  %tmp2248 = trunc i64 %tmp242 to i32
+  %tmp2249 = bitcast i32 %tmp2248 to float
+  %tmp2245 = trunc i64 %tmp232 to i32
+  %tmp2246 = bitcast i32 %tmp2245 to float
+  %107 = sext i32 %count.0.ph to i64
+  %.0285 = getelementptr inbounds [15000 x %struct.Photon]* %43, i64 0, i64 %107, i32 0, i32 0
+  store float %tmp2249, float* %.0285, align 4
+  %.1287 = getelementptr inbounds [15000 x %struct.Photon]* %43, i64 0, i64 %107, i32 0, i32 1
+  store float %tmp2246, float* %.1287, align 4
+  %.2289 = getelementptr inbounds [15000 x %struct.Photon]* %43, i64 0, i64 %107, i32 0, i32 2
+  store float %mrv_gr53, float* %.2289, align 4
+  %.1.0 = getelementptr inbounds [15000 x %struct.Photon]* %43, i64 0, i64 %107, i32 1, i32 0
   store float 0.000000e+00, float* %.1.0, align 4
-  %.1.1 = getelementptr inbounds [1000 x %struct.Photon]* %43, i64 0, i64 %108, i32 1, i32 1
+  %.1.1 = getelementptr inbounds [15000 x %struct.Photon]* %43, i64 0, i64 %107, i32 1, i32 1
   store float 0.000000e+00, float* %.1.1, align 4
-  %.1.2 = getelementptr inbounds [1000 x %struct.Photon]* %43, i64 0, i64 %108, i32 1, i32 2
+  %.1.2 = getelementptr inbounds [15000 x %struct.Photon]* %43, i64 0, i64 %107, i32 1, i32 2
   store float 0.000000e+00, float* %.1.2, align 4
-  %.2.0 = getelementptr inbounds [1000 x %struct.Photon]* %43, i64 0, i64 %108, i32 2, i64 0
-  store float %tmp686, float* %.2.0, align 4
-  %.2.1 = getelementptr inbounds [1000 x %struct.Photon]* %43, i64 0, i64 %108, i32 2, i64 1
-  store float %tmp686, float* %.2.1, align 4
-  %.2.2 = getelementptr inbounds [1000 x %struct.Photon]* %43, i64 0, i64 %108, i32 2, i64 2
-  store float %tmp686, float* %.2.2, align 4
-  %109 = add nsw i32 %count.0.ph, 1
-  %tmp250 = lshr i64 %tmp282, 32
-  %extract.t = trunc i64 %tmp282 to i32
-  %extract.t2792 = trunc i64 %tmp250 to i32
+  %.2.0 = getelementptr inbounds [15000 x %struct.Photon]* %43, i64 0, i64 %107, i32 2, i64 0
+  store float %tmp622, float* %.2.0, align 4
+  %.2.1 = getelementptr inbounds [15000 x %struct.Photon]* %43, i64 0, i64 %107, i32 2, i64 1
+  store float %tmp622, float* %.2.1, align 4
+  %.2.2 = getelementptr inbounds [15000 x %struct.Photon]* %43, i64 0, i64 %107, i32 2, i64 2
+  store float %tmp622, float* %.2.2, align 4
+  %108 = add nsw i32 %count.0.ph, 1
+  %tmp210 = lshr i64 %tmp242, 32
+  %extract.t = trunc i64 %tmp242 to i32
+  %extract.t2621 = trunc i64 %tmp210 to i32
   br label %bb68.outer
 
 bb68.outer:                                       ; preds = %bb71, %invcont61
-  %memtmp30.0.ph = phi i128 [ %ins302, %invcont61 ], [ %memtmp30.1, %bb71 ]
+  %memtmp30.0.ph = phi i128 [ %ins262, %invcont61 ], [ %memtmp30.1, %bb71 ]
   %ray_origin.0.ph.off0 = phi i32 [ %extract.t, %invcont61 ], [ %ray_origin.1.off0, %bb71 ]
-  %ray_origin.0.ph.off32 = phi i32 [ %extract.t2792, %invcont61 ], [ %ray_origin.1.off32, %bb71 ]
-  %ray_origin.0.ph.off64 = phi i32 [ %tmp276, %invcont61 ], [ %ray_origin.1.off64, %bb71 ]
-  %bounces.0.ph = phi i32 [ %88, %invcont61 ], [ 0, %bb71 ]
-  %count.0.ph = phi i32 [ %109, %invcont61 ], [ %count.1, %bb71 ]
+  %ray_origin.0.ph.off32 = phi i32 [ %extract.t2621, %invcont61 ], [ %ray_origin.1.off32, %bb71 ]
+  %ray_origin.0.ph.off64 = phi i32 [ %tmp236, %invcont61 ], [ %ray_origin.1.off64, %bb71 ]
+  %bounces.0.ph = phi i32 [ %87, %invcont61 ], [ 0, %bb71 ]
+  %count.0.ph = phi i32 [ %108, %invcont61 ], [ %count.1, %bb71 ]
   br label %bb69
 
 bb69:                                             ; preds = %bb68.outer, %invcont42
-  %bounces.0 = phi i32 [ %88, %invcont42 ], [ %bounces.0.ph, %bb68.outer ]
-  %memtmp30.0 = phi i128 [ %ins302, %invcont42 ], [ %memtmp30.0.ph, %bb68.outer ]
-  %110 = icmp slt i32 %bounces.0, 3
-  br i1 %110, label %bb23, label %bb71
+  %bounces.0 = phi i32 [ %87, %invcont42 ], [ %bounces.0.ph, %bb68.outer ]
+  %memtmp30.0 = phi i128 [ %ins262, %invcont42 ], [ %memtmp30.0.ph, %bb68.outer ]
+  %109 = icmp slt i32 %bounces.0, 3
+  br i1 %109, label %bb23, label %bb70
 
-bb71:                                             ; preds = %bb69, %invcont18
-  %memtmp30.1 = phi i128 [ undef, %invcont18 ], [ %memtmp30.0, %bb69 ]
-  %ray_origin.1.off0 = phi i32 [ %tmp414, %invcont18 ], [ %ray_origin.0.ph.off0, %bb69 ]
-  %ray_origin.1.off32 = phi i32 [ %tmp408, %invcont18 ], [ %ray_origin.0.ph.off32, %bb69 ]
-  %ray_origin.1.off64 = phi i32 [ %tmp402, %invcont18 ], [ %ray_origin.0.ph.off64, %bb69 ]
-  %count.1 = phi i32 [ 0, %invcont18 ], [ %count.0.ph, %bb69 ]
-  %111 = icmp slt i32 %count.1, 1000
-  br i1 %111, label %bb68.outer, label %bb72
+bb70:                                             ; preds = %bb69
+  %110 = add nsw i32 %iterator.0, 1
+  br label %bb71
 
-bb72:                                             ; preds = %bb71
-  %112 = getelementptr inbounds %struct.PhotonMap* %map, i64 0, i32 0, i32 1, i32 1
-  %113 = bitcast %struct.PhotonMap* %map to i8*
-  call void @llvm.memset.p0i8.i64(i8* %113, i8 0, i64 16, i32 8, i1 false)
-  store float 0.000000e+00, float* %112, align 4
-  %114 = getelementptr inbounds %struct.PhotonMap* %map, i64 0, i32 0, i32 1, i32 2
-  store float 0.000000e+00, float* %114, align 4
-  %115 = getelementptr inbounds %struct.PhotonMap* %map, i64 0, i32 0, i32 2, i64 0
-  store float 1.000000e+00, float* %115, align 8
-  %116 = getelementptr inbounds %struct.PhotonMap* %map, i64 0, i32 0, i32 2, i64 1
-  store float 1.000000e+00, float* %116, align 4
-  %117 = getelementptr inbounds %struct.PhotonMap* %map, i64 0, i32 0, i32 2, i64 2
-  store float 1.000000e+00, float* %117, align 8
-  %118 = getelementptr inbounds [1000 x %struct.Photon]* %53, i64 0, i64 0
-  %119 = getelementptr inbounds [1000 x %struct.Photon]* %43, i64 0, i64 0
-  invoke fastcc void @_ZN9PhotonMap8generateEP6PhotonS1_ii(%struct.PhotonMap* %map, %struct.Photon* %119, %struct.Photon* %118, i32 %count.1, i32 0)
-          to label %invcont75 unwind label %Unwind
+bb71:                                             ; preds = %bb70, %invcont18
+  %memtmp30.1 = phi i128 [ undef, %invcont18 ], [ %memtmp30.0, %bb70 ]
+  %ray_origin.1.off0 = phi i32 [ %tmp378, %invcont18 ], [ %ray_origin.0.ph.off0, %bb70 ]
+  %ray_origin.1.off32 = phi i32 [ %tmp372, %invcont18 ], [ %ray_origin.0.ph.off32, %bb70 ]
+  %ray_origin.1.off64 = phi i32 [ %tmp366, %invcont18 ], [ %ray_origin.0.ph.off64, %bb70 ]
+  %count.1 = phi i32 [ 0, %invcont18 ], [ %count.0.ph, %bb70 ]
+  %iterator.0 = phi i32 [ 0, %invcont18 ], [ %110, %bb70 ]
+  %111 = icmp slt i32 %iterator.0, 15000
+  br i1 %111, label %bb68.outer, label %invcont74
 
-invcont75:                                        ; preds = %bb72
-  %120 = call i32 @llvm.trax.atominc(i32 0)
-  %121 = mul nsw i32 %5, %6
-  %122 = sitofp i32 %5 to float
-  %123 = fdiv float %122, -2.000000e+00
-  %124 = sitofp i32 %6 to float
-  %125 = fdiv float %124, -2.000000e+00
-  %126 = getelementptr inbounds %struct.Color* %V.i, i64 0, i32 0
-  %127 = getelementptr inbounds %struct.Color* %V.i, i64 0, i32 1
-  %128 = getelementptr inbounds %struct.Color* %V.i, i64 0, i32 2
-  %129 = getelementptr inbounds %struct.Color* %ln.i, i64 0, i32 0
-  %130 = getelementptr inbounds %struct.Color* %ln.i, i64 0, i32 1
-  %131 = getelementptr inbounds %struct.Color* %ln.i, i64 0, i32 2
-  %132 = getelementptr inbounds %struct.Color* %0, i64 0, i32 0
-  %133 = getelementptr inbounds %struct.Color* %0, i64 0, i32 1
-  %134 = getelementptr inbounds %struct.Color* %0, i64 0, i32 2
-  %135 = getelementptr inbounds %struct.Box* %ray, i64 0, i32 0, i32 1
-  %136 = getelementptr inbounds %struct.Box* %ray, i64 0, i32 0, i32 2
-  %137 = getelementptr inbounds %struct.Box* %ray, i64 0, i32 1, i32 1
-  %138 = getelementptr inbounds %struct.Box* %ray, i64 0, i32 1, i32 2
-  %139 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 0, i32 0
-  %140 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 0, i32 1
-  %141 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 0, i32 2
-  %142 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 1, i32 0
-  %143 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 1, i32 1
-  %144 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 1, i32 2
-  %145 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 2, i32 0
-  %146 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 2, i32 1
-  %147 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 2, i32 2
-  %148 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 4, i32 0, i32 0
-  %149 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 4, i32 0, i32 1
-  %150 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 4, i32 0, i32 2
-  %151 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 0
-  %hit_record85.0 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 0
-  %hit_record85.1951.0 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 0, i32 0
-  %hit_record85.1951.1 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 0, i32 1
-  %hit_record85.1951.2 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 0, i32 2
-  %hit_record85.1.1.0 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 1, i32 0
-  %hit_record85.1.1.1 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 1, i32 1
-  %hit_record85.1.1.2 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 1, i32 2
-  %hit_record85.1.2.0 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 2, i32 0
-  %hit_record85.1.2.1 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 2, i32 1
-  %hit_record85.1.2.2 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 2, i32 2
-  %hit_record85.1.4927.0 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 4, i32 0, i32 0
-  %hit_record85.1.4927.1 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 4, i32 0, i32 1
-  %hit_record85.1.4927.2 = getelementptr inbounds %struct.HitRecord* %hit_record85, i64 0, i32 1, i32 4, i32 0, i32 2
-  %ray960.0 = getelementptr inbounds %struct.Box* %ray, i64 0, i32 0, i32 0
-  %ray960.1 = getelementptr inbounds %struct.Box* %ray, i64 0, i32 0, i32 1
-  %ray960.2 = getelementptr inbounds %struct.Box* %ray, i64 0, i32 0, i32 2
+invcont74:                                        ; preds = %bb71
+  %112 = call i32 @llvm.trax.atominc(i32 0)
+  %113 = mul nsw i32 %5, %6
+  %114 = sitofp i32 %5 to float
+  %115 = fdiv float %114, -2.000000e+00
+  %116 = sitofp i32 %6 to float
+  %117 = fdiv float %116, -2.000000e+00
+  %118 = getelementptr inbounds %struct.Color* %V.i, i64 0, i32 0
+  %119 = getelementptr inbounds %struct.Color* %V.i, i64 0, i32 1
+  %120 = getelementptr inbounds %struct.Color* %V.i, i64 0, i32 2
+  %121 = getelementptr inbounds %struct.Color* %ln.i, i64 0, i32 0
+  %122 = getelementptr inbounds %struct.Color* %ln.i, i64 0, i32 1
+  %123 = getelementptr inbounds %struct.Color* %ln.i, i64 0, i32 2
+  %124 = getelementptr inbounds %struct.Color* %0, i64 0, i32 0
+  %125 = getelementptr inbounds %struct.Color* %0, i64 0, i32 1
+  %126 = getelementptr inbounds %struct.Color* %0, i64 0, i32 2
+  %127 = getelementptr inbounds %struct.Box* %ray, i64 0, i32 0, i32 1
+  %128 = getelementptr inbounds %struct.Box* %ray, i64 0, i32 0, i32 2
+  %129 = getelementptr inbounds %struct.Box* %ray, i64 0, i32 1, i32 1
+  %130 = getelementptr inbounds %struct.Box* %ray, i64 0, i32 1, i32 2
+  %131 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 0, i32 0
+  %132 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 0, i32 1
+  %133 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 0, i32 2
+  %134 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 1, i32 0
+  %135 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 1, i32 1
+  %136 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 1, i32 2
+  %137 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 2, i32 0
+  %138 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 2, i32 1
+  %139 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 2, i32 2
+  %140 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 4, i32 0, i32 0
+  %141 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 4, i32 0, i32 1
+  %142 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 4, i32 0, i32 2
+  %143 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 0
+  %hit_record81.0 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 0
+  %hit_record81.1861.0 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 0, i32 0
+  %hit_record81.1861.1 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 0, i32 1
+  %hit_record81.1861.2 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 0, i32 2
+  %hit_record81.1.1.0 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 1, i32 0
+  %hit_record81.1.1.1 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 1, i32 1
+  %hit_record81.1.1.2 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 1, i32 2
+  %hit_record81.1.2.0 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 2, i32 0
+  %hit_record81.1.2.1 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 2, i32 1
+  %hit_record81.1.2.2 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 2, i32 2
+  %hit_record81.1.4837.0 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 4, i32 0, i32 0
+  %hit_record81.1.4837.1 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 4, i32 0, i32 1
+  %hit_record81.1.4837.2 = getelementptr inbounds %struct.HitRecord* %hit_record81, i64 0, i32 1, i32 4, i32 0, i32 2
+  %ray870.0 = getelementptr inbounds %struct.Box* %ray, i64 0, i32 0, i32 0
+  %ray870.1 = getelementptr inbounds %struct.Box* %ray, i64 0, i32 0, i32 1
+  %ray870.2 = getelementptr inbounds %struct.Box* %ray, i64 0, i32 0, i32 2
   %ray.1.0 = getelementptr inbounds %struct.Box* %ray, i64 0, i32 1, i32 0
   %ray.1.1 = getelementptr inbounds %struct.Box* %ray, i64 0, i32 1, i32 1
   %ray.1.2 = getelementptr inbounds %struct.Box* %ray, i64 0, i32 1, i32 2
-  %tmp24 = bitcast %struct.PhotonMap* %map23 to i8*
-  %tmp25 = bitcast %struct.PhotonMap* %map to i8*
-  %152 = getelementptr inbounds [1000 x %struct.Photon]* %nearest.i, i64 0, i64 0
-  %153 = getelementptr inbounds %struct.Color* %3, i64 0, i32 0
-  %154 = getelementptr inbounds %struct.Color* %3, i64 0, i32 1
-  %155 = getelementptr inbounds %struct.Color* %3, i64 0, i32 2
-  %156 = getelementptr inbounds %struct.Color* %2, i64 0, i32 0
-  %157 = getelementptr inbounds %struct.Color* %2, i64 0, i32 1
-  %158 = getelementptr inbounds %struct.Color* %2, i64 0, i32 2
-  %159 = getelementptr inbounds %struct.Color* %edge1.i.i, i64 0, i32 0
-  %160 = getelementptr inbounds %struct.Color* %edge1.i.i, i64 0, i32 1
-  %161 = getelementptr inbounds %struct.Color* %edge1.i.i, i64 0, i32 2
-  %162 = getelementptr inbounds %struct.Color* %1, i64 0, i32 0
-  %163 = getelementptr inbounds %struct.Color* %1, i64 0, i32 1
-  %164 = getelementptr inbounds %struct.Color* %1, i64 0, i32 2
-  %165 = getelementptr inbounds %struct.Color* %n.i.i, i64 0, i32 0
-  %166 = getelementptr inbounds %struct.Color* %n.i.i, i64 0, i32 1
-  %167 = getelementptr inbounds %struct.Color* %n.i.i, i64 0, i32 2
-  %168 = getelementptr inbounds [1000 x %struct.Photon]* %tempPhotons.i, i64 0, i64 0
-  %169 = sitofp i32 %count.1 to double
-  %170 = fmul double %169, 0x3FF8A14D4A15A4D3
-  br label %bb116
-
-bb76:                                             ; preds = %bb116
-  %171 = sdiv i32 %storemerge2, %5
-  %172 = srem i32 %storemerge2, %5
-  %173 = sitofp i32 %172 to float
-  %174 = fadd float %173, %123
-  %175 = fadd float %174, 5.000000e-01
-  %176 = fmul float %175, 2.000000e+00
-  %177 = fdiv float %176, %122
-  %178 = sitofp i32 %171 to float
-  %179 = fadd float %178, %125
-  %180 = fadd float %179, 5.000000e-01
-  %181 = fmul float %180, 2.000000e+00
-  %182 = fdiv float %181, %124
+  %144 = getelementptr inbounds [10000 x %struct.Photon]* %nearest.i, i64 0, i64 0
+  %145 = getelementptr inbounds %struct.Color* %3, i64 0, i32 0
+  %146 = getelementptr inbounds %struct.Color* %3, i64 0, i32 1
+  %147 = getelementptr inbounds %struct.Color* %3, i64 0, i32 2
+  %148 = getelementptr inbounds %struct.Color* %2, i64 0, i32 0
+  %149 = getelementptr inbounds %struct.Color* %2, i64 0, i32 1
+  %150 = getelementptr inbounds %struct.Color* %2, i64 0, i32 2
+  %151 = getelementptr inbounds %struct.Color* %edge1.i.i, i64 0, i32 0
+  %152 = getelementptr inbounds %struct.Color* %edge1.i.i, i64 0, i32 1
+  %153 = getelementptr inbounds %struct.Color* %edge1.i.i, i64 0, i32 2
+  %154 = getelementptr inbounds %struct.Color* %1, i64 0, i32 0
+  %155 = getelementptr inbounds %struct.Color* %1, i64 0, i32 1
+  %156 = getelementptr inbounds %struct.Color* %1, i64 0, i32 2
+  %157 = getelementptr inbounds %struct.Color* %n.i.i, i64 0, i32 0
+  %158 = getelementptr inbounds %struct.Color* %n.i.i, i64 0, i32 1
+  %159 = getelementptr inbounds %struct.Color* %n.i.i, i64 0, i32 2
   br label %bb101
 
-bb83:                                             ; preds = %bb101
-  %183 = invoke float @llvm.trax.rand()
-          to label %invcont86 unwind label %Unwind
-
-invcont86:                                        ; preds = %bb83
-  %184 = invoke float @llvm.trax.rand()
-          to label %invcont89 unwind label %Unwind
-
-invcont89:                                        ; preds = %invcont86
-  %185 = fadd float %183, -5.000000e-01
-  %186 = fmul float %185, 2.000000e+00
-  %187 = fadd float %184, -5.000000e-01
-  %188 = fmul float %187, 2.000000e+00
-  %189 = fmul float %186, %8
-  %190 = fmul float %188, %9
-  %191 = fadd float %182, %190
-  %192 = fadd float %177, %189
-  store float %23, float* %129, align 8
-  store float %24, float* %130, align 4
-  store float %25, float* %131, align 8
-  %193 = fmul float %31, %191
-  %194 = fmul float %32, %191
-  %195 = fmul float %33, %191
-  %tmp2691 = bitcast float %193 to i32
-  %tmp2692 = zext i32 %tmp2691 to i96
-  %tmp2685 = bitcast float %194 to i32
-  %tmp2686 = zext i32 %tmp2685 to i96
-  %tmp2687 = shl nuw nsw i96 %tmp2686, 32
-  %ins2689 = or i96 %tmp2692, %tmp2687
-  %tmp2679 = bitcast float %195 to i32
-  %tmp2549 = zext i96 %ins2689 to i128
-  %mask2550 = and i128 %memtmp.i149.0, -79228162514264337593543950336
-  %tmp2543 = zext i32 %tmp2679 to i128
-  %tmp2544 = shl nuw nsw i128 %tmp2543, 64
-  %mask2545 = or i128 %mask2550, %tmp2549
-  %ins2546 = or i128 %mask2545, %tmp2544
-  %tmp2592 = bitcast float %193 to i32
-  %tmp2593 = zext i32 %tmp2592 to i64
-  %tmp2586 = bitcast float %194 to i32
-  %tmp2587 = zext i32 %tmp2586 to i64
-  %tmp2588 = shl nuw i64 %tmp2587, 32
-  %ins2590 = or i64 %tmp2593, %tmp2588
-  %ins2546.tr = trunc i128 %ins2546 to i96
-  %196 = fmul float %27, %192
-  %197 = fmul float %28, %192
-  %198 = fmul float %29, %192
-  %tmp2714 = bitcast float %196 to i32
-  %tmp2715 = zext i32 %tmp2714 to i96
-  %tmp2708 = bitcast float %197 to i32
-  %tmp2709 = zext i32 %tmp2708 to i96
-  %tmp2710 = shl nuw nsw i96 %tmp2709, 32
-  %ins2712 = or i96 %tmp2715, %tmp2710
-  %tmp2702 = bitcast float %198 to i32
-  %tmp2527 = zext i96 %ins2712 to i128
-  %mask2528 = and i128 %memtmp4.i150.0, -79228162514264337593543950336
-  %tmp2521 = zext i32 %tmp2702 to i128
-  %tmp2522 = shl nuw nsw i128 %tmp2521, 64
-  %mask2523 = or i128 %mask2528, %tmp2527
-  %ins2524 = or i128 %mask2523, %tmp2522
-  store float %196, float* %132, align 8
-  store float %197, float* %133, align 4
-  %tmp2509 = lshr i128 %ins2524, 64
-  %tmp2510 = trunc i128 %tmp2509 to i32
-  %tmp2511 = bitcast i32 %tmp2510 to float
-  store float %tmp2511, float* %134, align 8
-  %tmp2578 = bitcast i64 %ins2590 to double
-  %tmp2573 = lshr i96 %ins2546.tr, 64
-  %tmp2574 = trunc i96 %tmp2573 to i32
-  %tmp2575 = bitcast i32 %tmp2574 to float
-  %199 = call fastcc %0 @_ZN6Vector3addES_(%struct.Color* %0, double %tmp2578, float %tmp2575) nounwind
-  %mrv_gr14.i170 = extractvalue %0 %199, 0
-  %mrv_gr16.i = extractvalue %0 %199, 1
-  %200 = call fastcc %0 @_ZN6Vector3addES_(%struct.Color* %ln.i, double %mrv_gr14.i170, float %mrv_gr16.i) nounwind
-  %mrv_gr24.i172 = extractvalue %0 %200, 0
-  %tmp2482 = bitcast double %mrv_gr24.i172 to i64
-  %mrv_gr26.i174 = extractvalue %0 %200, 1
-  %tmp2469 = trunc i64 %tmp2482 to i32
-  %tmp2470 = bitcast i32 %tmp2469 to float
-  store float %tmp2470, float* %126, align 8
-  %tmp2472 = lshr i64 %tmp2482, 32
-  %tmp2473 = trunc i64 %tmp2472 to i32
-  %tmp2474 = bitcast i32 %tmp2473 to float
-  store float %tmp2474, float* %127, align 4
-  store float %mrv_gr26.i174, float* %128, align 8
-  %201 = call fastcc %0 @_ZN6Vector9normalizeEv(%struct.Color* %V.i) nounwind
-  %mrv_gr30.i = extractvalue %0 %201, 0
-  %tmp2460 = bitcast double %mrv_gr30.i to i64
-  %mrv_gr32.i = extractvalue %0 %201, 1
-  %tmp2450 = lshr i64 %tmp2460, 32
-  %tmp2637 = trunc i64 %tmp2460 to i32
-  %tmp2638 = bitcast i32 %tmp2637 to float
-  %tmp2634 = trunc i64 %tmp2450 to i32
-  %tmp2635 = bitcast i32 %tmp2634 to float
+invcont83:                                        ; preds = %bb101
+  %160 = sdiv i32 %storemerge2, %5
+  %161 = srem i32 %storemerge2, %5
+  %162 = sitofp i32 %161 to float
+  %163 = fadd float %162, %115
+  %164 = fadd float %163, 5.000000e-01
+  %165 = fmul float %164, 2.000000e+00
+  %166 = fdiv float %165, %114
+  %167 = sitofp i32 %160 to float
+  %168 = fadd float %167, %117
+  %169 = fadd float %168, 5.000000e-01
+  %170 = fmul float %169, 2.000000e+00
+  %171 = fdiv float %170, %116
+  store float %23, float* %121, align 8
+  store float %24, float* %122, align 4
+  store float %25, float* %123, align 8
+  %172 = fmul float %31, %171
+  %173 = fmul float %32, %171
+  %174 = fmul float %33, %171
+  %tmp2411 = bitcast float %172 to i32
+  %tmp2412 = zext i32 %tmp2411 to i64
+  %tmp2405 = bitcast float %173 to i32
+  %tmp2406 = zext i32 %tmp2405 to i64
+  %tmp2407 = shl nuw i64 %tmp2406, 32
+  %ins2409 = or i64 %tmp2412, %tmp2407
+  %175 = fmul float %27, %166
+  %176 = fmul float %28, %166
+  %177 = fmul float %29, %166
+  store float %175, float* %124, align 8
+  store float %176, float* %125, align 4
+  store float %177, float* %126, align 8
+  %tmp2397 = bitcast i64 %ins2409 to double
+  %178 = call fastcc %0 @_ZN6Vector3addES_(%struct.Color* %0, double %tmp2397, float %174) nounwind
+  %mrv_gr14.i152 = extractvalue %0 %178, 0
+  %mrv_gr16.i = extractvalue %0 %178, 1
+  %179 = call fastcc %0 @_ZN6Vector3addES_(%struct.Color* %ln.i, double %mrv_gr14.i152, float %mrv_gr16.i) nounwind
+  %mrv_gr24.i154 = extractvalue %0 %179, 0
+  %tmp2301 = bitcast double %mrv_gr24.i154 to i64
+  %mrv_gr26.i156 = extractvalue %0 %179, 1
+  %tmp2288 = trunc i64 %tmp2301 to i32
+  %tmp2289 = bitcast i32 %tmp2288 to float
+  store float %tmp2289, float* %118, align 8
+  %tmp2291 = lshr i64 %tmp2301, 32
+  %tmp2292 = trunc i64 %tmp2291 to i32
+  %tmp2293 = bitcast i32 %tmp2292 to float
+  store float %tmp2293, float* %119, align 4
+  store float %mrv_gr26.i156, float* %120, align 8
+  %180 = call fastcc %0 @_ZN6Vector9normalizeEv(%struct.Color* %V.i) nounwind
+  %mrv_gr30.i = extractvalue %0 %180, 0
+  %tmp2279 = bitcast double %mrv_gr30.i to i64
+  %mrv_gr32.i = extractvalue %0 %180, 1
+  %tmp2269 = lshr i64 %tmp2279, 32
+  %tmp2456 = trunc i64 %tmp2279 to i32
+  %tmp2457 = bitcast i32 %tmp2456 to float
+  %tmp2453 = trunc i64 %tmp2269 to i32
+  %tmp2454 = bitcast i32 %tmp2453 to float
   store float %15, float* %34, align 8
-  store float %16, float* %135, align 4
-  store float %17, float* %136, align 8
-  store float %tmp2638, float* %35, align 4
-  store float %tmp2635, float* %137, align 4
-  store float %mrv_gr32.i, float* %138, align 4
+  store float %16, float* %127, align 4
+  store float %17, float* %128, align 8
+  store float %tmp2457, float* %35, align 4
+  store float %tmp2454, float* %129, align 4
+  store float %mrv_gr32.i, float* %130, align 4
+  store float 0.000000e+00, float* %131, align 4
+  store float 0.000000e+00, float* %132, align 4
+  store float 0.000000e+00, float* %133, align 4
+  store float 0.000000e+00, float* %134, align 4
+  store float 0.000000e+00, float* %135, align 4
+  store float 0.000000e+00, float* %136, align 4
+  store float 0.000000e+00, float* %137, align 4
+  store float 0.000000e+00, float* %138, align 4
   store float 0.000000e+00, float* %139, align 4
   store float 0.000000e+00, float* %140, align 4
   store float 0.000000e+00, float* %141, align 4
   store float 0.000000e+00, float* %142, align 4
-  store float 0.000000e+00, float* %143, align 4
-  store float 0.000000e+00, float* %144, align 4
-  store float 0.000000e+00, float* %145, align 4
-  store float 0.000000e+00, float* %146, align 4
-  store float 0.000000e+00, float* %147, align 4
-  store float 0.000000e+00, float* %148, align 4
-  store float 0.000000e+00, float* %149, align 4
-  store float 0.000000e+00, float* %150, align 4
-  store float 1.000000e+10, float* %151, align 8
-  call fastcc void @_ZN3BVH9intersectER9HitRecordR3Ray(%struct.BVH* %bvh, %struct.HitRecord* %hit_record85, %struct.Box* %ray)
-  %tmp921 = load float* %hit_record85.0, align 8
-  %tmp952 = load float* %hit_record85.1951.0, align 4
-  %tmp953 = load float* %hit_record85.1951.1, align 4
-  %tmp954 = load float* %hit_record85.1951.2, align 4
-  %tmp944 = load float* %hit_record85.1.1.0, align 4
-  %tmp945 = load float* %hit_record85.1.1.1, align 4
-  %tmp946 = load float* %hit_record85.1.1.2, align 4
-  %tmp938 = load float* %hit_record85.1.2.0, align 4
-  %tmp939 = load float* %hit_record85.1.2.1, align 4
-  %tmp940 = load float* %hit_record85.1.2.2, align 4
-  %tmp928 = load float* %hit_record85.1.4927.0, align 4
-  %tmp929 = load float* %hit_record85.1.4927.1, align 4
-  %tmp930 = load float* %hit_record85.1.4927.2, align 4
-  %tmp961 = load float* %ray960.0, align 8
-  %tmp962 = load float* %ray960.1, align 4
-  %tmp963 = load float* %ray960.2, align 8
-  %tmp957 = load float* %ray.1.0, align 4
-  %tmp958 = load float* %ray.1.1, align 4
-  %tmp959 = load float* %ray.1.2, align 4
-  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %tmp24, i8* %tmp25, i64 52, i32 8, i1 false)
-  %202 = fcmp olt float %tmp921, 1.000000e+10
-  br i1 %202, label %bb2.i, label %invcont94
+  store float 1.000000e+10, float* %143, align 8
+  call fastcc void @_ZN3BVH9intersectER9HitRecordR3Ray(%struct.BVH* %bvh, %struct.HitRecord* %hit_record81, %struct.Box* %ray)
+  %tmp831 = load float* %hit_record81.0, align 8
+  %tmp862 = load float* %hit_record81.1861.0, align 4
+  %tmp863 = load float* %hit_record81.1861.1, align 4
+  %tmp864 = load float* %hit_record81.1861.2, align 4
+  %tmp854 = load float* %hit_record81.1.1.0, align 4
+  %tmp855 = load float* %hit_record81.1.1.1, align 4
+  %tmp856 = load float* %hit_record81.1.1.2, align 4
+  %tmp848 = load float* %hit_record81.1.2.0, align 4
+  %tmp849 = load float* %hit_record81.1.2.1, align 4
+  %tmp850 = load float* %hit_record81.1.2.2, align 4
+  %tmp838 = load float* %hit_record81.1.4837.0, align 4
+  %tmp839 = load float* %hit_record81.1.4837.1, align 4
+  %tmp840 = load float* %hit_record81.1.4837.2, align 4
+  %tmp871 = load float* %ray870.0, align 8
+  %tmp872 = load float* %ray870.1, align 4
+  %tmp873 = load float* %ray870.2, align 8
+  %tmp867 = load float* %ray.1.0, align 4
+  %tmp868 = load float* %ray.1.1, align 4
+  %tmp869 = load float* %ray.1.2, align 4
+  %181 = fcmp olt float %tmp831, 1.000000e+10
+  br i1 %181, label %bb2.i, label %bb4.i
 
-bb1.i37:                                          ; preds = %bb2.i
-  %203 = getelementptr inbounds %struct.Photon* %.0199, i64 0, i32 1, i32 1
-  %204 = bitcast %struct.Photon* %.0199 to i8*
-  call void @llvm.memset.p0i8.i64(i8* %204, i8 0, i64 16, i32 4, i1 false)
-  store float 0.000000e+00, float* %203, align 4
-  %205 = getelementptr inbounds %struct.Photon* %.0199, i64 0, i32 1, i32 2
-  store float 0.000000e+00, float* %205, align 4
-  %206 = getelementptr inbounds %struct.Photon* %.0199, i64 0, i32 2, i64 0
-  store float 1.000000e+00, float* %206, align 4
-  %207 = getelementptr inbounds %struct.Photon* %.0199, i64 0, i32 2, i64 1
-  store float 1.000000e+00, float* %207, align 4
-  %208 = getelementptr inbounds %struct.Photon* %.0199, i64 0, i32 2, i64 2
-  store float 1.000000e+00, float* %208, align 4
-  %209 = getelementptr inbounds %struct.Photon* %.0199, i64 1
-  %210 = add nsw i64 %storemerge.i, -1
+bb1.i27:                                          ; preds = %bb2.i
+  %182 = getelementptr inbounds %struct.Photon* %.0181, i64 0, i32 1, i32 1
+  %183 = bitcast %struct.Photon* %.0181 to i8*
+  call void @llvm.memset.p0i8.i64(i8* %183, i8 0, i64 16, i32 4, i1 false)
+  store float 0.000000e+00, float* %182, align 4
+  %184 = getelementptr inbounds %struct.Photon* %.0181, i64 0, i32 1, i32 2
+  store float 0.000000e+00, float* %184, align 4
+  %185 = getelementptr inbounds %struct.Photon* %.0181, i64 0, i32 2, i64 0
+  store float 1.000000e+00, float* %185, align 4
+  %186 = getelementptr inbounds %struct.Photon* %.0181, i64 0, i32 2, i64 1
+  store float 1.000000e+00, float* %186, align 4
+  %187 = getelementptr inbounds %struct.Photon* %.0181, i64 0, i32 2, i64 2
+  store float 1.000000e+00, float* %187, align 4
+  %188 = getelementptr inbounds %struct.Photon* %.0181, i64 1
+  %189 = add nsw i64 %storemerge.i, -1
   br label %bb2.i
 
-bb2.i:                                            ; preds = %bb1.i37, %invcont89
-  %.0199 = phi %struct.Photon* [ %209, %bb1.i37 ], [ %152, %invcont89 ]
-  %storemerge.i = phi i64 [ %210, %bb1.i37 ], [ 999, %invcont89 ]
-  %211 = icmp eq i64 %storemerge.i, -1
-  br i1 %211, label %bb3.i42, label %bb1.i37
+bb2.i:                                            ; preds = %bb1.i27, %invcont83
+  %.0181 = phi %struct.Photon* [ %188, %bb1.i27 ], [ %144, %invcont83 ]
+  %storemerge.i = phi i64 [ %189, %bb1.i27 ], [ 9999, %invcont83 ]
+  %190 = icmp eq i64 %storemerge.i, -1
+  br i1 %190, label %bb3.i32, label %bb1.i27
 
-bb3.i42:                                          ; preds = %bb2.i
-  store i32 0, i32* %count_nearest.i, align 4
-  %tmp2037 = bitcast float %tmp957 to i32
-  %tmp2038 = zext i32 %tmp2037 to i96
-  %tmp2031 = bitcast float %tmp958 to i32
-  %tmp2032 = zext i32 %tmp2031 to i96
-  %tmp2033 = shl nuw nsw i96 %tmp2032, 32
-  %ins2035 = or i96 %tmp2038, %tmp2033
-  %tmp2025 = bitcast float %tmp959 to i32
-  %tmp1181 = zext i96 %ins2035 to i128
-  %mask1182 = and i128 %memtmp.i35.1, -79228162514264337593543950336
-  %tmp1175 = zext i32 %tmp2025 to i128
-  %tmp1176 = shl nuw nsw i128 %tmp1175, 64
-  %mask1177 = or i128 %mask1182, %tmp1181
-  %ins1178 = or i128 %mask1177, %tmp1176
-  %tmp1163 = lshr i128 %ins1178, 64
-  %tmp1164 = trunc i128 %tmp1163 to i32
-  %tmp1165 = bitcast i32 %tmp1164 to float
-  %212 = fmul float %tmp957, %tmp921
-  %213 = fmul float %tmp958, %tmp921
-  %214 = fmul float %tmp1165, %tmp921
-  %tmp2060 = bitcast float %212 to i32
-  %tmp2061 = zext i32 %tmp2060 to i96
-  %tmp2054 = bitcast float %213 to i32
-  %tmp2055 = zext i32 %tmp2054 to i96
-  %tmp2056 = shl nuw nsw i96 %tmp2055, 32
-  %ins2058 = or i96 %tmp2061, %tmp2056
-  %tmp2048 = bitcast float %214 to i32
-  %tmp1159 = zext i96 %ins2058 to i128
-  %mask1160 = and i128 %memtmp7.i.1, -79228162514264337593543950336
-  %tmp1153 = zext i32 %tmp2048 to i128
-  %tmp1154 = shl nuw nsw i128 %tmp1153, 64
-  %mask1155 = or i128 %mask1160, %tmp1159
-  %ins1156 = or i128 %mask1155, %tmp1154
-  %tmp1326 = bitcast float %212 to i32
-  %tmp1327 = zext i32 %tmp1326 to i64
-  %tmp1320 = bitcast float %213 to i32
-  %tmp1321 = zext i32 %tmp1320 to i64
-  %tmp1322 = shl nuw i64 %tmp1321, 32
-  %ins1324 = or i64 %tmp1327, %tmp1322
-  %ins1156.tr = trunc i128 %ins1156 to i96
-  %tmp2083 = bitcast float %tmp961 to i32
-  %tmp2084 = zext i32 %tmp2083 to i96
-  %tmp2077 = bitcast float %tmp962 to i32
-  %tmp2078 = zext i32 %tmp2077 to i96
-  %tmp2079 = shl nuw nsw i96 %tmp2078, 32
-  %ins2081 = or i96 %tmp2084, %tmp2079
-  %tmp2071 = bitcast float %tmp963 to i32
-  %tmp1137 = zext i96 %ins2081 to i128
-  %mask1138 = and i128 %memtmp13.i.1, -79228162514264337593543950336
-  %tmp1131 = zext i32 %tmp2071 to i128
-  %tmp1132 = shl nuw nsw i128 %tmp1131, 64
-  %mask1133 = or i128 %mask1138, %tmp1137
-  %ins1134 = or i128 %mask1133, %tmp1132
-  store float %tmp961, float* %153, align 8
-  store float %tmp962, float* %154, align 4
-  %tmp1119 = lshr i128 %ins1134, 64
-  %tmp1120 = trunc i128 %tmp1119 to i32
-  %tmp1121 = bitcast i32 %tmp1120 to float
-  store float %tmp1121, float* %155, align 8
-  %tmp1312 = bitcast i64 %ins1324 to double
-  %tmp1307 = lshr i96 %ins1156.tr, 64
-  %tmp1308 = trunc i96 %tmp1307 to i32
-  %tmp1309 = bitcast i32 %tmp1308 to float
-  %215 = call fastcc %0 @_ZN6Vector3addES_(%struct.Color* %3, double %tmp1312, float %tmp1309) nounwind
-  %mrv_gr23.i = extractvalue %0 %215, 0
-  %mrv_gr25.i = extractvalue %0 %215, 1
-  %tmp1945 = bitcast float %tmp944 to i32
-  %tmp1946 = zext i32 %tmp1945 to i96
-  %tmp1939 = bitcast float %tmp945 to i32
-  %tmp1940 = zext i32 %tmp1939 to i96
-  %tmp1941 = shl nuw nsw i96 %tmp1940, 32
-  %ins1943 = or i96 %tmp1946, %tmp1941
-  %tmp1933 = bitcast float %tmp946 to i32
-  %tmp1832 = zext i96 %ins1943 to i128
-  %mask1833 = and i128 %memtmp.i74.i.1, -79228162514264337593543950336
-  %tmp1826 = zext i32 %tmp1933 to i128
-  %tmp1827 = shl nuw nsw i128 %tmp1826, 64
-  %mask1828 = or i128 %mask1833, %tmp1832
-  %ins1829 = or i128 %mask1828, %tmp1827
-  %tmp1875 = bitcast float %tmp944 to i32
-  %tmp1876 = zext i32 %tmp1875 to i64
-  %tmp1869 = bitcast float %tmp945 to i32
-  %tmp1870 = zext i32 %tmp1869 to i64
-  %tmp1871 = shl nuw i64 %tmp1870, 32
-  %ins1873 = or i64 %tmp1876, %tmp1871
-  %ins1829.tr = trunc i128 %ins1829 to i96
-  %tmp1968 = bitcast float %tmp952 to i32
-  %tmp1969 = zext i32 %tmp1968 to i96
-  %tmp1962 = bitcast float %tmp953 to i32
-  %tmp1963 = zext i32 %tmp1962 to i96
-  %tmp1964 = shl nuw nsw i96 %tmp1963, 32
-  %ins1966 = or i96 %tmp1969, %tmp1964
-  %tmp1956 = bitcast float %tmp954 to i32
-  %tmp1810 = zext i96 %ins1966 to i128
-  %mask1811 = and i128 %memtmp4.i.i.1, -79228162514264337593543950336
-  %tmp1804 = zext i32 %tmp1956 to i128
-  %tmp1805 = shl nuw nsw i128 %tmp1804, 64
-  %mask1806 = or i128 %mask1811, %tmp1810
-  %ins1807 = or i128 %mask1806, %tmp1805
-  store float %tmp952, float* %156, align 8
-  store float %tmp953, float* %157, align 4
-  %tmp1792 = lshr i128 %ins1807, 64
-  %tmp1793 = trunc i128 %tmp1792 to i32
-  %tmp1794 = bitcast i32 %tmp1793 to float
-  store float %tmp1794, float* %158, align 8
-  %tmp1861 = bitcast i64 %ins1873 to double
-  %tmp1856 = lshr i96 %ins1829.tr, 64
-  %tmp1857 = trunc i96 %tmp1856 to i32
-  %tmp1858 = bitcast i32 %tmp1857 to float
-  %216 = call fastcc %0 @_ZN6Vector3subES_(%struct.Color* %2, double %tmp1861, float %tmp1858) nounwind
-  %mrv_gr14.i.i = extractvalue %0 %216, 0
-  %tmp1787 = bitcast double %mrv_gr14.i.i to i64
-  %mrv_gr16.i.i = extractvalue %0 %216, 1
-  %tmp1774 = trunc i64 %tmp1787 to i32
-  %tmp1775 = bitcast i32 %tmp1774 to float
-  store float %tmp1775, float* %159, align 8
-  %tmp1777 = lshr i64 %tmp1787, 32
-  %tmp1778 = trunc i64 %tmp1777 to i32
-  %tmp1779 = bitcast i32 %tmp1778 to float
-  store float %tmp1779, float* %160, align 4
-  store float %mrv_gr16.i.i, float* %161, align 8
-  %tmp1991 = bitcast float %tmp938 to i32
-  %tmp1992 = zext i32 %tmp1991 to i96
-  %tmp1985 = bitcast float %tmp939 to i32
-  %tmp1986 = zext i32 %tmp1985 to i96
-  %tmp1987 = shl nuw nsw i96 %tmp1986, 32
-  %ins1989 = or i96 %tmp1992, %tmp1987
-  %tmp1979 = bitcast float %tmp940 to i32
-  %tmp1766 = zext i96 %ins1989 to i128
-  %mask1767 = and i128 %memtmp18.i.i.1, -79228162514264337593543950336
-  %tmp1760 = zext i32 %tmp1979 to i128
-  %tmp1761 = shl nuw nsw i128 %tmp1760, 64
-  %mask1762 = or i128 %mask1767, %tmp1766
-  %ins1763 = or i128 %mask1762, %tmp1761
-  %tmp1899 = bitcast float %tmp938 to i32
-  %tmp1900 = zext i32 %tmp1899 to i64
-  %tmp1893 = bitcast float %tmp939 to i32
-  %tmp1894 = zext i32 %tmp1893 to i64
-  %tmp1895 = shl nuw i64 %tmp1894, 32
-  %ins1897 = or i64 %tmp1900, %tmp1895
-  %ins1763.tr = trunc i128 %ins1763 to i96
-  %ins2012 = or i96 %tmp1946, %tmp1941
-  %tmp1744 = zext i96 %ins2012 to i128
-  %mask1745 = and i128 %memtmp24.i.i.1, -79228162514264337593543950336
-  %mask1740 = or i128 %mask1745, %tmp1744
-  %ins1741 = or i128 %mask1740, %tmp1827
-  store float %tmp944, float* %162, align 8
-  store float %tmp945, float* %163, align 4
-  %tmp1726 = lshr i128 %ins1741, 64
-  %tmp1727 = trunc i128 %tmp1726 to i32
-  %tmp1728 = bitcast i32 %tmp1727 to float
-  store float %tmp1728, float* %164, align 8
-  %tmp1885 = bitcast i64 %ins1897 to double
-  %tmp1880 = lshr i96 %ins1763.tr, 64
-  %tmp1881 = trunc i96 %tmp1880 to i32
-  %tmp1882 = bitcast i32 %tmp1881 to float
-  %217 = call fastcc %0 @_ZN6Vector3subES_(%struct.Color* %1, double %tmp1885, float %tmp1882) nounwind
-  %mrv_gr36.i.i = extractvalue %0 %217, 0
-  %mrv_gr38.i.i = extractvalue %0 %217, 1
-  %218 = call fastcc %0 @_ZN6Vector5crossES_(%struct.Color* %edge1.i.i, double %mrv_gr36.i.i, float %mrv_gr38.i.i) nounwind
-  %mrv_gr46.i.i = extractvalue %0 %218, 0
-  %tmp1699 = bitcast double %mrv_gr46.i.i to i64
-  %mrv_gr48.i.i = extractvalue %0 %218, 1
-  %tmp1686 = trunc i64 %tmp1699 to i32
-  %tmp1687 = bitcast i32 %tmp1686 to float
-  store float %tmp1687, float* %165, align 8
-  %tmp1689 = lshr i64 %tmp1699, 32
-  %tmp1690 = trunc i64 %tmp1689 to i32
-  %tmp1691 = bitcast i32 %tmp1690 to float
-  store float %tmp1691, float* %166, align 4
-  store float %mrv_gr48.i.i, float* %167, align 8
-  %219 = call fastcc %0 @_ZN6Vector9normalizeEv(%struct.Color* %n.i.i) nounwind
-  %mrv_gr52.i.i = extractvalue %0 %219, 0
-  %tmp1677 = bitcast double %mrv_gr52.i.i to i64
-  %mrv_gr54.i.i = extractvalue %0 %219, 1
-  %tmp1671 = bitcast float %mrv_gr54.i.i to i32
-  %tmp1667 = lshr i64 %tmp1677, 32
-  %tmp1923 = zext i64 %tmp1677 to i96
-  %tmp1917 = zext i64 %tmp1667 to i96
-  %tmp1918 = shl nuw nsw i96 %tmp1917, 32
-  %tmp1923.masked = and i96 %tmp1923, 4294967295
-  %ins1920 = or i96 %tmp1923.masked, %tmp1918
-  %tmp1093 = zext i96 %ins1920 to i128
-  %mask1094 = and i128 %memtmp27.i.1, -79228162514264337593543950336
-  %tmp1087 = zext i32 %tmp1671 to i128
-  %tmp1088 = shl nuw nsw i128 %tmp1087, 64
-  %mask1089 = or i128 %mask1094, %tmp1093
-  %ins1090 = or i128 %mask1089, %tmp1088
-  %ins1090.tr = trunc i128 %ins1090 to i96
-  call fastcc void @_ZN9PhotonMap14locate_photonsE6VectorfiP6PhotonS2_iRi(%struct.PhotonMap* %map23, double %mrv_gr23.i, float %mrv_gr25.i, float 0x3FDF5C28E0000000, i32 0, %struct.Photon* %152, %struct.Photon* %118, i32 %count.1, i32* %count_nearest.i) nounwind
-  br label %bb38.i
+bb3.i32:                                          ; preds = %bb2.i
+  %tmp1856 = bitcast float %tmp867 to i32
+  %tmp1857 = zext i32 %tmp1856 to i96
+  %tmp1850 = bitcast float %tmp868 to i32
+  %tmp1851 = zext i32 %tmp1850 to i96
+  %tmp1852 = shl nuw nsw i96 %tmp1851, 32
+  %ins1854 = or i96 %tmp1857, %tmp1852
+  %tmp1844 = bitcast float %tmp869 to i32
+  %tmp1069 = zext i96 %ins1854 to i128
+  %mask1070 = and i128 %memtmp.i25.1, -79228162514264337593543950336
+  %tmp1063 = zext i32 %tmp1844 to i128
+  %tmp1064 = shl nuw nsw i128 %tmp1063, 64
+  %mask1065 = or i128 %mask1070, %tmp1069
+  %ins1066 = or i128 %mask1065, %tmp1064
+  %tmp1051 = lshr i128 %ins1066, 64
+  %tmp1052 = trunc i128 %tmp1051 to i32
+  %tmp1053 = bitcast i32 %tmp1052 to float
+  %191 = fmul float %tmp867, %tmp831
+  %192 = fmul float %tmp868, %tmp831
+  %193 = fmul float %tmp1053, %tmp831
+  %tmp1902 = bitcast float %191 to i32
+  %tmp1903 = zext i32 %tmp1902 to i96
+  %tmp1896 = bitcast float %192 to i32
+  %tmp1897 = zext i32 %tmp1896 to i96
+  %tmp1898 = shl nuw nsw i96 %tmp1897, 32
+  %ins1900 = or i96 %tmp1903, %tmp1898
+  %tmp1890 = bitcast float %193 to i32
+  %tmp1047 = zext i96 %ins1900 to i128
+  %mask1048 = and i128 %memtmp7.i.1, -79228162514264337593543950336
+  %tmp1041 = zext i32 %tmp1890 to i128
+  %tmp1042 = shl nuw nsw i128 %tmp1041, 64
+  %mask1043 = or i128 %mask1048, %tmp1047
+  %ins1044 = or i128 %mask1043, %tmp1042
+  %tmp1140 = bitcast float %191 to i32
+  %tmp1141 = zext i32 %tmp1140 to i64
+  %tmp1134 = bitcast float %192 to i32
+  %tmp1135 = zext i32 %tmp1134 to i64
+  %tmp1136 = shl nuw i64 %tmp1135, 32
+  %ins1138 = or i64 %tmp1141, %tmp1136
+  %ins1044.tr = trunc i128 %ins1044 to i96
+  %tmp1879 = bitcast float %tmp871 to i32
+  %tmp1880 = zext i32 %tmp1879 to i96
+  %tmp1873 = bitcast float %tmp872 to i32
+  %tmp1874 = zext i32 %tmp1873 to i96
+  %tmp1875 = shl nuw nsw i96 %tmp1874, 32
+  %ins1877 = or i96 %tmp1880, %tmp1875
+  %tmp1867 = bitcast float %tmp873 to i32
+  %tmp1025 = zext i96 %ins1877 to i128
+  %mask1026 = and i128 %memtmp13.i.1, -79228162514264337593543950336
+  %tmp1019 = zext i32 %tmp1867 to i128
+  %tmp1020 = shl nuw nsw i128 %tmp1019, 64
+  %mask1021 = or i128 %mask1026, %tmp1025
+  %ins1022 = or i128 %mask1021, %tmp1020
+  store float %tmp871, float* %145, align 8
+  store float %tmp872, float* %146, align 4
+  %tmp1007 = lshr i128 %ins1022, 64
+  %tmp1008 = trunc i128 %tmp1007 to i32
+  %tmp1009 = bitcast i32 %tmp1008 to float
+  store float %tmp1009, float* %147, align 8
+  %tmp1126 = bitcast i64 %ins1138 to double
+  %tmp1121 = lshr i96 %ins1044.tr, 64
+  %tmp1122 = trunc i96 %tmp1121 to i32
+  %tmp1123 = bitcast i32 %tmp1122 to float
+  %194 = call fastcc %0 @_ZN6Vector3addES_(%struct.Color* %3, double %tmp1126, float %tmp1123) nounwind
+  %mrv_gr23.i = extractvalue %0 %194, 0
+  %tmp1002 = bitcast double %mrv_gr23.i to i64
+  %mrv_gr25.i = extractvalue %0 %194, 1
+  %tmp992 = lshr i64 %tmp1002, 32
+  %tmp1764 = bitcast float %tmp854 to i32
+  %tmp1765 = zext i32 %tmp1764 to i96
+  %tmp1758 = bitcast float %tmp855 to i32
+  %tmp1759 = zext i32 %tmp1758 to i96
+  %tmp1760 = shl nuw nsw i96 %tmp1759, 32
+  %ins1762 = or i96 %tmp1765, %tmp1760
+  %tmp1752 = bitcast float %tmp856 to i32
+  %tmp1651 = zext i96 %ins1762 to i128
+  %mask1652 = and i128 %memtmp.i40.i.1, -79228162514264337593543950336
+  %tmp1645 = zext i32 %tmp1752 to i128
+  %tmp1646 = shl nuw nsw i128 %tmp1645, 64
+  %mask1647 = or i128 %mask1652, %tmp1651
+  %ins1648 = or i128 %mask1647, %tmp1646
+  %tmp1694 = bitcast float %tmp854 to i32
+  %tmp1695 = zext i32 %tmp1694 to i64
+  %tmp1688 = bitcast float %tmp855 to i32
+  %tmp1689 = zext i32 %tmp1688 to i64
+  %tmp1690 = shl nuw i64 %tmp1689, 32
+  %ins1692 = or i64 %tmp1695, %tmp1690
+  %ins1648.tr = trunc i128 %ins1648 to i96
+  %tmp1787 = bitcast float %tmp862 to i32
+  %tmp1788 = zext i32 %tmp1787 to i96
+  %tmp1781 = bitcast float %tmp863 to i32
+  %tmp1782 = zext i32 %tmp1781 to i96
+  %tmp1783 = shl nuw nsw i96 %tmp1782, 32
+  %ins1785 = or i96 %tmp1788, %tmp1783
+  %tmp1775 = bitcast float %tmp864 to i32
+  %tmp1629 = zext i96 %ins1785 to i128
+  %mask1630 = and i128 %memtmp4.i.i.1, -79228162514264337593543950336
+  %tmp1623 = zext i32 %tmp1775 to i128
+  %tmp1624 = shl nuw nsw i128 %tmp1623, 64
+  %mask1625 = or i128 %mask1630, %tmp1629
+  %ins1626 = or i128 %mask1625, %tmp1624
+  store float %tmp862, float* %148, align 8
+  store float %tmp863, float* %149, align 4
+  %tmp1611 = lshr i128 %ins1626, 64
+  %tmp1612 = trunc i128 %tmp1611 to i32
+  %tmp1613 = bitcast i32 %tmp1612 to float
+  store float %tmp1613, float* %150, align 8
+  %tmp1680 = bitcast i64 %ins1692 to double
+  %tmp1675 = lshr i96 %ins1648.tr, 64
+  %tmp1676 = trunc i96 %tmp1675 to i32
+  %tmp1677 = bitcast i32 %tmp1676 to float
+  %195 = call fastcc %0 @_ZN6Vector3subES_(%struct.Color* %2, double %tmp1680, float %tmp1677) nounwind
+  %mrv_gr14.i.i = extractvalue %0 %195, 0
+  %tmp1606 = bitcast double %mrv_gr14.i.i to i64
+  %mrv_gr16.i.i = extractvalue %0 %195, 1
+  %tmp1593 = trunc i64 %tmp1606 to i32
+  %tmp1594 = bitcast i32 %tmp1593 to float
+  store float %tmp1594, float* %151, align 8
+  %tmp1596 = lshr i64 %tmp1606, 32
+  %tmp1597 = trunc i64 %tmp1596 to i32
+  %tmp1598 = bitcast i32 %tmp1597 to float
+  store float %tmp1598, float* %152, align 4
+  store float %mrv_gr16.i.i, float* %153, align 8
+  %tmp1810 = bitcast float %tmp848 to i32
+  %tmp1811 = zext i32 %tmp1810 to i96
+  %tmp1804 = bitcast float %tmp849 to i32
+  %tmp1805 = zext i32 %tmp1804 to i96
+  %tmp1806 = shl nuw nsw i96 %tmp1805, 32
+  %ins1808 = or i96 %tmp1811, %tmp1806
+  %tmp1798 = bitcast float %tmp850 to i32
+  %tmp1585 = zext i96 %ins1808 to i128
+  %mask1586 = and i128 %memtmp18.i.i.1, -79228162514264337593543950336
+  %tmp1579 = zext i32 %tmp1798 to i128
+  %tmp1580 = shl nuw nsw i128 %tmp1579, 64
+  %mask1581 = or i128 %mask1586, %tmp1585
+  %ins1582 = or i128 %mask1581, %tmp1580
+  %tmp1718 = bitcast float %tmp848 to i32
+  %tmp1719 = zext i32 %tmp1718 to i64
+  %tmp1712 = bitcast float %tmp849 to i32
+  %tmp1713 = zext i32 %tmp1712 to i64
+  %tmp1714 = shl nuw i64 %tmp1713, 32
+  %ins1716 = or i64 %tmp1719, %tmp1714
+  %ins1582.tr = trunc i128 %ins1582 to i96
+  %ins1831 = or i96 %tmp1765, %tmp1760
+  %tmp1563 = zext i96 %ins1831 to i128
+  %mask1564 = and i128 %memtmp24.i.i.1, -79228162514264337593543950336
+  %mask1559 = or i128 %mask1564, %tmp1563
+  %ins1560 = or i128 %mask1559, %tmp1646
+  store float %tmp854, float* %154, align 8
+  store float %tmp855, float* %155, align 4
+  %tmp1545 = lshr i128 %ins1560, 64
+  %tmp1546 = trunc i128 %tmp1545 to i32
+  %tmp1547 = bitcast i32 %tmp1546 to float
+  store float %tmp1547, float* %156, align 8
+  %tmp1704 = bitcast i64 %ins1716 to double
+  %tmp1699 = lshr i96 %ins1582.tr, 64
+  %tmp1700 = trunc i96 %tmp1699 to i32
+  %tmp1701 = bitcast i32 %tmp1700 to float
+  %196 = call fastcc %0 @_ZN6Vector3subES_(%struct.Color* %1, double %tmp1704, float %tmp1701) nounwind
+  %mrv_gr36.i.i = extractvalue %0 %196, 0
+  %mrv_gr38.i.i = extractvalue %0 %196, 1
+  %197 = call fastcc %0 @_ZN6Vector5crossES_(%struct.Color* %edge1.i.i, double %mrv_gr36.i.i, float %mrv_gr38.i.i) nounwind
+  %mrv_gr46.i.i = extractvalue %0 %197, 0
+  %tmp1518 = bitcast double %mrv_gr46.i.i to i64
+  %mrv_gr48.i.i = extractvalue %0 %197, 1
+  %tmp1505 = trunc i64 %tmp1518 to i32
+  %tmp1506 = bitcast i32 %tmp1505 to float
+  store float %tmp1506, float* %157, align 8
+  %tmp1508 = lshr i64 %tmp1518, 32
+  %tmp1509 = trunc i64 %tmp1508 to i32
+  %tmp1510 = bitcast i32 %tmp1509 to float
+  store float %tmp1510, float* %158, align 4
+  store float %mrv_gr48.i.i, float* %159, align 8
+  %198 = call fastcc %0 @_ZN6Vector9normalizeEv(%struct.Color* %n.i.i) nounwind
+  %mrv_gr52.i.i = extractvalue %0 %198, 0
+  %tmp1496 = bitcast double %mrv_gr52.i.i to i64
+  %mrv_gr54.i.i = extractvalue %0 %198, 1
+  %tmp1490 = bitcast float %mrv_gr54.i.i to i32
+  %tmp1486 = lshr i64 %tmp1496, 32
+  %tmp1742 = zext i64 %tmp1496 to i96
+  %tmp1736 = zext i64 %tmp1486 to i96
+  %tmp1737 = shl nuw nsw i96 %tmp1736, 32
+  %tmp1742.masked = and i96 %tmp1742, 4294967295
+  %ins1739 = or i96 %tmp1742.masked, %tmp1737
+  %tmp981 = zext i96 %ins1739 to i128
+  %mask982 = and i128 %memtmp27.i.1, -79228162514264337593543950336
+  %tmp975 = zext i32 %tmp1490 to i128
+  %tmp976 = shl nuw nsw i128 %tmp975, 64
+  %mask977 = or i128 %mask982, %tmp981
+  %ins978 = or i128 %mask977, %tmp976
+  %tmp967 = trunc i64 %tmp1496 to i32
+  %tmp968 = bitcast i32 %tmp967 to float
+  %tmp971 = trunc i64 %tmp1486 to i32
+  %tmp972 = bitcast i32 %tmp971 to float
+  %tmp963 = lshr i128 %ins978, 64
+  %tmp964 = trunc i128 %tmp963 to i32
+  %tmp965 = bitcast i32 %tmp964 to float
+  %tmp1354 = bitcast float %tmp838 to i32
+  %tmp1355 = zext i32 %tmp1354 to i96
+  %tmp1348 = bitcast float %tmp839 to i32
+  %tmp1349 = zext i32 %tmp1348 to i96
+  %tmp1350 = shl nuw nsw i96 %tmp1349, 32
+  %tmp1342 = bitcast float %tmp840 to i32
+  %tmp1303 = zext i32 %tmp1342 to i128
+  %tmp1304 = shl nuw nsw i128 %tmp1303, 64
+  br label %bb80.i
 
-bb37.i:                                           ; preds = %bb38.i
-  %220 = getelementptr inbounds %struct.Photon* %.0200, i64 0, i32 1, i32 1
-  %221 = bitcast %struct.Photon* %.0200 to i8*
-  call void @llvm.memset.p0i8.i64(i8* %221, i8 0, i64 16, i32 4, i1 false)
-  store float 0.000000e+00, float* %220, align 4
-  %222 = getelementptr inbounds %struct.Photon* %.0200, i64 0, i32 1, i32 2
-  store float 0.000000e+00, float* %222, align 4
-  %223 = getelementptr inbounds %struct.Photon* %.0200, i64 0, i32 2, i64 0
-  store float 1.000000e+00, float* %223, align 4
-  %224 = getelementptr inbounds %struct.Photon* %.0200, i64 0, i32 2, i64 1
-  store float 1.000000e+00, float* %224, align 4
-  %225 = getelementptr inbounds %struct.Photon* %.0200, i64 0, i32 2, i64 2
-  store float 1.000000e+00, float* %225, align 4
-  %226 = getelementptr inbounds %struct.Photon* %.0200, i64 1
-  %227 = add nsw i64 %storemerge1.i, -1
-  br label %bb38.i
+bb34.i:                                           ; preds = %bb80.i
+  %199 = sext i32 %storemerge1.i to i64
+  %200 = getelementptr inbounds [15000 x %struct.Photon]* %43, i64 0, i64 %199, i32 0, i32 0
+  %201 = load float* %200, align 4
+  %202 = getelementptr inbounds [15000 x %struct.Photon]* %43, i64 0, i64 %199, i32 0, i32 1
+  %203 = load float* %202, align 4
+  %204 = getelementptr inbounds [15000 x %struct.Photon]* %43, i64 0, i64 %199, i32 0, i32 2
+  %205 = load float* %204, align 4
+  %tmp1466 = bitcast float %201 to i32
+  %tmp1467 = zext i32 %tmp1466 to i96
+  %tmp1460 = bitcast float %203 to i32
+  %tmp1461 = zext i32 %tmp1460 to i96
+  %tmp1462 = shl nuw nsw i96 %tmp1461, 32
+  %ins1464 = or i96 %tmp1467, %tmp1462
+  %tmp1454 = bitcast float %205 to i32
+  %tmp959 = zext i96 %ins1464 to i128
+  %mask960 = and i128 %memtmp35.i.0, -79228162514264337593543950336
+  %tmp953 = zext i32 %tmp1454 to i128
+  %tmp954 = shl nuw nsw i128 %tmp953, 64
+  %mask955 = or i128 %mask960, %tmp959
+  %ins956 = or i128 %mask955, %tmp954
+  %ins956.tr = trunc i128 %ins956 to i96
+  %tmp1434 = trunc i64 %tmp1002 to i32
+  %tmp1435 = bitcast i32 %tmp1434 to float
+  %206 = fsub float %tmp1435, %201
+  %207 = fmul float %206, %206
+  %208 = fcmp ogt float %207, 0x3FE6666660000000
+  br i1 %208, label %bb79.i, label %bb1.i.i
 
-bb38.i:                                           ; preds = %bb37.i, %bb3.i42
-  %.0200 = phi %struct.Photon* [ %168, %bb3.i42 ], [ %226, %bb37.i ]
-  %storemerge1.i = phi i64 [ 999, %bb3.i42 ], [ %227, %bb37.i ]
-  %228 = icmp eq i64 %storemerge1.i, -1
-  br i1 %228, label %bb39.i, label %bb37.i
+bb1.i.i:                                          ; preds = %bb34.i
+  %tmp1431 = trunc i64 %tmp992 to i32
+  %tmp1432 = bitcast i32 %tmp1431 to float
+  %209 = fsub float %tmp1432, %203
+  %210 = fmul float %209, %209
+  %211 = fadd float %210, %207
+  %212 = fcmp ogt float %211, 0x3FE6666660000000
+  br i1 %212, label %bb79.i, label %bb3.i.i
 
-bb39.i:                                           ; preds = %bb38.i
-  %count_nearest.i.promoted = load i32* %count_nearest.i, align 4
-  br label %bb59.i
+bb3.i.i:                                          ; preds = %bb1.i.i
+  %tmp1404 = lshr i96 %ins956.tr, 64
+  %tmp1405 = trunc i96 %tmp1404 to i32
+  %tmp1406 = bitcast i32 %tmp1405 to float
+  %213 = fsub float %mrv_gr25.i, %tmp1406
+  %214 = fmul float %213, %213
+  %215 = fadd float %214, %211
+  %216 = fcmp ogt float %215, 0x3FE6666660000000
+  br i1 %216, label %bb79.i, label %bb50.i
 
-bb41.i:                                           ; preds = %bb59.i
-  %229 = sext i32 %247 to i64
-  %.11187.0 = getelementptr inbounds [1000 x %struct.Photon]* %nearest.i, i64 0, i64 %229, i32 1, i32 0
-  %tmp1217 = load float* %.11187.0, align 4
-  %.11187.1 = getelementptr inbounds [1000 x %struct.Photon]* %nearest.i, i64 0, i64 %229, i32 1, i32 1
-  %tmp1218 = load float* %.11187.1, align 4
-  %.11187.2 = getelementptr inbounds [1000 x %struct.Photon]* %nearest.i, i64 0, i64 %229, i32 1, i32 2
-  %tmp1219 = load float* %.11187.2, align 4
-  %.21188.0 = getelementptr inbounds [1000 x %struct.Photon]* %nearest.i, i64 0, i64 %229, i32 2, i64 0
-  %tmp1211 = load float* %.21188.0, align 4
-  %.21188.1 = getelementptr inbounds [1000 x %struct.Photon]* %nearest.i, i64 0, i64 %229, i32 2, i64 1
-  %tmp1212 = load float* %.21188.1, align 4
-  %.21188.2 = getelementptr inbounds [1000 x %struct.Photon]* %nearest.i, i64 0, i64 %229, i32 2, i64 2
-  %tmp1213 = load float* %.21188.2, align 4
-  %230 = add nsw i32 %247, -1
-  %tmp1647 = bitcast float %tmp1217 to i32
-  %tmp1648 = zext i32 %tmp1647 to i96
-  %tmp1641 = bitcast float %tmp1218 to i32
-  %tmp1642 = zext i32 %tmp1641 to i96
-  %tmp1643 = shl nuw nsw i96 %tmp1642, 32
-  %ins1645 = or i96 %tmp1648, %tmp1643
-  %tmp1635 = bitcast float %tmp1219 to i32
-  %tmp1071 = zext i96 %ins1645 to i128
-  %mask1072 = and i128 %memtmp43.i.0, -79228162514264337593543950336
-  %tmp1065 = zext i32 %tmp1635 to i128
-  %tmp1066 = shl nuw nsw i128 %tmp1065, 64
-  %mask1067 = or i128 %mask1072, %tmp1071
-  %ins1068 = or i128 %mask1067, %tmp1066
-  %tmp1053 = lshr i128 %ins1068, 64
-  %tmp1054 = trunc i128 %tmp1053 to i32
-  %tmp1055 = bitcast i32 %tmp1054 to float
-  %231 = fmul float %tmp1217, -1.000000e+00
-  %232 = fmul float %tmp1218, -1.000000e+00
-  %233 = fmul float %tmp1055, -1.000000e+00
-  %tmp1624 = bitcast float %231 to i32
-  %tmp1625 = zext i32 %tmp1624 to i96
-  %tmp1618 = bitcast float %232 to i32
-  %tmp1619 = zext i32 %tmp1618 to i96
-  %tmp1620 = shl nuw nsw i96 %tmp1619, 32
-  %ins1622 = or i96 %tmp1625, %tmp1620
-  %tmp1612 = bitcast float %233 to i32
-  %tmp1049 = zext i96 %ins1622 to i128
-  %mask1050 = and i128 %memtmp49.i.0, -79228162514264337593543950336
-  %tmp1043 = zext i32 %tmp1612 to i128
-  %tmp1044 = shl nuw nsw i128 %tmp1043, 64
-  %mask1045 = or i128 %mask1050, %tmp1049
-  %ins1046 = or i128 %mask1045, %tmp1044
-  %tmp1031 = lshr i128 %ins1046, 64
-  %tmp1032 = trunc i128 %tmp1031 to i32
-  %tmp1033 = bitcast i32 %tmp1032 to float
-  %tmp1592 = trunc i64 %tmp1677 to i32
-  %tmp1593 = bitcast i32 %tmp1592 to float
-  %234 = fmul float %tmp1593, %231
-  %235 = fadd float %234, 0.000000e+00
-  %tmp1589 = trunc i64 %tmp1667 to i32
-  %tmp1590 = bitcast i32 %tmp1589 to float
-  %236 = fmul float %tmp1590, %232
-  %237 = fadd float %236, %235
-  %tmp1584 = lshr i96 %ins1090.tr, 64
-  %tmp1585 = trunc i96 %tmp1584 to i32
-  %tmp1586 = bitcast i32 %tmp1585 to float
-  %238 = fmul float %tmp1586, %tmp1033
-  %239 = fadd float %238, %237
-  %240 = fcmp ogt float %239, 0.000000e+00
-  %storemerge.i185 = select i1 %240, float %239, float 0.000000e+00
-  %241 = fmul float %tmp1211, %storemerge.i185
-  %242 = fadd float %irr.i.0.0, %241
-  %243 = fmul float %tmp1212, %storemerge.i185
-  %244 = fadd float %irr.i.1.0, %243
-  %245 = fmul float %tmp1213, %storemerge.i185
-  %246 = fadd float %irr.i.2.0, %245
-  br label %bb59.i
+bb50.i:                                           ; preds = %bb3.i.i
+  %ins1397 = or i96 %tmp1467, %tmp1462
+  %tmp937 = zext i96 %ins1397 to i128
+  %mask938 = and i128 %memtmp53.i.1, -79228162514264337593543950336
+  %mask933 = or i128 %mask938, %tmp937
+  %ins934 = or i128 %mask933, %tmp954
+  %ins934.tr = trunc i128 %ins934 to i96
+  %217 = fmul float %201, %tmp968
+  %218 = fadd float %217, 0.000000e+00
+  %219 = fmul float %203, %tmp972
+  %220 = fadd float %219, %218
+  %tmp1359 = lshr i96 %ins934.tr, 64
+  %tmp1360 = trunc i96 %tmp1359 to i32
+  %tmp1361 = bitcast i32 %tmp1360 to float
+  %221 = fmul float %tmp1361, %tmp965
+  %222 = fadd float %221, %220
+  %223 = fsub float -0.000000e+00, %222
+  %224 = fcmp olt float %223, 0.000000e+00
+  br i1 %224, label %llvm.trax.max.exit, label %bb1.i166
 
-bb59.i:                                           ; preds = %bb41.i, %bb39.i
-  %247 = phi i32 [ %count_nearest.i.promoted, %bb39.i ], [ %230, %bb41.i ]
-  %irr.i.0.0 = phi float [ 0.000000e+00, %bb39.i ], [ %242, %bb41.i ]
-  %irr.i.1.0 = phi float [ 0.000000e+00, %bb39.i ], [ %244, %bb41.i ]
-  %irr.i.2.0 = phi float [ 0.000000e+00, %bb39.i ], [ %246, %bb41.i ]
-  %memtmp49.i.0 = phi i128 [ %memtmp49.i.2, %bb39.i ], [ %ins1046, %bb41.i ]
-  %memtmp43.i.0 = phi i128 [ %memtmp43.i.2, %bb39.i ], [ %ins1068, %bb41.i ]
-  %248 = icmp eq i32 %247, 0
-  br i1 %248, label %bb60.i, label %bb41.i
+bb1.i166:                                         ; preds = %bb50.i
+  %phitmp2608 = fpext float %223 to double
+  br label %llvm.trax.max.exit
 
-bb60.i:                                           ; preds = %bb59.i
-  store i32 %247, i32* %count_nearest.i, align 4
-  %249 = fpext float %color.i.0.1 to double
-  %tmp1579 = bitcast float %tmp928 to i32
-  %tmp1580 = zext i32 %tmp1579 to i96
-  %tmp1573 = bitcast float %tmp929 to i32
-  %tmp1574 = zext i32 %tmp1573 to i96
-  %tmp1575 = shl nuw nsw i96 %tmp1574, 32
-  %tmp1567 = bitcast float %tmp930 to i32
-  %tmp1528 = zext i32 %tmp1567 to i128
-  %tmp1529 = shl nuw nsw i128 %tmp1528, 64
-  %250 = fmul float %irr.i.0.0, %tmp928
-  %251 = fpext float %250 to double
-  %252 = fdiv double %251, %170
-  %253 = fadd double %249, %252
-  %254 = fptrunc double %253 to float
-  %255 = fpext float %color.i.1.1 to double
-  %256 = fmul float %irr.i.1.0, %tmp929
-  %257 = fpext float %256 to double
-  %258 = fdiv double %257, %170
-  %259 = fadd double %255, %258
-  %260 = fptrunc double %259 to float
-  %261 = fpext float %color.i.2.1 to double
-  %ins1441 = or i96 %tmp1580, %tmp1575
-  %tmp1398 = zext i96 %ins1441 to i128
-  %mask1399 = and i128 %memtmp.i.i.1, -79228162514264337593543950336
-  %mask1394 = or i128 %mask1399, %tmp1398
-  %ins1395 = or i128 %mask1394, %tmp1529
-  %tmp1420 = bitcast float %tmp928 to i32
-  %tmp1421 = zext i32 %tmp1420 to i96
-  %tmp1414 = bitcast float %tmp929 to i32
-  %tmp1415 = zext i32 %tmp1414 to i96
-  %tmp1416 = shl nuw nsw i96 %tmp1415, 32
-  %ins1418 = or i96 %tmp1421, %tmp1416
-  %tmp983 = zext i96 %ins1418 to i128
-  %mask984 = and i128 %memtmp73.i.1, -79228162514264337593543950336
-  %tmp978 = and i128 %ins1395, 79228162495817593519834398720
-  %mask979 = or i128 %mask984, %tmp983
-  %ins980 = or i128 %mask979, %tmp978
-  %tmp965 = lshr i128 %ins980, 64
-  %tmp966 = trunc i128 %tmp965 to i32
-  %tmp967 = bitcast i32 %tmp966 to float
-  %262 = fmul float %irr.i.2.0, %tmp967
-  %263 = fpext float %262 to double
-  %264 = fdiv double %263, %170
-  %265 = fadd double %261, %264
-  %266 = fptrunc double %265 to float
-  %phitmp2750 = bitcast float %254 to i32
-  %phitmp2751 = zext i32 %phitmp2750 to i96
-  %phitmp2752 = bitcast float %260 to i32
-  %phitmp2753 = zext i32 %phitmp2752 to i96
-  %phitmp2754 = shl nuw nsw i96 %phitmp2753, 32
-  %phitmp2755 = bitcast float %266 to i32
-  br label %invcont94
+llvm.trax.max.exit:                               ; preds = %bb1.i166, %bb50.i
+  %storemerge.i167 = phi double [ %phitmp2608, %bb1.i166 ], [ 0.000000e+00, %bb50.i ]
+  %225 = call float @llvm.trax.invsqrt(float %215) nounwind
+  %226 = fdiv float 1.000000e+00, %225
+  %227 = fpext float %226 to double
+  %228 = fsub double 1.000000e+00, %227
+  %229 = fdiv double %228, 5.000000e+01
+  %230 = fmul double %storemerge.i167, %229
+  %231 = fptrunc double %230 to float
+  %232 = getelementptr inbounds [15000 x %struct.Photon]* %43, i64 0, i64 %199, i32 2, i64 2
+  %233 = load float* %232, align 4
+  %234 = fadd float %233, %231
+  %235 = getelementptr inbounds [15000 x %struct.Photon]* %43, i64 0, i64 %199, i32 2, i64 1
+  %236 = load float* %235, align 4
+  %237 = fadd float %236, %231
+  %238 = getelementptr inbounds [15000 x %struct.Photon]* %43, i64 0, i64 %199, i32 2, i64 0
+  %239 = load float* %238, align 4
+  %240 = fadd float %239, %231
+  %ins1352 = or i96 %tmp1355, %tmp1350
+  %tmp1309 = zext i96 %ins1352 to i128
+  %mask1310 = and i128 %memtmp.i.i.1, -79228162514264337593543950336
+  %mask1305 = or i128 %mask1310, %tmp1309
+  %ins1306 = or i128 %mask1305, %tmp1304
+  %tmp1331 = bitcast float %tmp838 to i32
+  %tmp1332 = zext i32 %tmp1331 to i96
+  %tmp1325 = bitcast float %tmp839 to i32
+  %tmp1326 = zext i32 %tmp1325 to i96
+  %tmp1327 = shl nuw nsw i96 %tmp1326, 32
+  %ins1329 = or i96 %tmp1332, %tmp1327
+  %tmp915 = zext i96 %ins1329 to i128
+  %mask916 = and i128 %memtmp63.i.1, -79228162514264337593543950336
+  %tmp910 = and i128 %ins1306, 79228162495817593519834398720
+  %mask911 = or i128 %mask916, %tmp915
+  %ins912 = or i128 %mask911, %tmp910
+  %ins912.tr = trunc i128 %ins912 to i96
+  %241 = fmul float %tmp838, %240
+  %242 = fmul float %tmp839, %237
+  %tmp1269 = lshr i96 %ins912.tr, 64
+  %tmp1270 = trunc i96 %tmp1269 to i32
+  %tmp1271 = bitcast i32 %tmp1270 to float
+  %243 = fmul float %tmp1271, %234
+  %tmp1264 = bitcast float %241 to i32
+  %tmp1265 = zext i32 %tmp1264 to i96
+  %tmp1258 = bitcast float %242 to i32
+  %tmp1259 = zext i32 %tmp1258 to i96
+  %tmp1260 = shl nuw nsw i96 %tmp1259, 32
+  %ins1262 = or i96 %tmp1265, %tmp1260
+  %tmp1252 = bitcast float %243 to i32
+  %tmp893 = zext i96 %ins1262 to i128
+  %mask894 = and i128 %memtmp73.i.1, -79228162514264337593543950336
+  %tmp887 = zext i32 %tmp1252 to i128
+  %tmp888 = shl nuw nsw i128 %tmp887, 64
+  %mask889 = or i128 %mask894, %tmp893
+  %ins890 = or i128 %mask889, %tmp888
+  %tmp875 = lshr i128 %ins890, 64
+  %tmp876 = trunc i128 %tmp875 to i32
+  %tmp877 = bitcast i32 %tmp876 to float
+  br label %bb79.i
 
-invcont94:                                        ; preds = %bb60.i, %invcont89
-  %.01345.0 = phi i96 [ %phitmp2751, %bb60.i ], [ 1057988018, %invcont89 ]
-  %.11346.0 = phi i96 [ %phitmp2754, %bb60.i ], [ 4556129611431280640, %invcont89 ]
-  %.21347.0 = phi i32 [ %phitmp2755, %bb60.i ], [ 1065151889, %invcont89 ]
-  %color.i.0.0 = phi float [ %254, %bb60.i ], [ %color.i.0.1, %invcont89 ]
-  %color.i.1.0 = phi float [ %260, %bb60.i ], [ %color.i.1.1, %invcont89 ]
-  %color.i.2.0 = phi float [ %266, %bb60.i ], [ %color.i.2.1, %invcont89 ]
-  %memtmp73.i.0 = phi i128 [ %ins980, %bb60.i ], [ %memtmp73.i.1, %invcont89 ]
-  %memtmp49.i.1 = phi i128 [ %memtmp49.i.0, %bb60.i ], [ %memtmp49.i.2, %invcont89 ]
-  %memtmp43.i.1 = phi i128 [ %memtmp43.i.0, %bb60.i ], [ %memtmp43.i.2, %invcont89 ]
-  %memtmp27.i.0 = phi i128 [ %ins1090, %bb60.i ], [ %memtmp27.i.1, %invcont89 ]
-  %memtmp13.i.0 = phi i128 [ %ins1134, %bb60.i ], [ %memtmp13.i.1, %invcont89 ]
-  %memtmp7.i.0 = phi i128 [ %ins1156, %bb60.i ], [ %memtmp7.i.1, %invcont89 ]
-  %memtmp.i35.0 = phi i128 [ %ins1178, %bb60.i ], [ %memtmp.i35.1, %invcont89 ]
-  %memtmp.i.i.0 = phi i128 [ %ins1395, %bb60.i ], [ %memtmp.i.i.1, %invcont89 ]
-  %memtmp24.i.i.0 = phi i128 [ %ins1741, %bb60.i ], [ %memtmp24.i.i.1, %invcont89 ]
-  %memtmp18.i.i.0 = phi i128 [ %ins1763, %bb60.i ], [ %memtmp18.i.i.1, %invcont89 ]
-  %memtmp4.i.i.0 = phi i128 [ %ins1807, %bb60.i ], [ %memtmp4.i.i.1, %invcont89 ]
-  %memtmp.i74.i.0 = phi i128 [ %ins1829, %bb60.i ], [ %memtmp.i74.i.1, %invcont89 ]
-  %267 = add nsw i32 %storemerge3, 1
-  %extract.t2809 = trunc i96 %.01345.0 to i32
-  %extract = lshr exact i96 %.11346.0, 32
-  %extract.t2810 = trunc i96 %extract to i32
-  %phitmp = bitcast i32 %extract.t2809 to float
-  %phitmp2813 = fmul float %phitmp, 0x3FC99999A0000000
-  %phitmp2814 = bitcast i32 %extract.t2810 to float
-  %phitmp2815 = fmul float %phitmp2814, 0x3FC99999A0000000
-  br label %bb101
+bb79.i:                                           ; preds = %llvm.trax.max.exit, %bb3.i.i, %bb1.i.i, %bb34.i
+  %temp.i.0.0 = phi float [ %241, %llvm.trax.max.exit ], [ %temp.i.0.1, %bb34.i ], [ %temp.i.0.1, %bb1.i.i ], [ %temp.i.0.1, %bb3.i.i ]
+  %temp.i.1.0 = phi float [ %242, %llvm.trax.max.exit ], [ %temp.i.1.1, %bb34.i ], [ %temp.i.1.1, %bb1.i.i ], [ %temp.i.1.1, %bb3.i.i ]
+  %temp.i.2.0 = phi float [ %tmp877, %llvm.trax.max.exit ], [ %temp.i.2.1, %bb34.i ], [ %temp.i.2.1, %bb1.i.i ], [ %temp.i.2.1, %bb3.i.i ]
+  %memtmp73.i.0 = phi i128 [ %ins890, %llvm.trax.max.exit ], [ %memtmp73.i.1, %bb34.i ], [ %memtmp73.i.1, %bb1.i.i ], [ %memtmp73.i.1, %bb3.i.i ]
+  %memtmp63.i.0 = phi i128 [ %ins912, %llvm.trax.max.exit ], [ %memtmp63.i.1, %bb34.i ], [ %memtmp63.i.1, %bb1.i.i ], [ %memtmp63.i.1, %bb3.i.i ]
+  %memtmp53.i.0 = phi i128 [ %ins934, %llvm.trax.max.exit ], [ %memtmp53.i.1, %bb34.i ], [ %memtmp53.i.1, %bb1.i.i ], [ %memtmp53.i.1, %bb3.i.i ]
+  %memtmp.i.i.0 = phi i128 [ %ins1306, %llvm.trax.max.exit ], [ %memtmp.i.i.1, %bb34.i ], [ %memtmp.i.i.1, %bb1.i.i ], [ %memtmp.i.i.1, %bb3.i.i ]
+  %244 = add nsw i32 %storemerge1.i, 1
+  br label %bb80.i
 
-bb101:                                            ; preds = %invcont94, %bb76
-  %color.i.0.1 = phi float [ %color.i.0.2, %bb76 ], [ %color.i.0.0, %invcont94 ]
-  %color.i.1.1 = phi float [ %color.i.1.2, %bb76 ], [ %color.i.1.0, %invcont94 ]
-  %color.i.2.1 = phi float [ %color.i.2.2, %bb76 ], [ %color.i.2.0, %invcont94 ]
-  %result.0.off0 = phi float [ 0.000000e+00, %bb76 ], [ %phitmp2813, %invcont94 ]
-  %result.0.off32.off32 = phi float [ 0.000000e+00, %bb76 ], [ %phitmp2815, %invcont94 ]
-  %result.0.off64 = phi i32 [ 0, %bb76 ], [ %.21347.0, %invcont94 ]
-  %memtmp73.i.1 = phi i128 [ %memtmp73.i.2, %bb76 ], [ %memtmp73.i.0, %invcont94 ]
-  %memtmp49.i.2 = phi i128 [ %memtmp49.i.3, %bb76 ], [ %memtmp49.i.1, %invcont94 ]
-  %memtmp43.i.2 = phi i128 [ %memtmp43.i.3, %bb76 ], [ %memtmp43.i.1, %invcont94 ]
-  %memtmp27.i.1 = phi i128 [ %memtmp27.i.2, %bb76 ], [ %memtmp27.i.0, %invcont94 ]
-  %memtmp13.i.1 = phi i128 [ %memtmp13.i.2, %bb76 ], [ %memtmp13.i.0, %invcont94 ]
-  %memtmp7.i.1 = phi i128 [ %memtmp7.i.2, %bb76 ], [ %memtmp7.i.0, %invcont94 ]
-  %memtmp.i35.1 = phi i128 [ %memtmp.i35.2, %bb76 ], [ %memtmp.i35.0, %invcont94 ]
-  %memtmp.i.i.1 = phi i128 [ %memtmp.i.i.2, %bb76 ], [ %memtmp.i.i.0, %invcont94 ]
-  %memtmp24.i.i.1 = phi i128 [ %memtmp24.i.i.2, %bb76 ], [ %memtmp24.i.i.0, %invcont94 ]
-  %memtmp18.i.i.1 = phi i128 [ %memtmp18.i.i.2, %bb76 ], [ %memtmp18.i.i.0, %invcont94 ]
-  %memtmp4.i.i.1 = phi i128 [ %memtmp4.i.i.2, %bb76 ], [ %memtmp4.i.i.0, %invcont94 ]
-  %memtmp.i74.i.1 = phi i128 [ %memtmp.i74.i.2, %bb76 ], [ %memtmp.i74.i.0, %invcont94 ]
-  %memtmp4.i150.0 = phi i128 [ %memtmp4.i150.1, %bb76 ], [ %ins2524, %invcont94 ]
-  %memtmp.i149.0 = phi i128 [ %memtmp.i149.1, %bb76 ], [ %ins2546, %invcont94 ]
-  %storemerge3 = phi i32 [ 0, %bb76 ], [ %267, %invcont94 ]
-  %268 = icmp slt i32 %storemerge3, 5
-  br i1 %268, label %bb83, label %invcont103
+bb80.i:                                           ; preds = %bb79.i, %bb3.i32
+  %temp.i.0.1 = phi float [ 0.000000e+00, %bb3.i32 ], [ %temp.i.0.0, %bb79.i ]
+  %temp.i.1.1 = phi float [ 0.000000e+00, %bb3.i32 ], [ %temp.i.1.0, %bb79.i ]
+  %temp.i.2.1 = phi float [ 0.000000e+00, %bb3.i32 ], [ %temp.i.2.0, %bb79.i ]
+  %memtmp73.i.1 = phi i128 [ %memtmp73.i.3, %bb3.i32 ], [ %memtmp73.i.0, %bb79.i ]
+  %memtmp63.i.1 = phi i128 [ %memtmp63.i.3, %bb3.i32 ], [ %memtmp63.i.0, %bb79.i ]
+  %memtmp53.i.1 = phi i128 [ %memtmp53.i.3, %bb3.i32 ], [ %memtmp53.i.0, %bb79.i ]
+  %memtmp35.i.0 = phi i128 [ %memtmp35.i.2, %bb3.i32 ], [ %ins956, %bb79.i ]
+  %memtmp.i.i.1 = phi i128 [ %memtmp.i.i.3, %bb3.i32 ], [ %memtmp.i.i.0, %bb79.i ]
+  %storemerge1.i = phi i32 [ 0, %bb3.i32 ], [ %244, %bb79.i ]
+  %245 = icmp slt i32 %storemerge1.i, %count.1
+  br i1 %245, label %bb34.i, label %invcont88
 
-invcont103:                                       ; preds = %bb101
-  %tmp589 = bitcast i32 %result.0.off64 to float
-  %269 = fmul float %tmp589, 0x3FC99999A0000000
-  %270 = fcmp olt float %result.0.off0, 0.000000e+00
-  br i1 %270, label %bb5.i, label %bb1.i
+invcont88:                                        ; preds = %bb80.i
+  %246 = fcmp olt float %temp.i.0.1, 0.000000e+00
+  br i1 %246, label %bb5.i, label %bb1.i
 
-bb1.i:                                            ; preds = %invcont103
-  %271 = fcmp ogt float %result.0.off0, 1.000000e+00
-  br i1 %271, label %bb5.i, label %bb4.i
+bb1.i:                                            ; preds = %invcont88
+  %247 = fcmp ogt float %temp.i.0.1, 1.000000e+00
+  br i1 %247, label %bb5.i, label %bb4.i
 
-bb4.i:                                            ; preds = %bb1.i
+bb4.i:                                            ; preds = %bb1.i, %invcont83
+  %.01211.026412705 = phi float [ %temp.i.0.1, %bb1.i ], [ 0x3FE1F3B640000000, %invcont83 ]
+  %.11212.026432704 = phi float [ %temp.i.1.1, %bb1.i ], [ 0x3FE753F7C0000000, %invcont83 ]
+  %.21213.026452703 = phi float [ %temp.i.2.1, %bb1.i ], [ 0x3FEF9DB220000000, %invcont83 ]
+  %memtmp73.i.226472702 = phi i128 [ %memtmp73.i.1, %bb1.i ], [ %memtmp73.i.3, %invcont83 ]
+  %memtmp63.i.226492701 = phi i128 [ %memtmp63.i.1, %bb1.i ], [ %memtmp63.i.3, %invcont83 ]
+  %memtmp53.i.226512700 = phi i128 [ %memtmp53.i.1, %bb1.i ], [ %memtmp53.i.3, %invcont83 ]
+  %memtmp35.i.126532699 = phi i128 [ %memtmp35.i.0, %bb1.i ], [ %memtmp35.i.2, %invcont83 ]
+  %memtmp27.i.026552698 = phi i128 [ %ins978, %bb1.i ], [ %memtmp27.i.1, %invcont83 ]
+  %memtmp13.i.026592696 = phi i128 [ %ins1022, %bb1.i ], [ %memtmp13.i.1, %invcont83 ]
+  %memtmp7.i.026612695 = phi i128 [ %ins1044, %bb1.i ], [ %memtmp7.i.1, %invcont83 ]
+  %memtmp.i25.026632694 = phi i128 [ %ins1066, %bb1.i ], [ %memtmp.i25.1, %invcont83 ]
+  %memtmp.i.i.226652693 = phi i128 [ %memtmp.i.i.1, %bb1.i ], [ %memtmp.i.i.3, %invcont83 ]
+  %memtmp24.i.i.026732689 = phi i128 [ %ins1560, %bb1.i ], [ %memtmp24.i.i.1, %invcont83 ]
+  %memtmp18.i.i.026752688 = phi i128 [ %ins1582, %bb1.i ], [ %memtmp18.i.i.1, %invcont83 ]
+  %memtmp4.i.i.026792686 = phi i128 [ %ins1626, %bb1.i ], [ %memtmp4.i.i.1, %invcont83 ]
+  %memtmp.i40.i.026812685 = phi i128 [ %ins1648, %bb1.i ], [ %memtmp.i40.i.1, %invcont83 ]
   br label %bb5.i
 
-bb5.i:                                            ; preds = %bb4.i, %bb1.i, %invcont103
-  %r.i.0 = phi float [ %result.0.off0, %bb4.i ], [ 0.000000e+00, %invcont103 ], [ 1.000000e+00, %bb1.i ]
-  %272 = fcmp olt float %269, 0.000000e+00
-  br i1 %272, label %bb12.i, label %bb8.i
+bb5.i:                                            ; preds = %bb4.i, %bb1.i, %invcont88
+  %memtmp.i40.i.02680 = phi i128 [ %memtmp.i40.i.026812685, %bb4.i ], [ %ins1648, %invcont88 ], [ %ins1648, %bb1.i ]
+  %memtmp4.i.i.02678 = phi i128 [ %memtmp4.i.i.026792686, %bb4.i ], [ %ins1626, %invcont88 ], [ %ins1626, %bb1.i ]
+  %memtmp18.i.i.02674 = phi i128 [ %memtmp18.i.i.026752688, %bb4.i ], [ %ins1582, %invcont88 ], [ %ins1582, %bb1.i ]
+  %memtmp24.i.i.02672 = phi i128 [ %memtmp24.i.i.026732689, %bb4.i ], [ %ins1560, %invcont88 ], [ %ins1560, %bb1.i ]
+  %memtmp.i.i.22664 = phi i128 [ %memtmp.i.i.226652693, %bb4.i ], [ %memtmp.i.i.1, %invcont88 ], [ %memtmp.i.i.1, %bb1.i ]
+  %memtmp.i25.02662 = phi i128 [ %memtmp.i25.026632694, %bb4.i ], [ %ins1066, %invcont88 ], [ %ins1066, %bb1.i ]
+  %memtmp7.i.02660 = phi i128 [ %memtmp7.i.026612695, %bb4.i ], [ %ins1044, %invcont88 ], [ %ins1044, %bb1.i ]
+  %memtmp13.i.02658 = phi i128 [ %memtmp13.i.026592696, %bb4.i ], [ %ins1022, %invcont88 ], [ %ins1022, %bb1.i ]
+  %memtmp27.i.02654 = phi i128 [ %memtmp27.i.026552698, %bb4.i ], [ %ins978, %invcont88 ], [ %ins978, %bb1.i ]
+  %memtmp35.i.12652 = phi i128 [ %memtmp35.i.126532699, %bb4.i ], [ %memtmp35.i.0, %invcont88 ], [ %memtmp35.i.0, %bb1.i ]
+  %memtmp53.i.22650 = phi i128 [ %memtmp53.i.226512700, %bb4.i ], [ %memtmp53.i.1, %invcont88 ], [ %memtmp53.i.1, %bb1.i ]
+  %memtmp63.i.22648 = phi i128 [ %memtmp63.i.226492701, %bb4.i ], [ %memtmp63.i.1, %invcont88 ], [ %memtmp63.i.1, %bb1.i ]
+  %memtmp73.i.22646 = phi i128 [ %memtmp73.i.226472702, %bb4.i ], [ %memtmp73.i.1, %invcont88 ], [ %memtmp73.i.1, %bb1.i ]
+  %.21213.02644 = phi float [ %.21213.026452703, %bb4.i ], [ %temp.i.2.1, %invcont88 ], [ %temp.i.2.1, %bb1.i ]
+  %.11212.02642 = phi float [ %.11212.026432704, %bb4.i ], [ %temp.i.1.1, %invcont88 ], [ %temp.i.1.1, %bb1.i ]
+  %r.i.0 = phi float [ %.01211.026412705, %bb4.i ], [ 0.000000e+00, %invcont88 ], [ 1.000000e+00, %bb1.i ]
+  %248 = fcmp olt float %.21213.02644, 0.000000e+00
+  br i1 %248, label %bb12.i, label %bb8.i
 
 bb8.i:                                            ; preds = %bb5.i
-  %273 = fcmp ogt float %269, 1.000000e+00
-  br i1 %273, label %bb12.i, label %bb11.i
+  %249 = fcmp ogt float %.21213.02644, 1.000000e+00
+  br i1 %249, label %bb12.i, label %bb11.i
 
 bb11.i:                                           ; preds = %bb8.i
   br label %bb12.i
 
 bb12.i:                                           ; preds = %bb11.i, %bb8.i, %bb5.i
-  %b.i.0 = phi float [ %269, %bb11.i ], [ 0.000000e+00, %bb5.i ], [ 1.000000e+00, %bb8.i ]
-  %274 = fcmp olt float %result.0.off32.off32, 0.000000e+00
-  br i1 %274, label %invcont115, label %bb15.i
+  %b.i.0 = phi float [ %.21213.02644, %bb11.i ], [ 0.000000e+00, %bb5.i ], [ 1.000000e+00, %bb8.i ]
+  %250 = fcmp olt float %.11212.02642, 0.000000e+00
+  br i1 %250, label %invcont100, label %bb15.i
 
 bb15.i:                                           ; preds = %bb12.i
-  %275 = fcmp ogt float %result.0.off32.off32, 1.000000e+00
-  br i1 %275, label %invcont115, label %bb18.i
+  %251 = fcmp ogt float %.11212.02642, 1.000000e+00
+  br i1 %251, label %invcont100, label %bb18.i
 
 bb18.i:                                           ; preds = %bb15.i
-  br label %invcont115
+  br label %invcont100
 
-invcont115:                                       ; preds = %bb18.i, %bb15.i, %bb12.i
-  %g.i.0 = phi float [ %result.0.off32.off32, %bb18.i ], [ 0.000000e+00, %bb12.i ], [ 1.000000e+00, %bb15.i ]
-  %276 = mul nsw i32 %5, %171
-  %277 = add nsw i32 %276, %172
-  %278 = mul nsw i32 %277, 3
-  %279 = add nsw i32 %7, %278
-  call void @llvm.trax.storef(float %r.i.0, i32 %279, i32 0) nounwind
-  call void @llvm.trax.storef(float %g.i.0, i32 %279, i32 1) nounwind
-  call void @llvm.trax.storef(float %b.i.0, i32 %279, i32 2) nounwind
-  %280 = call i32 @llvm.trax.atominc(i32 0)
-  br label %bb116
+invcont100:                                       ; preds = %bb18.i, %bb15.i, %bb12.i
+  %g.i.0 = phi float [ %.11212.02642, %bb18.i ], [ 0.000000e+00, %bb12.i ], [ 1.000000e+00, %bb15.i ]
+  %252 = mul nsw i32 %5, %160
+  %253 = add nsw i32 %252, %161
+  %254 = mul nsw i32 %253, 3
+  %255 = add nsw i32 %7, %254
+  call void @llvm.trax.storef(float %r.i.0, i32 %255, i32 0) nounwind
+  call void @llvm.trax.storef(float %g.i.0, i32 %255, i32 1) nounwind
+  call void @llvm.trax.storef(float %b.i.0, i32 %255, i32 2) nounwind
+  %256 = call i32 @llvm.trax.atominc(i32 0)
+  br label %bb101
 
-bb116:                                            ; preds = %invcont115, %invcont75
-  %color.i.0.2 = phi float [ undef, %invcont75 ], [ %color.i.0.1, %invcont115 ]
-  %color.i.1.2 = phi float [ undef, %invcont75 ], [ %color.i.1.1, %invcont115 ]
-  %color.i.2.2 = phi float [ undef, %invcont75 ], [ %color.i.2.1, %invcont115 ]
-  %memtmp73.i.2 = phi i128 [ undef, %invcont75 ], [ %memtmp73.i.1, %invcont115 ]
-  %memtmp49.i.3 = phi i128 [ undef, %invcont75 ], [ %memtmp49.i.2, %invcont115 ]
-  %memtmp43.i.3 = phi i128 [ undef, %invcont75 ], [ %memtmp43.i.2, %invcont115 ]
-  %memtmp27.i.2 = phi i128 [ undef, %invcont75 ], [ %memtmp27.i.1, %invcont115 ]
-  %memtmp13.i.2 = phi i128 [ undef, %invcont75 ], [ %memtmp13.i.1, %invcont115 ]
-  %memtmp7.i.2 = phi i128 [ undef, %invcont75 ], [ %memtmp7.i.1, %invcont115 ]
-  %memtmp.i35.2 = phi i128 [ undef, %invcont75 ], [ %memtmp.i35.1, %invcont115 ]
-  %memtmp.i.i.2 = phi i128 [ undef, %invcont75 ], [ %memtmp.i.i.1, %invcont115 ]
-  %memtmp24.i.i.2 = phi i128 [ undef, %invcont75 ], [ %memtmp24.i.i.1, %invcont115 ]
-  %memtmp18.i.i.2 = phi i128 [ undef, %invcont75 ], [ %memtmp18.i.i.1, %invcont115 ]
-  %memtmp4.i.i.2 = phi i128 [ undef, %invcont75 ], [ %memtmp4.i.i.1, %invcont115 ]
-  %memtmp.i74.i.2 = phi i128 [ undef, %invcont75 ], [ %memtmp.i74.i.1, %invcont115 ]
-  %memtmp4.i150.1 = phi i128 [ undef, %invcont75 ], [ %memtmp4.i150.0, %invcont115 ]
-  %memtmp.i149.1 = phi i128 [ undef, %invcont75 ], [ %memtmp.i149.0, %invcont115 ]
-  %storemerge2 = phi i32 [ %120, %invcont75 ], [ %280, %invcont115 ]
-  %281 = icmp sgt i32 %121, %storemerge2
-  br i1 %281, label %bb76, label %return
+bb101:                                            ; preds = %invcont100, %invcont74
+  %memtmp73.i.3 = phi i128 [ undef, %invcont74 ], [ %memtmp73.i.22646, %invcont100 ]
+  %memtmp63.i.3 = phi i128 [ undef, %invcont74 ], [ %memtmp63.i.22648, %invcont100 ]
+  %memtmp53.i.3 = phi i128 [ undef, %invcont74 ], [ %memtmp53.i.22650, %invcont100 ]
+  %memtmp35.i.2 = phi i128 [ undef, %invcont74 ], [ %memtmp35.i.12652, %invcont100 ]
+  %memtmp27.i.1 = phi i128 [ undef, %invcont74 ], [ %memtmp27.i.02654, %invcont100 ]
+  %memtmp13.i.1 = phi i128 [ undef, %invcont74 ], [ %memtmp13.i.02658, %invcont100 ]
+  %memtmp7.i.1 = phi i128 [ undef, %invcont74 ], [ %memtmp7.i.02660, %invcont100 ]
+  %memtmp.i25.1 = phi i128 [ undef, %invcont74 ], [ %memtmp.i25.02662, %invcont100 ]
+  %memtmp.i.i.3 = phi i128 [ undef, %invcont74 ], [ %memtmp.i.i.22664, %invcont100 ]
+  %memtmp24.i.i.1 = phi i128 [ undef, %invcont74 ], [ %memtmp24.i.i.02672, %invcont100 ]
+  %memtmp18.i.i.1 = phi i128 [ undef, %invcont74 ], [ %memtmp18.i.i.02674, %invcont100 ]
+  %memtmp4.i.i.1 = phi i128 [ undef, %invcont74 ], [ %memtmp4.i.i.02678, %invcont100 ]
+  %memtmp.i40.i.1 = phi i128 [ undef, %invcont74 ], [ %memtmp.i40.i.02680, %invcont100 ]
+  %storemerge2 = phi i32 [ %112, %invcont74 ], [ %256, %invcont100 ]
+  %257 = icmp sgt i32 %113, %storemerge2
+  br i1 %257, label %invcont83, label %return
 
-return:                                           ; preds = %bb116
+return:                                           ; preds = %bb101
   ret i32 0
 
-Unwind:                                           ; preds = %invcont86, %bb83, %bb72, %.noexc105, %.noexc, %bb.i99
+Unwind:                                           ; preds = %.noexc90, %.noexc, %bb.i84
   %eh_ptr = call i8* @llvm.eh.exception()
-  %eh_select123 = call i32 (i8*, i8*, ...)* @llvm.eh.selector(i8* %eh_ptr, i8* bitcast (i32 (...)* @__gxx_personality_v0 to i8*), i32 0)
+  %eh_select108 = call i32 (i8*, i8*, ...)* @llvm.eh.selector(i8* %eh_ptr, i8* bitcast (i32 (...)* @__gxx_personality_v0 to i8*), i32 0)
   call void @llvm.stackrestore(i8* %4)
   call void @_Unwind_Resume_or_Rethrow(i8* %eh_ptr)
   unreachable
@@ -1689,788 +1587,6 @@ declare i32 @llvm.eh.selector(i8*, i8*, ...) nounwind
 declare i32 @__gxx_personality_v0(...)
 
 declare void @_Unwind_Resume_or_Rethrow(i8*)
-
-define internal fastcc float @_ZN6Photon8get_axisEi(%struct.Photon* nocapture %this, i32 %dim) nounwind readonly ssp align 2 {
-entry:
-  switch i32 %dim, label %bb12 [
-    i32 0, label %bb
-    i32 1, label %bb5
-  ]
-
-bb:                                               ; preds = %entry
-  %0 = getelementptr inbounds %struct.Photon* %this, i64 0, i32 0, i32 0
-  br label %return
-
-bb5:                                              ; preds = %entry
-  %1 = getelementptr inbounds %struct.Photon* %this, i64 0, i32 0, i32 1
-  br label %return
-
-bb12:                                             ; preds = %entry
-  %2 = getelementptr inbounds %struct.Photon* %this, i64 0, i32 0, i32 2
-  br label %return
-
-return:                                           ; preds = %bb12, %bb5, %bb
-  %.0.in = phi float* [ %0, %bb ], [ %1, %bb5 ], [ %2, %bb12 ]
-  %.0 = load float* %.0.in, align 4
-  ret float %.0
-}
-
-declare double @llvm.log.f64(double) nounwind readonly
-
-define internal fastcc void @_ZN9PhotonMap8generateEP6PhotonS1_ii(%struct.PhotonMap* %this, %struct.Photon* %photons, %struct.Photon* %photonHeap, i32 %count, i32 %currentPos) ssp align 2 {
-entry:
-  %pivot.i = alloca %struct.Photon, align 8
-  %0 = icmp eq i32 %count, 0
-  br i1 %0, label %return, label %bb17
-
-bb17:                                             ; preds = %entry
-  %1 = call i8* @llvm.stacksave()
-  br label %bb119
-
-invcont:                                          ; preds = %bb119
-  %2 = sext i32 %storemerge to i64
-  %3 = getelementptr inbounds %struct.Photon* %photons, i64 %2, i32 0, i32 0
-  %4 = load float* %3, align 4
-  %5 = getelementptr inbounds %struct.Photon* %photons, i64 %2, i32 0, i32 1
-  %6 = load float* %5, align 4
-  %7 = getelementptr inbounds %struct.Photon* %photons, i64 %2, i32 0, i32 2
-  %8 = load float* %7, align 4
-  %tmp1098 = bitcast float %4 to i32
-  %tmp1099 = zext i32 %tmp1098 to i96
-  %tmp1092 = bitcast float %6 to i32
-  %tmp1093 = zext i32 %tmp1092 to i96
-  %tmp1094 = shl nuw nsw i96 %tmp1093, 32
-  %tmp1086 = bitcast float %8 to i32
-  %tmp490 = zext i32 %tmp1086 to i128
-  %tmp491 = shl nuw nsw i128 %tmp490, 64
-  %9 = fcmp olt float %4, %minXYZ.0.1
-  br i1 %9, label %invcont26, label %invcont34
-
-invcont26:                                        ; preds = %invcont
-  br label %invcont34
-
-invcont34:                                        ; preds = %invcont26, %invcont
-  %minXYZ.0.0 = phi float [ %4, %invcont26 ], [ %minXYZ.0.1, %invcont ]
-  %10 = fcmp olt float %6, %minXYZ.1.1
-  br i1 %10, label %invcont43, label %invcont51
-
-invcont43:                                        ; preds = %invcont34
-  br label %invcont51
-
-invcont51:                                        ; preds = %invcont43, %invcont34
-  %minXYZ.1.0 = phi float [ %6, %invcont43 ], [ %minXYZ.1.1, %invcont34 ]
-  %11 = fcmp olt float %8, %minXYZ.2.1
-  br i1 %11, label %invcont60, label %invcont68
-
-invcont60:                                        ; preds = %invcont51
-  %ins1349 = or i96 %tmp1099, %tmp1094
-  %tmp386 = zext i96 %ins1349 to i128
-  %mask387 = and i128 %memtmp61.1, -79228162514264337593543950336
-  %mask382 = or i128 %mask387, %tmp386
-  %ins383 = or i128 %mask382, %tmp491
-  %tmp368 = lshr i128 %ins383, 64
-  %tmp369 = trunc i128 %tmp368 to i32
-  %tmp370 = bitcast i32 %tmp369 to float
-  br label %invcont68
-
-invcont68:                                        ; preds = %invcont60, %invcont51
-  %minXYZ.2.0 = phi float [ %tmp370, %invcont60 ], [ %minXYZ.2.1, %invcont51 ]
-  %memtmp61.0 = phi i128 [ %ins383, %invcont60 ], [ %memtmp61.1, %invcont51 ]
-  %12 = fcmp ogt float %4, %maxXYZ.0.1
-  br i1 %12, label %invcont77, label %invcont85
-
-invcont77:                                        ; preds = %invcont68
-  br label %invcont85
-
-invcont85:                                        ; preds = %invcont77, %invcont68
-  %maxXYZ.0.0 = phi float [ %4, %invcont77 ], [ %maxXYZ.0.1, %invcont68 ]
-  %13 = fcmp ogt float %6, %maxXYZ.1.1
-  br i1 %13, label %invcont94, label %invcont102
-
-invcont94:                                        ; preds = %invcont85
-  br label %invcont102
-
-invcont102:                                       ; preds = %invcont94, %invcont85
-  %maxXYZ.1.0 = phi float [ %6, %invcont94 ], [ %maxXYZ.1.1, %invcont85 ]
-  %14 = fcmp ogt float %8, %maxXYZ.2.1
-  br i1 %14, label %invcont111, label %bb118
-
-invcont111:                                       ; preds = %invcont102
-  %ins1211 = or i96 %tmp1099, %tmp1094
-  %tmp254 = zext i96 %ins1211 to i128
-  %mask255 = and i128 %memtmp112.1, -79228162514264337593543950336
-  %mask250 = or i128 %mask255, %tmp254
-  %ins251 = or i128 %mask250, %tmp491
-  %tmp236 = lshr i128 %ins251, 64
-  %tmp237 = trunc i128 %tmp236 to i32
-  %tmp238 = bitcast i32 %tmp237 to float
-  br label %bb118
-
-bb118:                                            ; preds = %invcont111, %invcont102
-  %maxXYZ.2.0 = phi float [ %tmp238, %invcont111 ], [ %maxXYZ.2.1, %invcont102 ]
-  %memtmp112.0 = phi i128 [ %ins251, %invcont111 ], [ %memtmp112.1, %invcont102 ]
-  %15 = add nsw i32 %storemerge, 1
-  br label %bb119
-
-bb119:                                            ; preds = %bb118, %bb17
-  %minXYZ.0.1 = phi float [ 9.999999e+06, %bb17 ], [ %minXYZ.0.0, %bb118 ]
-  %minXYZ.1.1 = phi float [ 9.999999e+06, %bb17 ], [ %minXYZ.1.0, %bb118 ]
-  %minXYZ.2.1 = phi float [ 9.999999e+06, %bb17 ], [ %minXYZ.2.0, %bb118 ]
-  %maxXYZ.0.1 = phi float [ -9.999999e+06, %bb17 ], [ %maxXYZ.0.0, %bb118 ]
-  %maxXYZ.1.1 = phi float [ -9.999999e+06, %bb17 ], [ %maxXYZ.1.0, %bb118 ]
-  %maxXYZ.2.1 = phi float [ -9.999999e+06, %bb17 ], [ %maxXYZ.2.0, %bb118 ]
-  %memtmp112.1 = phi i128 [ undef, %bb17 ], [ %memtmp112.0, %bb118 ]
-  %memtmp61.1 = phi i128 [ undef, %bb17 ], [ %memtmp61.0, %bb118 ]
-  %storemerge = phi i32 [ 0, %bb17 ], [ %15, %bb118 ]
-  %16 = icmp eq i32 %storemerge, %count
-  br i1 %16, label %bb120, label %invcont
-
-bb120:                                            ; preds = %bb119
-  %17 = fsub float %maxXYZ.0.1, %minXYZ.0.1
-  %18 = fsub float %maxXYZ.1.1, %minXYZ.1.1
-  %19 = fsub float %maxXYZ.2.1, %minXYZ.2.1
-  %20 = fcmp ule float %17, %18
-  %21 = fcmp ule float %17, %19
-  %or.cond = or i1 %20, %21
-  br i1 %or.cond, label %bb123, label %bb122
-
-bb122:                                            ; preds = %bb120
-  store i32 0, i32* @sort_dim, align 4
-  br label %bb127
-
-bb123:                                            ; preds = %bb120
-  %22 = fcmp ule float %18, %17
-  %23 = fcmp ule float %18, %19
-  %or.cond1403 = or i1 %22, %23
-  br i1 %or.cond1403, label %bb126, label %bb125
-
-bb125:                                            ; preds = %bb123
-  store i32 1, i32* @sort_dim, align 4
-  br label %bb127
-
-bb126:                                            ; preds = %bb123
-  store i32 2, i32* @sort_dim, align 4
-  br label %bb127
-
-bb127:                                            ; preds = %bb126, %bb125, %bb122
-  %24 = phi i32 [ 2, %bb126 ], [ 1, %bb125 ], [ 0, %bb122 ]
-  %savedstack = call i8* @llvm.stacksave()
-  %25 = getelementptr inbounds %struct.Photon* %pivot.i, i64 0, i32 1, i32 1
-  %26 = bitcast %struct.Photon* %pivot.i to i8*
-  call void @llvm.memset.p0i8.i64(i8* %26, i8 0, i64 16, i32 8, i1 false)
-  store float 0.000000e+00, float* %25, align 4
-  %27 = getelementptr inbounds %struct.Photon* %pivot.i, i64 0, i32 1, i32 2
-  store float 0.000000e+00, float* %27, align 4
-  %28 = getelementptr inbounds %struct.Photon* %pivot.i, i64 0, i32 2, i64 0
-  store float 1.000000e+00, float* %28, align 8
-  %29 = getelementptr inbounds %struct.Photon* %pivot.i, i64 0, i32 2, i64 1
-  store float 1.000000e+00, float* %29, align 4
-  %30 = getelementptr inbounds %struct.Photon* %pivot.i, i64 0, i32 2, i64 2
-  store float 1.000000e+00, float* %30, align 8
-  %31 = shl i32 %count, 2
-  %32 = zext i32 %31 to i64
-  %33 = alloca i8, i64 %32, align 4
-  %34 = bitcast i8* %33 to [0 x i32]*
-  %35 = bitcast i8* %33 to i32*
-  store i32 0, i32* %35, align 4
-  %36 = getelementptr inbounds i8* %33, i64 4
-  %37 = bitcast i8* %36 to i32*
-  store i32 %count, i32* %37, align 4
-  %pivot2.i = bitcast %struct.Photon* %pivot.i to i8*
-  br label %bb28.i
-
-bb.i52:                                           ; preds = %bb28.i
-  %38 = add nsw i32 %sp.i.4, -1
-  %39 = sext i32 %38 to i64
-  %40 = getelementptr inbounds [0 x i32]* %34, i64 0, i64 %39
-  %41 = load i32* %40, align 4
-  %42 = add i32 %sp.i.4, -2
-  %43 = sext i32 %42 to i64
-  %44 = getelementptr inbounds [0 x i32]* %34, i64 0, i64 %43
-  %45 = load i32* %44, align 4
-  br label %bb1.i53
-
-bb1.i53:                                          ; preds = %bb27.i, %bb.i52
-  %right_addr.i.0 = phi i32 [ %41, %bb.i52 ], [ %right_addr.i.1, %bb27.i ]
-  %left_addr.i.0 = phi i32 [ %45, %bb.i52 ], [ %left_addr.i.1, %bb27.i ]
-  %sp.i.0 = phi i32 [ %42, %bb.i52 ], [ %sp.i.3, %bb27.i ]
-  %46 = add nsw i32 %left_addr.i.0, %right_addr.i.0
-  %47 = sdiv i32 %46, 2
-  %48 = sext i32 %47 to i64
-  %49 = getelementptr inbounds %struct.Photon* %photons, i64 %48
-  %50 = bitcast %struct.Photon* %49 to i8*
-  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %pivot2.i, i8* %50, i64 52, i32 1, i1 false)
-  br label %bb5.i.outer
-
-bb5.i.outer:                                      ; preds = %bb19.i, %bb1.i53
-  %l2.i.0.ph = phi i32 [ %left_addr.i.0, %bb1.i53 ], [ %l2.i.1, %bb19.i ]
-  %r2.i.0.ph = phi i32 [ %right_addr.i.0, %bb1.i53 ], [ %r2.i.2, %bb19.i ]
-  %51 = call fastcc float @_ZN6Photon8get_axisEi(%struct.Photon* %pivot.i, i32 %24)
-  br label %bb5.i
-
-bb4.i:                                            ; preds = %bb5.i
-  %52 = add nsw i32 %l2.i.0, 1
-  br label %bb5.i
-
-bb5.i:                                            ; preds = %bb4.i, %bb5.i.outer
-  %l2.i.0 = phi i32 [ %52, %bb4.i ], [ %l2.i.0.ph, %bb5.i.outer ]
-  %53 = sext i32 %l2.i.0 to i64
-  %54 = getelementptr inbounds %struct.Photon* %photons, i64 %53
-  %55 = call fastcc float @_ZN6Photon8get_axisEi(%struct.Photon* %54, i32 %24)
-  %56 = fcmp olt float %55, %51
-  br i1 %56, label %bb4.i, label %bb9.i
-
-bb8.i:                                            ; preds = %bb9.i
-  %57 = add nsw i32 %r2.i.1, -1
-  br label %bb9.i
-
-bb9.i:                                            ; preds = %bb8.i, %bb5.i
-  %r2.i.1 = phi i32 [ %57, %bb8.i ], [ %r2.i.0.ph, %bb5.i ]
-  %58 = sext i32 %r2.i.1 to i64
-  %59 = getelementptr inbounds %struct.Photon* %photons, i64 %58
-  %60 = call fastcc float @_ZN6Photon8get_axisEi(%struct.Photon* %59, i32 %24)
-  %61 = fcmp ogt float %60, %51
-  br i1 %61, label %bb8.i, label %bb13.i
-
-bb13.i:                                           ; preds = %bb9.i
-  %62 = icmp sgt i32 %l2.i.0, %r2.i.1
-  br i1 %62, label %bb19.i, label %bb14.i
-
-bb14.i:                                           ; preds = %bb13.i
-  %63 = icmp eq i32 %l2.i.0, %r2.i.1
-  br i1 %63, label %bb18.i, label %bb15.i
-
-bb15.i:                                           ; preds = %bb14.i
-  %.01067 = getelementptr inbounds %struct.Photon* %photons, i64 %53, i32 0, i32 0
-  %tmp1068 = load float* %.01067, align 1
-  %.11069 = getelementptr inbounds %struct.Photon* %photons, i64 %53, i32 0, i32 1
-  %tmp1070 = load float* %.11069, align 1
-  %.21071 = getelementptr inbounds %struct.Photon* %photons, i64 %53, i32 0, i32 2
-  %tmp1072 = load float* %.21071, align 1
-  %.11045.0 = getelementptr inbounds %struct.Photon* %photons, i64 %53, i32 1, i32 0
-  %tmp1061 = load float* %.11045.0, align 1
-  %.11045.1 = getelementptr inbounds %struct.Photon* %photons, i64 %53, i32 1, i32 1
-  %tmp1062 = load float* %.11045.1, align 1
-  %.11045.2 = getelementptr inbounds %struct.Photon* %photons, i64 %53, i32 1, i32 2
-  %tmp1063 = load float* %.11045.2, align 1
-  %.21046.0 = getelementptr inbounds %struct.Photon* %photons, i64 %53, i32 2, i64 0
-  %tmp1055 = load float* %.21046.0, align 1
-  %.21046.1 = getelementptr inbounds %struct.Photon* %photons, i64 %53, i32 2, i64 1
-  %tmp1056 = load float* %.21046.1, align 1
-  %.21046.2 = getelementptr inbounds %struct.Photon* %photons, i64 %53, i32 2, i64 2
-  %tmp1057 = load float* %.21046.2, align 1
-  %.31047 = getelementptr inbounds %struct.Photon* %photons, i64 %53, i32 3
-  %tmp1048 = load float* %.31047, align 1
-  %.41049 = getelementptr inbounds %struct.Photon* %photons, i64 %53, i32 4
-  %tmp1050 = load float* %.41049, align 1
-  %.51051 = getelementptr inbounds %struct.Photon* %photons, i64 %53, i32 5
-  %tmp1052 = load i32* %.51051, align 1
-  %.61053 = getelementptr inbounds %struct.Photon* %photons, i64 %53, i32 6
-  %tmp1054 = load float* %.61053, align 1
-  %64 = bitcast %struct.Photon* %54 to i8*
-  %65 = bitcast %struct.Photon* %59 to i8*
-  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %64, i8* %65, i64 52, i32 1, i1 false)
-  %.01073 = getelementptr inbounds %struct.Photon* %photons, i64 %58, i32 0, i32 0
-  store float %tmp1068, float* %.01073, align 1
-  %.11075 = getelementptr inbounds %struct.Photon* %photons, i64 %58, i32 0, i32 1
-  store float %tmp1070, float* %.11075, align 1
-  %.21077 = getelementptr inbounds %struct.Photon* %photons, i64 %58, i32 0, i32 2
-  store float %tmp1072, float* %.21077, align 1
-  %.11034.0 = getelementptr inbounds %struct.Photon* %photons, i64 %58, i32 1, i32 0
-  store float %tmp1061, float* %.11034.0, align 1
-  %.11034.1 = getelementptr inbounds %struct.Photon* %photons, i64 %58, i32 1, i32 1
-  store float %tmp1062, float* %.11034.1, align 1
-  %.11034.2 = getelementptr inbounds %struct.Photon* %photons, i64 %58, i32 1, i32 2
-  store float %tmp1063, float* %.11034.2, align 1
-  %.21035.0 = getelementptr inbounds %struct.Photon* %photons, i64 %58, i32 2, i64 0
-  store float %tmp1055, float* %.21035.0, align 1
-  %.21035.1 = getelementptr inbounds %struct.Photon* %photons, i64 %58, i32 2, i64 1
-  store float %tmp1056, float* %.21035.1, align 1
-  %.21035.2 = getelementptr inbounds %struct.Photon* %photons, i64 %58, i32 2, i64 2
-  store float %tmp1057, float* %.21035.2, align 1
-  %.31036 = getelementptr inbounds %struct.Photon* %photons, i64 %58, i32 3
-  store float %tmp1048, float* %.31036, align 1
-  %.41038 = getelementptr inbounds %struct.Photon* %photons, i64 %58, i32 4
-  store float %tmp1050, float* %.41038, align 1
-  %.51040 = getelementptr inbounds %struct.Photon* %photons, i64 %58, i32 5
-  store i32 %tmp1052, i32* %.51040, align 1
-  %.61042 = getelementptr inbounds %struct.Photon* %photons, i64 %58, i32 6
-  store float %tmp1054, float* %.61042, align 1
-  br label %bb18.i
-
-bb18.i:                                           ; preds = %bb15.i, %bb14.i
-  %66 = add nsw i32 %l2.i.0, 1
-  %67 = add nsw i32 %r2.i.1, -1
-  br label %bb19.i
-
-bb19.i:                                           ; preds = %bb18.i, %bb13.i
-  %l2.i.1 = phi i32 [ %l2.i.0, %bb13.i ], [ %66, %bb18.i ]
-  %r2.i.2 = phi i32 [ %r2.i.1, %bb13.i ], [ %67, %bb18.i ]
-  %68 = icmp slt i32 %l2.i.1, %r2.i.2
-  br i1 %68, label %bb5.i.outer, label %bb20.i
-
-bb20.i:                                           ; preds = %bb19.i
-  %69 = sub nsw i32 %r2.i.2, %left_addr.i.0
-  %70 = sub nsw i32 %right_addr.i.0, %l2.i.1
-  %71 = icmp sgt i32 %69, %70
-  br i1 %71, label %bb21.i, label %bb24.i
-
-bb21.i:                                           ; preds = %bb20.i
-  %72 = icmp slt i32 %left_addr.i.0, %r2.i.2
-  br i1 %72, label %bb22.i, label %bb27.i
-
-bb22.i:                                           ; preds = %bb21.i
-  %73 = sext i32 %sp.i.0 to i64
-  %74 = getelementptr inbounds [0 x i32]* %34, i64 0, i64 %73
-  store i32 %left_addr.i.0, i32* %74, align 4
-  %75 = add nsw i32 %sp.i.0, 1
-  %76 = sext i32 %75 to i64
-  %77 = getelementptr inbounds [0 x i32]* %34, i64 0, i64 %76
-  store i32 %r2.i.2, i32* %77, align 4
-  %78 = add i32 %sp.i.0, 2
-  br label %bb27.i
-
-bb24.i:                                           ; preds = %bb20.i
-  %79 = icmp slt i32 %l2.i.1, %right_addr.i.0
-  br i1 %79, label %bb25.i, label %bb27.i
-
-bb25.i:                                           ; preds = %bb24.i
-  %80 = sext i32 %sp.i.0 to i64
-  %81 = getelementptr inbounds [0 x i32]* %34, i64 0, i64 %80
-  store i32 %l2.i.1, i32* %81, align 4
-  %82 = add nsw i32 %sp.i.0, 1
-  %83 = sext i32 %82 to i64
-  %84 = getelementptr inbounds [0 x i32]* %34, i64 0, i64 %83
-  store i32 %right_addr.i.0, i32* %84, align 4
-  %85 = add i32 %sp.i.0, 2
-  br label %bb27.i
-
-bb27.i:                                           ; preds = %bb25.i, %bb24.i, %bb22.i, %bb21.i
-  %right_addr.i.1 = phi i32 [ %right_addr.i.0, %bb22.i ], [ %right_addr.i.0, %bb21.i ], [ %r2.i.2, %bb25.i ], [ %r2.i.2, %bb24.i ]
-  %left_addr.i.1 = phi i32 [ %l2.i.1, %bb22.i ], [ %l2.i.1, %bb21.i ], [ %left_addr.i.0, %bb25.i ], [ %left_addr.i.0, %bb24.i ]
-  %sp.i.3 = phi i32 [ %78, %bb22.i ], [ %sp.i.0, %bb21.i ], [ %85, %bb25.i ], [ %sp.i.0, %bb24.i ]
-  %86 = icmp slt i32 %left_addr.i.1, %right_addr.i.1
-  br i1 %86, label %bb1.i53, label %bb28.i
-
-bb28.i:                                           ; preds = %bb27.i, %bb127
-  %sp.i.4 = phi i32 [ 2, %bb127 ], [ %sp.i.3, %bb27.i ]
-  %87 = icmp sgt i32 %sp.i.4, 0
-  br i1 %87, label %bb.i52, label %invcont128
-
-invcont128:                                       ; preds = %bb28.i
-  call void @llvm.stackrestore(i8* %savedstack)
-  %88 = sext i32 %count to i64
-  %89 = add nsw i64 %88, -1
-  %90 = mul i32 %count, 52
-  %91 = zext i32 %90 to i64
-  %92 = alloca i8, i64 %91, align 1
-  %93 = bitcast i8* %92 to [0 x %struct.Photon]*
-  %94 = bitcast i8* %92 to %struct.Photon*
-  br label %bb130
-
-bb129:                                            ; preds = %bb130
-  %95 = getelementptr inbounds %struct.Photon* %.0, i64 0, i32 1, i32 1
-  %96 = bitcast %struct.Photon* %.0 to i8*
-  call void @llvm.memset.p0i8.i64(i8* %96, i8 0, i64 16, i32 4, i1 false)
-  store float 0.000000e+00, float* %95, align 4
-  %97 = getelementptr inbounds %struct.Photon* %.0, i64 0, i32 1, i32 2
-  store float 0.000000e+00, float* %97, align 4
-  %98 = getelementptr inbounds %struct.Photon* %.0, i64 0, i32 2, i64 0
-  store float 1.000000e+00, float* %98, align 4
-  %99 = getelementptr inbounds %struct.Photon* %.0, i64 0, i32 2, i64 1
-  store float 1.000000e+00, float* %99, align 4
-  %100 = getelementptr inbounds %struct.Photon* %.0, i64 0, i32 2, i64 2
-  store float 1.000000e+00, float* %100, align 4
-  %101 = getelementptr inbounds %struct.Photon* %.0, i64 1
-  %102 = add nsw i64 %storemerge1, -1
-  br label %bb130
-
-bb130:                                            ; preds = %bb129, %invcont128
-  %.0 = phi %struct.Photon* [ %94, %invcont128 ], [ %101, %bb129 ]
-  %storemerge1 = phi i64 [ %89, %invcont128 ], [ %102, %bb129 ]
-  %103 = icmp eq i64 %storemerge1, -1
-  br i1 %103, label %bb131, label %bb129
-
-bb131:                                            ; preds = %bb130
-  %104 = alloca i8, i64 %91, align 1
-  %105 = bitcast i8* %104 to [0 x %struct.Photon]*
-  %106 = bitcast i8* %104 to %struct.Photon*
-  br label %bb133
-
-bb132:                                            ; preds = %bb133
-  %107 = getelementptr inbounds %struct.Photon* %.0150, i64 0, i32 1, i32 1
-  %108 = bitcast %struct.Photon* %.0150 to i8*
-  call void @llvm.memset.p0i8.i64(i8* %108, i8 0, i64 16, i32 4, i1 false)
-  store float 0.000000e+00, float* %107, align 4
-  %109 = getelementptr inbounds %struct.Photon* %.0150, i64 0, i32 1, i32 2
-  store float 0.000000e+00, float* %109, align 4
-  %110 = getelementptr inbounds %struct.Photon* %.0150, i64 0, i32 2, i64 0
-  store float 1.000000e+00, float* %110, align 4
-  %111 = getelementptr inbounds %struct.Photon* %.0150, i64 0, i32 2, i64 1
-  store float 1.000000e+00, float* %111, align 4
-  %112 = getelementptr inbounds %struct.Photon* %.0150, i64 0, i32 2, i64 2
-  store float 1.000000e+00, float* %112, align 4
-  %113 = getelementptr inbounds %struct.Photon* %.0150, i64 1
-  %114 = add nsw i64 %storemerge2, -1
-  br label %bb133
-
-bb133:                                            ; preds = %bb132, %bb131
-  %.0150 = phi %struct.Photon* [ %106, %bb131 ], [ %113, %bb132 ]
-  %storemerge2 = phi i64 [ %89, %bb131 ], [ %114, %bb132 ]
-  %115 = icmp eq i64 %storemerge2, -1
-  br i1 %115, label %bb134, label %bb132
-
-bb134:                                            ; preds = %bb133
-  %116 = sitofp i32 %count to double
-  %117 = call double @llvm.log.f64(double %116) nounwind
-  %118 = call double @llvm.log.f64(double 2.000000e+00) nounwind
-  %119 = fdiv double %117, %118
-  %120 = fptosi double %119 to i32
-  %121 = add i32 %120, -1
-  %122 = sitofp i32 %121 to double
-  %123 = call double @llvm.pow.f64(double 2.000000e+00, double %122)
-  %124 = sitofp i32 %120 to double
-  %125 = call double @llvm.pow.f64(double 2.000000e+00, double %124)
-  %126 = fadd double %125, -1.000000e+00
-  %127 = fsub double %116, %126
-  %128 = fptosi double %127 to i32
-  %129 = add i32 %120, -1
-  %130 = sitofp i32 %129 to double
-  %131 = call double @llvm.pow.f64(double 2.000000e+00, double %130)
-  %132 = fptosi double %131 to i32
-  %133 = icmp slt i32 %132, %128
-  %storemerge.i = select i1 %133, i32 %132, i32 %128
-  %134 = sitofp i32 %storemerge.i to double
-  %135 = fadd double %123, %134
-  %136 = fptosi double %135 to i32
-  %137 = sext i32 %currentPos to i64
-  %138 = getelementptr inbounds %struct.Photon* %photonHeap, i64 %137, i32 5
-  %139 = getelementptr inbounds %struct.Photon* %photonHeap, i64 %137, i32 1, i32 0
-  %140 = getelementptr inbounds %struct.Photon* %photonHeap, i64 %137, i32 1, i32 1
-  %141 = getelementptr inbounds %struct.Photon* %photonHeap, i64 %137, i32 1, i32 2
-  %142 = getelementptr inbounds %struct.Photon* %photonHeap, i64 %137, i32 0, i32 0
-  %143 = getelementptr inbounds %struct.Photon* %photonHeap, i64 %137, i32 0, i32 1
-  %144 = getelementptr inbounds %struct.Photon* %photonHeap, i64 %137, i32 0, i32 2
-  br label %bb192
-
-invcont159:                                       ; preds = %bb192
-  %145 = sext i32 %it.0 to i64
-  %146 = getelementptr inbounds %struct.Photon* %photons, i64 %145, i32 0, i32 0
-  %147 = load float* %146, align 4
-  %148 = getelementptr inbounds %struct.Photon* %photons, i64 %145, i32 0, i32 1
-  %149 = load float* %148, align 4
-  %150 = getelementptr inbounds %struct.Photon* %photons, i64 %145, i32 0, i32 2
-  %151 = load float* %150, align 4
-  %152 = getelementptr inbounds %struct.Photon* %photons, i64 %145, i32 1, i32 0
-  %153 = load float* %152, align 4
-  %154 = getelementptr inbounds %struct.Photon* %photons, i64 %145, i32 1, i32 1
-  %155 = load float* %154, align 4
-  %156 = getelementptr inbounds %struct.Photon* %photons, i64 %145, i32 1, i32 2
-  %157 = load float* %156, align 4
-  %158 = icmp slt i32 %i.0, %136
-  br i1 %158, label %bb160, label %bb162
-
-bb160:                                            ; preds = %invcont159
-  %159 = sext i32 %count_lower.1 to i64
-  %.0576 = getelementptr inbounds [0 x %struct.Photon]* %105, i64 0, i64 %159, i32 0, i32 0
-  store float %147, float* %.0576, align 4
-  %.1578 = getelementptr inbounds [0 x %struct.Photon]* %105, i64 0, i64 %159, i32 0, i32 1
-  store float %149, float* %.1578, align 4
-  %.2580 = getelementptr inbounds [0 x %struct.Photon]* %105, i64 0, i64 %159, i32 0, i32 2
-  store float %151, float* %.2580, align 4
-  %.1554.0 = getelementptr inbounds [0 x %struct.Photon]* %105, i64 0, i64 %159, i32 1, i32 0
-  store float %153, float* %.1554.0, align 4
-  %.1554.1 = getelementptr inbounds [0 x %struct.Photon]* %105, i64 0, i64 %159, i32 1, i32 1
-  store float %155, float* %.1554.1, align 4
-  %.1554.2 = getelementptr inbounds [0 x %struct.Photon]* %105, i64 0, i64 %159, i32 1, i32 2
-  store float %157, float* %.1554.2, align 4
-  %.2555.0 = getelementptr inbounds [0 x %struct.Photon]* %105, i64 0, i64 %159, i32 2, i64 0
-  store float 1.000000e+00, float* %.2555.0, align 4
-  %.2555.1 = getelementptr inbounds [0 x %struct.Photon]* %105, i64 0, i64 %159, i32 2, i64 1
-  store float 1.000000e+00, float* %.2555.1, align 4
-  %.2555.2 = getelementptr inbounds [0 x %struct.Photon]* %105, i64 0, i64 %159, i32 2, i64 2
-  store float 1.000000e+00, float* %.2555.2, align 4
-  %160 = add nsw i32 %count_lower.1, 1
-  br label %bb191
-
-bb162:                                            ; preds = %invcont159
-  %161 = icmp eq i32 %i.0, %136
-  br i1 %161, label %invcont188, label %bb189
-
-invcont188:                                       ; preds = %bb162
-  store i32 %24, i32* %138, align 4
-  %162 = load float* %152, align 4
-  %163 = load float* %154, align 4
-  %164 = load float* %156, align 4
-  %tmp891 = bitcast float %162 to i32
-  %tmp892 = zext i32 %tmp891 to i96
-  %tmp885 = bitcast float %163 to i32
-  %tmp886 = zext i32 %tmp885 to i96
-  %tmp887 = shl nuw nsw i96 %tmp886, 32
-  %ins889 = or i96 %tmp892, %tmp887
-  %tmp879 = bitcast float %164 to i32
-  %tmp188 = zext i96 %ins889 to i128
-  %mask189 = and i128 %memtmp166.1, -79228162514264337593543950336
-  %tmp182 = zext i32 %tmp879 to i128
-  %tmp183 = shl nuw nsw i128 %tmp182, 64
-  %mask184 = or i128 %mask189, %tmp188
-  %ins185 = or i128 %mask184, %tmp183
-  %ins185.tr = trunc i128 %ins185 to i96
-  store float %162, float* %139, align 4
-  store float %163, float* %140, align 4
-  %tmp851 = lshr i96 %ins185.tr, 64
-  %tmp852 = trunc i96 %tmp851 to i32
-  %tmp853 = bitcast i32 %tmp852 to float
-  store float %tmp853, float* %141, align 4
-  %165 = load float* %146, align 4
-  %166 = load float* %148, align 4
-  %167 = load float* %150, align 4
-  %tmp846 = bitcast float %165 to i32
-  %tmp847 = zext i32 %tmp846 to i96
-  %tmp840 = bitcast float %166 to i32
-  %tmp841 = zext i32 %tmp840 to i96
-  %tmp842 = shl nuw nsw i96 %tmp841, 32
-  %ins844 = or i96 %tmp847, %tmp842
-  %tmp834 = bitcast float %167 to i32
-  %tmp166 = zext i96 %ins844 to i128
-  %mask167 = and i128 %memtmp178.1, -79228162514264337593543950336
-  %tmp162 = zext i32 %tmp834 to i128
-  %tmp163 = shl nuw nsw i128 %tmp162, 64
-  %mask = or i128 %mask167, %tmp166
-  %ins = or i128 %mask, %tmp163
-  %ins.tr = trunc i128 %ins to i96
-  store float %165, float* %142, align 4
-  store float %166, float* %143, align 4
-  %tmp806 = lshr i96 %ins.tr, 64
-  %tmp807 = trunc i96 %tmp806 to i32
-  %tmp808 = bitcast i32 %tmp807 to float
-  store float %tmp808, float* %144, align 4
-  br label %bb191
-
-bb189:                                            ; preds = %bb162
-  %168 = sext i32 %count_upper.1 to i64
-  %.0582 = getelementptr inbounds [0 x %struct.Photon]* %93, i64 0, i64 %168, i32 0, i32 0
-  store float %147, float* %.0582, align 4
-  %.1584 = getelementptr inbounds [0 x %struct.Photon]* %93, i64 0, i64 %168, i32 0, i32 1
-  store float %149, float* %.1584, align 4
-  %.2586 = getelementptr inbounds [0 x %struct.Photon]* %93, i64 0, i64 %168, i32 0, i32 2
-  store float %151, float* %.2586, align 4
-  %.1.0 = getelementptr inbounds [0 x %struct.Photon]* %93, i64 0, i64 %168, i32 1, i32 0
-  store float %153, float* %.1.0, align 4
-  %.1.1 = getelementptr inbounds [0 x %struct.Photon]* %93, i64 0, i64 %168, i32 1, i32 1
-  store float %155, float* %.1.1, align 4
-  %.1.2 = getelementptr inbounds [0 x %struct.Photon]* %93, i64 0, i64 %168, i32 1, i32 2
-  store float %157, float* %.1.2, align 4
-  %.2.0 = getelementptr inbounds [0 x %struct.Photon]* %93, i64 0, i64 %168, i32 2, i64 0
-  store float 1.000000e+00, float* %.2.0, align 4
-  %.2.1 = getelementptr inbounds [0 x %struct.Photon]* %93, i64 0, i64 %168, i32 2, i64 1
-  store float 1.000000e+00, float* %.2.1, align 4
-  %.2.2 = getelementptr inbounds [0 x %struct.Photon]* %93, i64 0, i64 %168, i32 2, i64 2
-  store float 1.000000e+00, float* %.2.2, align 4
-  %169 = add nsw i32 %count_upper.1, 1
-  br label %bb191
-
-bb191:                                            ; preds = %bb189, %invcont188, %bb160
-  %memtmp178.0 = phi i128 [ %memtmp178.1, %bb160 ], [ %ins, %invcont188 ], [ %memtmp178.1, %bb189 ]
-  %memtmp166.0 = phi i128 [ %memtmp166.1, %bb160 ], [ %ins185, %invcont188 ], [ %memtmp166.1, %bb189 ]
-  %count_upper.0 = phi i32 [ %count_upper.1, %bb160 ], [ %count_upper.1, %invcont188 ], [ %169, %bb189 ]
-  %count_lower.0 = phi i32 [ %160, %bb160 ], [ %count_lower.1, %invcont188 ], [ %count_lower.1, %bb189 ]
-  %170 = add nsw i32 %it.0, 1
-  %171 = add nsw i32 %i.0, 1
-  br label %bb192
-
-bb192:                                            ; preds = %bb191, %bb134
-  %memtmp178.1 = phi i128 [ undef, %bb134 ], [ %memtmp178.0, %bb191 ]
-  %memtmp166.1 = phi i128 [ undef, %bb134 ], [ %memtmp166.0, %bb191 ]
-  %i.0 = phi i32 [ 1, %bb134 ], [ %171, %bb191 ]
-  %count_upper.1 = phi i32 [ 0, %bb134 ], [ %count_upper.0, %bb191 ]
-  %count_lower.1 = phi i32 [ 0, %bb134 ], [ %count_lower.0, %bb191 ]
-  %it.0 = phi i32 [ 0, %bb134 ], [ %170, %bb191 ]
-  %172 = icmp eq i32 %it.0, %count
-  br i1 %172, label %bb193, label %invcont159
-
-bb193:                                            ; preds = %bb192
-  %173 = shl nsw i32 %currentPos, 1
-  %174 = or i32 %173, 1
-  %175 = bitcast i8* %104 to %struct.Photon*
-  invoke fastcc void @_ZN9PhotonMap8generateEP6PhotonS1_ii(%struct.PhotonMap* %this, %struct.Photon* %175, %struct.Photon* %photonHeap, i32 %count_lower.1, i32 %174) ssp
-          to label %invcont194 unwind label %Unwind
-
-invcont194:                                       ; preds = %bb193
-  %176 = add i32 %173, 2
-  %177 = bitcast i8* %92 to %struct.Photon*
-  invoke fastcc void @_ZN9PhotonMap8generateEP6PhotonS1_ii(%struct.PhotonMap* %this, %struct.Photon* %177, %struct.Photon* %photonHeap, i32 %count_upper.1, i32 %176) ssp
-          to label %invcont195 unwind label %Unwind
-
-invcont195:                                       ; preds = %invcont194
-  call void @llvm.stackrestore(i8* %1)
-  br label %return
-
-return:                                           ; preds = %invcont195, %entry
-  ret void
-
-Unwind:                                           ; preds = %invcont194, %bb193
-  %eh_ptr = call i8* @llvm.eh.exception()
-  %eh_select201 = call i32 (i8*, i8*, ...)* @llvm.eh.selector(i8* %eh_ptr, i8* bitcast (i32 (...)* @__gxx_personality_v0 to i8*), i32 0)
-  call void @llvm.stackrestore(i8* %1)
-  call void @_Unwind_Resume_or_Rethrow(i8* %eh_ptr)
-  unreachable
-}
-
-declare double @llvm.pow.f64(double, double) nounwind readonly
-
-define internal fastcc void @_ZN9PhotonMap14locate_photonsE6VectorfiP6PhotonS2_iRi(%struct.PhotonMap* %this, double %position.0, float %position.1, float %dSquare, i32 %p, %struct.Photon* %nearest, %struct.Photon* %heap, i32 %sizeHeap, i32* %size_nearest) nounwind ssp align 2 {
-entry:
-  %tmp143 = bitcast double %position.0 to i64
-  %0 = shl i32 %p, 1
-  %1 = add i32 %0, 2
-  %2 = icmp slt i32 %1, %sizeHeap
-  %3 = sext i32 %p to i64
-  br i1 %2, label %bb, label %bb25
-
-bb:                                               ; preds = %entry
-  %4 = getelementptr inbounds %struct.Photon* %heap, i64 %3, i32 5
-  %5 = load i32* %4, align 4
-  switch i32 %5, label %bb4 [
-    i32 0, label %bb1
-    i32 1, label %bb3
-  ]
-
-bb1:                                              ; preds = %bb
-  %tmp99 = trunc i64 %tmp143 to i32
-  %tmp100 = bitcast i32 %tmp99 to float
-  %6 = getelementptr inbounds %struct.Photon* %heap, i64 %3
-  %7 = call fastcc float @_ZN6Photon8get_axisEi(%struct.Photon* %6, i32 %5)
-  %8 = fsub float %tmp100, %7
-  br label %bb5
-
-bb3:                                              ; preds = %bb
-  %tmp95 = lshr i64 %tmp143, 32
-  %tmp96 = trunc i64 %tmp95 to i32
-  %tmp97 = bitcast i32 %tmp96 to float
-  %9 = getelementptr inbounds %struct.Photon* %heap, i64 %3
-  %10 = call fastcc float @_ZN6Photon8get_axisEi(%struct.Photon* %9, i32 %5)
-  %11 = fsub float %tmp97, %10
-  br label %bb5
-
-bb4:                                              ; preds = %bb
-  %12 = getelementptr inbounds %struct.Photon* %heap, i64 %3
-  %13 = call fastcc float @_ZN6Photon8get_axisEi(%struct.Photon* %12, i32 %5)
-  %14 = fsub float %position.1, %13
-  br label %bb5
-
-bb5:                                              ; preds = %bb4, %bb3, %bb1
-  %phi.0 = phi float [ %8, %bb1 ], [ %11, %bb3 ], [ %14, %bb4 ]
-  %15 = fcmp olt float %phi.0, 0.000000e+00
-  br i1 %15, label %bb6, label %bb15
-
-bb6:                                              ; preds = %bb5
-  %16 = or i32 %0, 1
-  call fastcc void @_ZN9PhotonMap14locate_photonsE6VectorfiP6PhotonS2_iRi(%struct.PhotonMap* %this, double %position.0, float %position.1, float %dSquare, i32 %16, %struct.Photon* %nearest, %struct.Photon* %heap, i32 %sizeHeap, i32* %size_nearest) ssp
-  %17 = fmul float %phi.0, %phi.0
-  %18 = fcmp olt float %17, %dSquare
-  br i1 %18, label %bb9, label %bb25
-
-bb9:                                              ; preds = %bb6
-  call fastcc void @_ZN9PhotonMap14locate_photonsE6VectorfiP6PhotonS2_iRi(%struct.PhotonMap* %this, double %position.0, float %position.1, float %dSquare, i32 %1, %struct.Photon* %nearest, %struct.Photon* %heap, i32 %sizeHeap, i32* %size_nearest) ssp
-  br label %bb25
-
-bb15:                                             ; preds = %bb5
-  call fastcc void @_ZN9PhotonMap14locate_photonsE6VectorfiP6PhotonS2_iRi(%struct.PhotonMap* %this, double %position.0, float %position.1, float %dSquare, i32 %1, %struct.Photon* %nearest, %struct.Photon* %heap, i32 %sizeHeap, i32* %size_nearest) ssp
-  %19 = fmul float %phi.0, %phi.0
-  %20 = fcmp olt float %19, %dSquare
-  br i1 %20, label %bb20, label %bb25
-
-bb20:                                             ; preds = %bb15
-  %21 = or i32 %0, 1
-  call fastcc void @_ZN9PhotonMap14locate_photonsE6VectorfiP6PhotonS2_iRi(%struct.PhotonMap* %this, double %position.0, float %position.1, float %dSquare, i32 %21, %struct.Photon* %nearest, %struct.Photon* %heap, i32 %sizeHeap, i32* %size_nearest) ssp
-  br label %bb25
-
-bb25:                                             ; preds = %bb20, %bb15, %bb9, %bb6, %entry
-  %22 = getelementptr inbounds %struct.Photon* %heap, i64 %3, i32 0, i32 0
-  %23 = load float* %22, align 4
-  %24 = getelementptr inbounds %struct.Photon* %heap, i64 %3, i32 0, i32 1
-  %25 = load float* %24, align 4
-  %26 = getelementptr inbounds %struct.Photon* %heap, i64 %3, i32 0, i32 2
-  %27 = load float* %26, align 4
-  %tmp187 = bitcast double %position.0 to i64
-  %tmp178 = trunc i64 %tmp187 to i32
-  %tmp179 = bitcast i32 %tmp178 to float
-  %28 = fsub float %23, %tmp179
-  %29 = fmul float %28, %28
-  %tmp174 = lshr i64 %tmp187, 32
-  %tmp175 = trunc i64 %tmp174 to i32
-  %tmp176 = bitcast i32 %tmp175 to float
-  %30 = fsub float %25, %tmp176
-  %31 = fmul float %30, %30
-  %32 = fadd float %29, %31
-  %33 = fsub float %27, %position.1
-  %34 = fmul float %33, %33
-  %35 = fadd float %32, %34
-  %36 = fcmp olt float %35, %dSquare
-  br i1 %36, label %bb37, label %return
-
-bb37:                                             ; preds = %bb25
-  %.117.0 = getelementptr inbounds %struct.Photon* %heap, i64 %3, i32 1, i32 0
-  %tmp33 = load float* %.117.0, align 1
-  %.117.1 = getelementptr inbounds %struct.Photon* %heap, i64 %3, i32 1, i32 1
-  %tmp34 = load float* %.117.1, align 1
-  %.117.2 = getelementptr inbounds %struct.Photon* %heap, i64 %3, i32 1, i32 2
-  %tmp35 = load float* %.117.2, align 1
-  %.218.0 = getelementptr inbounds %struct.Photon* %heap, i64 %3, i32 2, i64 0
-  %tmp27 = load float* %.218.0, align 1
-  %.218.1 = getelementptr inbounds %struct.Photon* %heap, i64 %3, i32 2, i64 1
-  %tmp28 = load float* %.218.1, align 1
-  %.218.2 = getelementptr inbounds %struct.Photon* %heap, i64 %3, i32 2, i64 2
-  %tmp29 = load float* %.218.2, align 1
-  %.319 = getelementptr inbounds %struct.Photon* %heap, i64 %3, i32 3
-  %tmp20 = load float* %.319, align 1
-  %.421 = getelementptr inbounds %struct.Photon* %heap, i64 %3, i32 4
-  %tmp22 = load float* %.421, align 1
-  %.523 = getelementptr inbounds %struct.Photon* %heap, i64 %3, i32 5
-  %tmp24 = load i32* %.523, align 1
-  %.625 = getelementptr inbounds %struct.Photon* %heap, i64 %3, i32 6
-  %tmp26 = load float* %.625, align 1
-  %37 = load i32* %size_nearest, align 4
-  %38 = sext i32 %37 to i64
-  %.045 = getelementptr inbounds %struct.Photon* %nearest, i64 %38, i32 0, i32 0
-  store float %23, float* %.045, align 1
-  %.147 = getelementptr inbounds %struct.Photon* %nearest, i64 %38, i32 0, i32 1
-  store float %25, float* %.147, align 1
-  %.249 = getelementptr inbounds %struct.Photon* %nearest, i64 %38, i32 0, i32 2
-  store float %27, float* %.249, align 1
-  %.1.0 = getelementptr inbounds %struct.Photon* %nearest, i64 %38, i32 1, i32 0
-  store float %tmp33, float* %.1.0, align 1
-  %.1.1 = getelementptr inbounds %struct.Photon* %nearest, i64 %38, i32 1, i32 1
-  store float %tmp34, float* %.1.1, align 1
-  %.1.2 = getelementptr inbounds %struct.Photon* %nearest, i64 %38, i32 1, i32 2
-  store float %tmp35, float* %.1.2, align 1
-  %.2.0 = getelementptr inbounds %struct.Photon* %nearest, i64 %38, i32 2, i64 0
-  store float %tmp27, float* %.2.0, align 1
-  %.2.1 = getelementptr inbounds %struct.Photon* %nearest, i64 %38, i32 2, i64 1
-  store float %tmp28, float* %.2.1, align 1
-  %.2.2 = getelementptr inbounds %struct.Photon* %nearest, i64 %38, i32 2, i64 2
-  store float %tmp29, float* %.2.2, align 1
-  %.3 = getelementptr inbounds %struct.Photon* %nearest, i64 %38, i32 3
-  store float %tmp20, float* %.3, align 1
-  %.4 = getelementptr inbounds %struct.Photon* %nearest, i64 %38, i32 4
-  store float %tmp22, float* %.4, align 1
-  %.5 = getelementptr inbounds %struct.Photon* %nearest, i64 %38, i32 5
-  store i32 %tmp24, i32* %.5, align 1
-  %.6 = getelementptr inbounds %struct.Photon* %nearest, i64 %38, i32 6
-  store float %tmp26, float* %.6, align 1
-  %39 = add nsw i32 %37, 1
-  store i32 %39, i32* %size_nearest, align 4
-  %40 = icmp sgt i32 %39, 50
-  br i1 %40, label %bb41, label %return
-
-bb41:                                             ; preds = %bb37
-  store i32 %37, i32* %size_nearest, align 4
-  br label %return
-
-return:                                           ; preds = %bb41, %bb37, %bb25
-  ret void
-}
 
 declare float @llvm.trax.invsqrt(float) nounwind
 

@@ -33,7 +33,7 @@ inline PointLight loadLightFromMemory(int addr) {
 }
 
 int main()
-{
+{	//might have to change the tree impl..
 	trax_setup();
 	int xres = loadi( 0, 1 );
 	int yres = loadi( 0, 4 );
@@ -58,7 +58,7 @@ int main()
 	Shader shade;
 	int start_scene = loadi( 0, 8 );
 	BVH bvh(start_scene);
-	int count = 0, num_of_photons = 1000;
+	int count = 0, num_of_photons = 15000, iterator = 0;
 	float Kd = 0.7f;
 	Photon indirect_photons[num_of_photons], indirect_heap[num_of_photons];
 
@@ -68,11 +68,10 @@ int main()
 
 	Vector light_position = loadFooFromMemory(loadi(0, 12));
 	Vector ray_origin = light_position;
-	while(count < num_of_photons) { //move this to a function..
+	while(iterator < num_of_photons) { //move this to a function..this doesn't feel right!!
 		while(!absorbed && bounces < max_bounces) {
 			bounces++;
 			Vector direction = generate_random_direction();
-
 			Photon photon;
 			Ray ray(ray_origin, direction);
 			HitRecord hit_record;
@@ -85,36 +84,40 @@ int main()
 				ray_origin = hit_record.hit_position(ray);
 			}
 		}
+		iterator++;
 
 		bounces = 0;
 		absorbed = 0;
 	}
 //figure out a way to bounce photons around... and multiply the photons with the Kd of the material they intersect
 	PhotonMap map;
-	map.generate(indirect_photons, indirect_heap, count, 0);
+	//map.generate(indirect_photons, indirect_heap, count, 0);
 //
-//	count = 0;
+
+int foo = 0;
 	for(int pix = atomicinc(0); pix < xres*yres; pix = atomicinc(0)){
 		int i = pix / xres;
 		int j = pix % xres;
 		float x = (float)(2.f * (j - xres/2.0f + 0.5f)/xres);
 		float y = (float)(2.f * (i - yres/2.0f + 0.5f)/yres);
 		result = col;
-		for (int i = 0; i < num_of_samples; i++) {
-			attenuation = Color(1.f, 1.f, 1.f);
-			x_off = (trax_rand() - .5f) * 2.f;
-			y_off = (trax_rand() - .5f) * 2.f;
-			x_off *= inv_width;
-			y_off *= inv_height;
-			camera.make_ray(ray, x + x_off, y + y_off);
+//		for (int i = 0; i < num_of_samples; i++) {
+//			attenuation = Color(1.f, 1.f, 1.f);
+//			x_off = (trax_rand() - .5f) * 2.f;
+//			y_off = (trax_rand() - .5f) * 2.f;
+//			x_off *= inv_width;
+//			y_off *= inv_height;
+			camera.make_ray(ray, x, y);
 			HitRecord hit_record;
 			bvh.intersect(hit_record, ray);
 
 //			result = shade.lambertian(bvh, hit_record, ray, light, ambient_light);
-			result = shade.test(bvh, hit_record, ray, light, ambient_light, map, indirect_heap, count);
 
-		}
-		result = result.times(1.f/num_of_samples);
+			result = shade.test(bvh, hit_record, ray, light, ambient_light, map, indirect_photons, count);
+
+//		}
+//			trax_printf(foo++);
+//		result = result.times(1.f/num_of_samples);
 		image.set(i, j, result);
 	}
 	trax_cleanup();

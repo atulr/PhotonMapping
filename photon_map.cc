@@ -4,14 +4,14 @@
  *  Created on: Nov 11, 2011
  *      Author: atulrungta
  */
-
+#include "trax.hpp"
 #include "photon_map.h"
 #include <math.h>
 #define MAX_NUM 9999999;
 
 inline int split(int x)//this finds which node of the list should be the splitter
 {
-	return (int)(log((double)x)/log(2.0))+1;
+	return (int)(log((float)x)/log(2.0))+1;
 
 }
 
@@ -19,7 +19,7 @@ inline float distance_square(Vector v1, Vector v2) {
 	return ((v1.getx() - v2.getx()) * (v1.getx() - v2.getx()) + (v1.gety() - v2.gety()) * (v1.gety() - v2.gety()) + (v1.getz() - v2.getz()) * (v1.getz() - v2.getz()));
 }
 
-inline int min(int x, int y) {
+inline int min_val(int x, int y) {
 	if(x < y)
 		return x;
 	return y;
@@ -52,13 +52,16 @@ void PhotonMap::locate_photons(Vector position, float dSquare,int p, Photon near
 		}
 	}
 	float phiSquare=distance_square(heap[p].get_position(),position);
+//	trax_printf(phiSquare);
 	//shove it into an array for now...
 	if(phiSquare<dSquare){
+
 		Photon temp;
 		temp.distance = phiSquare;
 		temp = heap[p];
 		nearest[size_nearest++] = temp;
 		if(size_nearest> 50) { //fix the hard coding..
+
 			nearest[size_nearest--];
 			dSquare = nearest[size_nearest].distance;
 	}
@@ -68,7 +71,7 @@ void PhotonMap::locate_photons(Vector position, float dSquare,int p, Photon near
 void PhotonMap::generate(Photon photons[], Photon photonHeap[], int count, int currentPos) {
 	// add the rgb shit..
 	if(count)
-	if(count==0)//base case
+	if(count==1)//base case
 	{
 
 		photonHeap[currentPos].set_flag(-1);
@@ -112,12 +115,11 @@ void PhotonMap::generate(Photon photons[], Photon photonHeap[], int count, int c
 
 			sort(photons, sort_dim, count, 0, count);
 
-
 			Photon upper[count];
 			Photon lower[count];
 
 			int n=split(count);
-			int median= pow(2,n-2)+min(pow(2,n-2), count - (pow(2,n-1)-1));
+			int median= pow(2,n-2)+min_val(pow(2,n-2), count - (pow(2,n-1)-1));
 			//you cant just split by median if you are using a heap or the data wont fit
 			//for n != 2^n, so median here probably isnt the actual median
 			int count_upper = 0;
