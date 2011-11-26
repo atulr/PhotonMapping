@@ -44,9 +44,9 @@ start:	brlid	r15, main
 #	.type	main,@function
 #	.ent	main                    # @main
 main:
-#	.frame	r19,1300668,r15
+#	.frame	r19,1040752,r15
 #	.mask	0xfff88000
-	ADDI	r1,	r1,	-1300668
+	ADDI	r1,	r1,	-1040752
 	SWI	r15,	r1,	0
 	SWI	r19,	r1,	4
 	ADDK	r19,	r1,	r0
@@ -64,55 +64,58 @@ main:
 	SWI	r31,	r19,	8
 	ADD	r3,	r0,	r0
 	LOAD	r4,	r3,	1
-	SWI	r4,	r19,	1300596
+	SWI	r4,	r19,	1040668
 	LOAD	r4,	r3,	4
-	SWI	r4,	r19,	1300560
+	SWI	r4,	r19,	1040632
 	LOAD	r4,	r3,	7
-	SWI	r4,	r19,	1300608
+	SWI	r4,	r19,	1040680
 	LOAD	r4,	r3,	2
 	LOAD	r4,	r3,	5
 	LOAD	r4,	r3,	12
 	LOAD	r5,	r4,	0
+	SWI	r5,	r19,	1040684
 	LOAD	r5,	r4,	1
+	SWI	r5,	r19,	1040688
 	LOAD	r4,	r4,	2
+	SWI	r4,	r19,	1040692
 	LOAD	r4,	r3,	10
 	LOAD	r5,	r4,	0
-	SWI	r5,	r19,	1300524
+	SWI	r5,	r19,	1040596
 	LOAD	r5,	r4,	1
-	SWI	r5,	r19,	1300528
+	SWI	r5,	r19,	1040600
 	LOAD	r5,	r4,	2
-	SWI	r5,	r19,	1300536
+	SWI	r5,	r19,	1040608
 	ADDI	r5,	r4,	9
 	LOAD	r6,	r5,	0
 	LOAD	r6,	r5,	1
 	ADDI	r6,	r4,	12
 	LOAD	r5,	r5,	2
 	LOAD	r5,	r6,	0
-	SWI	r5,	r19,	1300612
+	SWI	r5,	r19,	1040696
 	LOAD	r5,	r6,	1
-	SWI	r5,	r19,	1300616
+	SWI	r5,	r19,	1040700
 	LOAD	r5,	r6,	2
-	SWI	r5,	r19,	1300620
+	SWI	r5,	r19,	1040704
 	ADDI	r5,	r4,	15
 	LOAD	r6,	r5,	0
-	SWI	r6,	r19,	1300624
+	SWI	r6,	r19,	1040708
 	LOAD	r6,	r5,	1
-	SWI	r6,	r19,	1300628
+	SWI	r6,	r19,	1040712
 	LOAD	r5,	r5,	2
-	SWI	r5,	r19,	1300632
+	SWI	r5,	r19,	1040716
 	ADDI	r4,	r4,	18
 	LOAD	r5,	r4,	0
-	SWI	r5,	r19,	1300636
+	SWI	r5,	r19,	1040720
 	LOAD	r5,	r4,	1
-	SWI	r5,	r19,	1300640
+	SWI	r5,	r19,	1040724
 	LOAD	r4,	r4,	2
-	SWI	r4,	r19,	1300644
+	SWI	r4,	r19,	1040728
 	LOAD	r4,	r3,	28
 	LOAD	r4,	r3,	29
-	ADDI	r4,	r19,	520184
+	ADDI	r4,	r19,	184
 	LOAD	r5,	r3,	8
-	SWI	r5,	r19,	1300508
-	ADDI	r5,	r0,	15000
+	SWI	r5,	r19,	1040580
+	ADDI	r5,	r0,	20000
 	ADD	r8,	r0,	r0
 $0BB0_1:
 	SWI	r0,	r4,	0
@@ -136,10 +139,10 @@ $0BB0_1:
 	ADDI	r1,	r1,	-4
 	ADDI	r4,	r0,	-8
 	BITAND	r3,	r1,	r4
-	ADDI	r3,	r3,	-780000
+	ADDI	r3,	r3,	-260000
 	ADD	r1,	r3,	r0
 	ADD	r4,	r0,	r0
-	ADDI	r5,	r0,	15000
+	ADDI	r5,	r0,	5000
 	ADDI	r1,	r1,	4
 	ADD	r8,	r0,	r0
 $0BB0_3:
@@ -162,22 +165,22 @@ $0BB0_3:
 	bneid	r6,	$0BB0_3
 	ADD	r3,	r7,	r0
 	ADD	r3,	r0,	r0
-	SWI	r3,	r19,	1300572
+	SWI	r3,	r19,	1040644
 	LOAD	r3,	r3,	12
 	LOAD	r4,	r3,	0
 	LOAD	r5,	r3,	1
 	LOAD	r3,	r3,	2
-	SWI	r4,	r19,	1300184
-	SWI	r5,	r19,	1300188
-	SWI	r3,	r19,	1300192
-	LWI	r3,	r19,	1300184
-	SWI	r3,	r19,	1300544
-	LWI	r3,	r19,	1300188
-	SWI	r3,	r19,	1300548
-	LWI	r3,	r19,	1300192
-	SWI	r3,	r19,	1300552
-	ADDI	r3,	r0,	15000
-	SWI	r3,	r19,	1300556
+	SWI	r4,	r19,	1040184
+	SWI	r5,	r19,	1040188
+	SWI	r3,	r19,	1040192
+	LWI	r3,	r19,	1040184
+	SWI	r3,	r19,	1040616
+	LWI	r3,	r19,	1040188
+	SWI	r3,	r19,	1040620
+	LWI	r3,	r19,	1040192
+	SWI	r3,	r19,	1040624
+	ADDI	r3,	r0,	5000
+	SWI	r3,	r19,	1040628
 	brid	$0BB0_131
 	NOP
 $0BB0_5:
@@ -188,37 +191,40 @@ $0BB0_5:
 	FPADD	r5,	r5,	r4
 	RAND	r6
 	FPADD	r3,	r3,	r3
-	SWI	r3,	r19,	1300480
 	FPADD	r5,	r5,	r5
-	SWI	r5,	r19,	1300476
 	FPADD	r4,	r6,	r4
 	FPADD	r4,	r4,	r4
-	SWI	r4,	r19,	1300472
-	FPMUL	r3,	r3,	r3
-	FPMUL	r5,	r5,	r5
-	FPADD	r3,	r3,	r5
-	FPMUL	r4,	r4,	r4
-	FPADD	r3,	r3,	r4
-	ORI	r4,	r0,	1065353216
-	ADDI	r5,	r0,	1
-	FPGT	r3,	r3,	r4
-	bneid	r3,	$0BB0_7
+	FPMUL	r6,	r3,	r3
+	FPMUL	r7,	r5,	r5
+	FPADD	r6,	r6,	r7
+	FPMUL	r7,	r4,	r4
+	FPADD	r6,	r6,	r7
+	ORI	r7,	r0,	1065353216
+	ADDI	r8,	r0,	1
+	FPGT	r7,	r6,	r7
+	bneid	r7,	$0BB0_7
 	NOP
-	ADDI	r5,	r0,	0
+	ADDI	r8,	r0,	0
 $0BB0_7:
-	bneid	r5,	$0BB0_5
+	bneid	r8,	$0BB0_5
 	NOP
-	LWI	r3,	r19,	1300472
-	SWI	r3,	r19,	1300392
-	LWI	r3,	r19,	1300476
-	SWI	r3,	r19,	1300388
-	LWI	r3,	r19,	1300480
-	SWI	r3,	r19,	1300384
+	FPINVSQRT	r6,	r6
+	ORI	r7,	r0,	1065353216
+	FPDIV	r6,	r7,	r6
+	FPDIV	r4,	r4,	r6
+	SWI	r4,	r19,	1040548
+	FPDIV	r5,	r5,	r6
+	SWI	r5,	r19,	1040552
+	FPDIV	r3,	r3,	r6
+	SWI	r3,	r19,	1040556
+	SWI	r4,	r19,	1040464
+	SWI	r5,	r19,	1040460
+	SWI	r3,	r19,	1040456
 	ADD	r3,	r0,	r0
 	ADDI	r4,	r0,	-1
-	SWI	r4,	r19,	1300468
+	SWI	r4,	r19,	1040540
 	ADDI	r4,	r0,	1343554297
-	SWI	r4,	r19,	1300488
+	SWI	r4,	r19,	1040560
 $0BB0_9:
 	ADDI	r4,	r0,	3
 	ANDI	r4,	r4,	31
@@ -229,7 +235,7 @@ $0BB0_10:
 	bneid	r4,	$0BB0_10
 	ADDK	r3,	r3,	r3
 $0BB0_11:
-	LWI	r4,	r19,	1300508
+	LWI	r4,	r19,	1040580
 	ADD	r4,	r3,	r4
 	LOAD	r3,	r4,	2
 	LOAD	r5,	r4,	1
@@ -237,10 +243,10 @@ $0BB0_11:
 	LOAD	r7,	r4,	5
 	LOAD	r8,	r4,	4
 	LOAD	r9,	r4,	3
-	LWI	r10,	r19,	1300492
+	LWI	r10,	r19,	1040564
 	FPRSUB	r6,	r10,	r6
 	FPRSUB	r9,	r10,	r9
-	LWI	r10,	r19,	1300480
+	LWI	r10,	r19,	1040556
 	FPDIV	r6,	r6,	r10
 	FPDIV	r9,	r9,	r10
 	FPGT	r10,	r6,	r9
@@ -294,10 +300,10 @@ $0BB0_27:
 $0BB0_30:
 	bneid	r11,	$0BB0_99
 	NOP
-	LWI	r9,	r19,	1300496
+	LWI	r9,	r19,	1040568
 	FPRSUB	r5,	r9,	r5
 	FPRSUB	r8,	r9,	r8
-	LWI	r9,	r19,	1300476
+	LWI	r9,	r19,	1040552
 	FPDIV	r5,	r5,	r9
 	FPDIV	r8,	r8,	r9
 	FPGT	r9,	r5,	r8
@@ -349,10 +355,10 @@ $0BB0_47:
 $0BB0_50:
 	bneid	r8,	$0BB0_99
 	NOP
-	LWI	r6,	r19,	1300500
+	LWI	r6,	r19,	1040572
 	FPRSUB	r3,	r6,	r3
 	FPRSUB	r6,	r6,	r7
-	LWI	r7,	r19,	1300472
+	LWI	r7,	r19,	1040548
 	FPDIV	r3,	r3,	r7
 	FPDIV	r6,	r6,	r7
 	FPGT	r7,	r3,	r6
@@ -406,13 +412,13 @@ $0BB0_70:
 	NOP
 	LOAD	r3,	r4,	7
 	LOAD	r4,	r4,	6
-	SWI	r4,	r19,	1300484
+	SWI	r4,	r19,	1040544
 	ADD	r5,	r0,	r0
 	CMP	r4,	r5,	r4
 	bltid	r4,	$0BB0_103
 	NOP
 	ADD	r4,	r0,	r0
-	LWI	r5,	r19,	1300484
+	LWI	r5,	r19,	1040544
 	CMP	r4,	r4,	r5
 	bleid	r4,	$0BB0_99
 	NOP
@@ -427,22 +433,22 @@ $0BB0_73:
 	LOAD	r11,	r3,	7
 	LOAD	r12,	r3,	6
 	FPRSUB	r7,	r10,	r7
-	SWI	r7,	r19,	1300504
+	SWI	r7,	r19,	1040576
 	FPRSUB	r8,	r11,	r8
 	FPRSUB	r9,	r12,	r9
-	LWI	r20,	r19,	1300476
+	LWI	r20,	r19,	1040552
 	FPMUL	r21,	r20,	r7
-	LWI	r22,	r19,	1300472
+	LWI	r22,	r19,	1040548
 	FPMUL	r23,	r8,	r22
 	FPRSUB	r6,	r12,	r6
 	LOAD	r24,	r3,	10
 	FPRSUB	r21,	r23,	r21
 	FPMUL	r22,	r9,	r22
-	LWI	r23,	r19,	1300480
+	LWI	r23,	r19,	1040556
 	FPMUL	r25,	r23,	r7
 	FPRSUB	r4,	r10,	r4
 	FPRSUB	r5,	r11,	r5
-	LWI	r26,	r19,	1300492
+	LWI	r26,	r19,	1040564
 	FPRSUB	r12,	r12,	r26
 	FPRSUB	r22,	r25,	r22
 	FPMUL	r23,	r8,	r23
@@ -451,7 +457,7 @@ $0BB0_73:
 	ORI	r26,	r0,	0
 	ADD	r27,	r0,	r0
 	LOAD	r28,	r3,	9
-	LWI	r28,	r19,	1300496
+	LWI	r28,	r19,	1040568
 	FPRSUB	r11,	r11,	r28
 	FPMUL	r21,	r21,	r12
 	FPRSUB	r20,	r20,	r23
@@ -463,7 +469,7 @@ $0BB0_73:
 	FPMUL	r7,	r6,	r7
 	MULI	r24,	r24,	25
 	LOAD	r27,	r27,	9
-	LWI	r31,	r19,	1300500
+	LWI	r31,	r19,	1040572
 	FPRSUB	r10,	r10,	r31
 	FPRSUB	r28,	r29,	r28
 	FPRSUB	r7,	r7,	r30
@@ -516,14 +522,14 @@ $0BB0_78:
 	FPRSUB	r4,	r4,	r10
 	FPMUL	r5,	r5,	r12
 	FPMUL	r6,	r6,	r11
-	LWI	r10,	r19,	1300480
+	LWI	r10,	r19,	1040556
 	FPMUL	r10,	r7,	r10
 	ORI	r11,	r0,	0
 	FPRSUB	r5,	r6,	r5
-	LWI	r6,	r19,	1300476
+	LWI	r6,	r19,	1040552
 	FPMUL	r6,	r4,	r6
 	FPADD	r10,	r10,	r11
-	LWI	r12,	r19,	1300472
+	LWI	r12,	r19,	1040548
 	FPMUL	r12,	r5,	r12
 	FPADD	r6,	r6,	r10
 	FPADD	r6,	r12,	r6
@@ -550,7 +556,7 @@ $0BB0_84:
 	ORI	r7,	r0,	0
 	FPMUL	r4,	r4,	r8
 	FPADD	r6,	r6,	r7
-	LWI	r8,	r19,	1300504
+	LWI	r8,	r19,	1040576
 	FPMUL	r5,	r5,	r8
 	FPADD	r4,	r4,	r6
 	FPADD	r4,	r5,	r4
@@ -582,9 +588,9 @@ $0BB0_90:
 $0BB0_93:
 	bneid	r6,	$0BB0_98
 	NOP
-	LWI	r5,	r19,	1300488
-	SWI	r5,	r19,	1300396
-	LWI	r5,	r19,	1300396
+	LWI	r5,	r19,	1040560
+	SWI	r5,	r19,	1040468
+	LWI	r5,	r19,	1040468
 	FPUN	r6,	r5,	r4
 	FPLE	r5,	r5,	r4
 	BITOR	r5,	r6,	r5
@@ -605,7 +611,7 @@ $0BB0_96:
 	LOAD	r20,	r3,	6
 	LOAD	r21,	r3,	10
 	LOAD	r22,	r3,	9
-	SWI	r22,	r19,	1300516
+	SWI	r22,	r19,	1040588
 	ADD	r22,	r0,	r0
 	MULI	r21,	r21,	25
 	LOAD	r22,	r22,	9
@@ -613,29 +619,29 @@ $0BB0_96:
 	LOAD	r22,	r21,	6
 	LOAD	r23,	r21,	5
 	LOAD	r21,	r21,	4
-	SWI	r22,	r19,	1300440
-	SWI	r23,	r19,	1300444
-	SWI	r21,	r19,	1300448
-	SWI	r11,	r19,	1300428
-	SWI	r12,	r19,	1300432
-	SWI	r20,	r19,	1300436
-	SWI	r8,	r19,	1300416
-	SWI	r9,	r19,	1300420
-	SWI	r10,	r19,	1300424
-	SWI	r5,	r19,	1300404
-	SWI	r6,	r19,	1300408
-	SWI	r7,	r19,	1300412
-	SWI	r4,	r19,	1300400
+	SWI	r22,	r19,	1040512
+	SWI	r23,	r19,	1040516
+	SWI	r21,	r19,	1040520
+	SWI	r11,	r19,	1040500
+	SWI	r12,	r19,	1040504
+	SWI	r20,	r19,	1040508
+	SWI	r8,	r19,	1040488
+	SWI	r9,	r19,	1040492
+	SWI	r10,	r19,	1040496
+	SWI	r5,	r19,	1040476
+	SWI	r6,	r19,	1040480
+	SWI	r7,	r19,	1040484
+	SWI	r4,	r19,	1040472
 	ADDI	r4,	r0,	1060320051
-	SWI	r4,	r19,	1300512
+	SWI	r4,	r19,	1040584
 	ADDI	r4,	r0,	1050253722
-	SWI	r4,	r19,	1300520
-	LWI	r4,	r19,	1300400
-	SWI	r4,	r19,	1300488
+	SWI	r4,	r19,	1040592
+	LWI	r4,	r19,	1040472
+	SWI	r4,	r19,	1040560
 $0BB0_98:
-	LWI	r4,	r19,	1300484
+	LWI	r4,	r19,	1040544
 	ADDI	r4,	r4,	-1
-	SWI	r4,	r19,	1300484
+	SWI	r4,	r19,	1040544
 	ADDI	r3,	r3,	11
 	ADD	r5,	r0,	r0
 	CMP	r4,	r5,	r4
@@ -643,13 +649,13 @@ $0BB0_98:
 	NOP
 $0BB0_99:
 	ADD	r3,	r0,	r0
-	LWI	r4,	r19,	1300468
+	LWI	r4,	r19,	1040540
 	CMP	r3,	r3,	r4
 	bltid	r3,	$0BB0_106
 	NOP
 	ADDI	r3,	r0,	2
 	ANDI	r3,	r3,	31
-	LWI	r4,	r19,	1300468
+	LWI	r4,	r19,	1040540
 	beqid	r3,	$0BB0_102
 	ADDI	r4,	r4,	0
 $0BB0_101:
@@ -659,15 +665,15 @@ $0BB0_101:
 $0BB0_102:
 	ADDI	r3,	r19,	56
 	LW	r3,	r3,	r4
-	LWI	r4,	r19,	1300468
+	LWI	r4,	r19,	1040540
 	ADDI	r4,	r4,	-1
-	SWI	r4,	r19,	1300468
+	SWI	r4,	r19,	1040540
 	brid	$0BB0_9
 	NOP
 $0BB0_103:
 	ADDI	r4,	r0,	2
 	ANDI	r4,	r4,	31
-	LWI	r5,	r19,	1300468
+	LWI	r5,	r19,	1040540
 	beqid	r4,	$0BB0_105
 	ADDI	r5,	r5,	0
 $0BB0_104:
@@ -676,17 +682,17 @@ $0BB0_104:
 	ADDK	r5,	r5,	r5
 $0BB0_105:
 	ADDI	r4,	r19,	56
-	LWI	r6,	r19,	1300468
+	LWI	r6,	r19,	1040540
 	ADDI	r6,	r6,	1
-	SWI	r6,	r19,	1300468
+	SWI	r6,	r19,	1040540
 	ADDI	r6,	r3,	1
 	ADD	r4,	r4,	r5
 	brid	$0BB0_9
 	SWI	r6,	r4,	4
 $0BB0_106:
-	LWI	r3,	r19,	1300488
-	SWI	r3,	r19,	1300452
-	LWI	r3,	r19,	1300452
+	LWI	r3,	r19,	1040560
+	SWI	r3,	r19,	1040524
+	LWI	r3,	r19,	1040524
 	ORI	r4,	r0,	1343554297
 	FPUN	r5,	r3,	r4
 	FPGE	r4,	r3,	r4
@@ -699,7 +705,7 @@ $0BB0_108:
 	NOP
 	ADDI	r4,	r0,	2
 	ANDI	r5,	r4,	31
-	LWI	r6,	r19,	1300540
+	LWI	r6,	r19,	1040612
 	beqid	r5,	$0BB0_111
 	ADDI	r6,	r6,	0
 $0BB0_110:
@@ -708,7 +714,7 @@ $0BB0_110:
 	ADDK	r6,	r6,	r6
 $0BB0_111:
 	ANDI	r5,	r4,	31
-	LWI	r7,	r19,	1300540
+	LWI	r7,	r19,	1040612
 	beqid	r5,	$0BB0_113
 	ADDI	r7,	r7,	0
 $0BB0_112:
@@ -717,7 +723,7 @@ $0BB0_112:
 	ADDK	r7,	r7,	r7
 $0BB0_113:
 	ANDI	r5,	r4,	31
-	LWI	r8,	r19,	1300540
+	LWI	r8,	r19,	1040612
 	beqid	r5,	$0BB0_115
 	ADDI	r8,	r8,	0
 $0BB0_114:
@@ -725,12 +731,12 @@ $0BB0_114:
 	bneid	r5,	$0BB0_114
 	ADDK	r8,	r8,	r8
 $0BB0_115:
-	LWI	r5,	r19,	1300480
+	LWI	r5,	r19,	1040556
 	FPMUL	r5,	r5,	r3
-	ADDI	r9,	r19,	520184
+	ADDI	r9,	r19,	184
 	SW	r5,	r9,	r7
 	ANDI	r7,	r4,	31
-	LWI	r10,	r19,	1300540
+	LWI	r10,	r19,	1040612
 	beqid	r7,	$0BB0_117
 	ADDI	r10,	r10,	0
 $0BB0_116:
@@ -738,12 +744,12 @@ $0BB0_116:
 	bneid	r7,	$0BB0_116
 	ADDK	r10,	r10,	r10
 $0BB0_117:
-	LWI	r7,	r19,	1300476
+	LWI	r7,	r19,	1040552
 	FPMUL	r7,	r7,	r3
 	ADD	r6,	r9,	r6
 	SWI	r7,	r6,	4
 	ANDI	r6,	r4,	31
-	LWI	r11,	r19,	1300540
+	LWI	r11,	r19,	1040612
 	beqid	r6,	$0BB0_119
 	ADDI	r11,	r11,	0
 $0BB0_118:
@@ -751,12 +757,12 @@ $0BB0_118:
 	bneid	r6,	$0BB0_118
 	ADDK	r11,	r11,	r11
 $0BB0_119:
-	LWI	r6,	r19,	1300472
+	LWI	r6,	r19,	1040548
 	FPMUL	r3,	r6,	r3
 	ADD	r6,	r9,	r8
 	SWI	r3,	r6,	8
 	ANDI	r6,	r4,	31
-	LWI	r8,	r19,	1300540
+	LWI	r8,	r19,	1040612
 	beqid	r6,	$0BB0_121
 	ADDI	r8,	r8,	0
 $0BB0_120:
@@ -767,7 +773,7 @@ $0BB0_121:
 	ADD	r6,	r9,	r10
 	SWI	r0,	r6,	12
 	ANDI	r6,	r4,	31
-	LWI	r10,	r19,	1300540
+	LWI	r10,	r19,	1040612
 	beqid	r6,	$0BB0_123
 	ADDI	r10,	r10,	0
 $0BB0_122:
@@ -778,7 +784,7 @@ $0BB0_123:
 	ADD	r6,	r9,	r11
 	SWI	r0,	r6,	16
 	ANDI	r6,	r4,	31
-	LWI	r11,	r19,	1300540
+	LWI	r11,	r19,	1040612
 	beqid	r6,	$0BB0_125
 	ADDI	r11,	r11,	0
 $0BB0_124:
@@ -788,11 +794,11 @@ $0BB0_124:
 $0BB0_125:
 	ADD	r6,	r9,	r8
 	SWI	r0,	r6,	20
-	SWI	r5,	r19,	1300456
-	SWI	r7,	r19,	1300460
-	SWI	r3,	r19,	1300464
+	SWI	r5,	r19,	1040528
+	SWI	r7,	r19,	1040532
+	SWI	r3,	r19,	1040536
 	ANDI	r3,	r4,	31
-	LWI	r4,	r19,	1300540
+	LWI	r4,	r19,	1040612
 	beqid	r3,	$0BB0_127
 	ADDI	r4,	r4,	0
 $0BB0_126:
@@ -802,131 +808,131 @@ $0BB0_126:
 $0BB0_127:
 	ADD	r3,	r9,	r10
 	ADD	r5,	r9,	r11
-	LWI	r6,	r19,	1300512
+	LWI	r6,	r19,	1040584
 	SWI	r6,	r3,	24
-	LWI	r3,	r19,	1300456
-	SWI	r3,	r19,	1300544
-	LWI	r3,	r19,	1300460
-	SWI	r3,	r19,	1300548
-	LWI	r3,	r19,	1300464
-	SWI	r3,	r19,	1300552
-	LWI	r3,	r19,	1300572
+	LWI	r3,	r19,	1040528
+	SWI	r3,	r19,	1040616
+	LWI	r3,	r19,	1040532
+	SWI	r3,	r19,	1040620
+	LWI	r3,	r19,	1040536
+	SWI	r3,	r19,	1040624
+	LWI	r3,	r19,	1040644
 	ADDI	r3,	r3,	1
-	SWI	r3,	r19,	1300572
+	SWI	r3,	r19,	1040644
 	ADD	r3,	r9,	r4
 	SWI	r6,	r5,	28
 	SWI	r6,	r3,	32
 $0BB0_128:
-	LWI	r3,	r19,	1300544
-	SWI	r3,	r19,	1300196
-	LWI	r3,	r19,	1300548
-	SWI	r3,	r19,	1300200
-	LWI	r3,	r19,	1300552
-	SWI	r3,	r19,	1300204
-	LWI	r3,	r19,	1300572
+	LWI	r3,	r19,	1040616
+	SWI	r3,	r19,	1040196
+	LWI	r3,	r19,	1040620
+	SWI	r3,	r19,	1040200
+	LWI	r3,	r19,	1040624
+	SWI	r3,	r19,	1040204
+	LWI	r3,	r19,	1040644
 	MULI	r3,	r3,	13
-	SWI	r3,	r19,	1300540
-	LWI	r3,	r19,	1300196
-	SWI	r3,	r19,	1300492
-	LWI	r3,	r19,	1300200
-	SWI	r3,	r19,	1300496
-	LWI	r3,	r19,	1300204
-	SWI	r3,	r19,	1300500
+	SWI	r3,	r19,	1040612
+	LWI	r3,	r19,	1040196
+	SWI	r3,	r19,	1040564
+	LWI	r3,	r19,	1040200
+	SWI	r3,	r19,	1040568
+	LWI	r3,	r19,	1040204
+	SWI	r3,	r19,	1040572
 $0BB0_129:
-	LWI	r3,	r19,	1300532
-	ADDI	r4,	r0,	3
+	LWI	r3,	r19,	1040604
+	ADDI	r4,	r0,	6
 	ADDI	r5,	r3,	1
-	SWI	r5,	r19,	1300532
+	SWI	r5,	r19,	1040604
 	CMP	r3,	r4,	r3
 	bltid	r3,	$0BB0_5
 	NOP
-	LWI	r3,	r19,	1300556
+	LWI	r3,	r19,	1040628
 	ADDI	r3,	r3,	-1
-	SWI	r3,	r19,	1300556
+	SWI	r3,	r19,	1040628
 	ADD	r4,	r0,	r0
 	CMP	r3,	r4,	r3
 	beqid	r3,	$0BB0_132
 	NOP
 $0BB0_131:
 	ADD	r3,	r0,	r0
-	SWI	r3,	r19,	1300532
+	SWI	r3,	r19,	1040604
 	brid	$0BB0_128
 	NOP
 $0BB0_132:
-	LWI	r3,	r19,	1300596
+	LWI	r3,	r19,	1040668
 	FPCONV	r4,	r3
-	SWI	r4,	r19,	1300600
-	LWI	r4,	r19,	1300560
+	SWI	r4,	r19,	1040672
+	LWI	r4,	r19,	1040632
 	FPCONV	r5,	r4
-	SWI	r5,	r19,	1300604
+	SWI	r5,	r19,	1040676
 	ORI	r5,	r0,	-1073741824
 	MUL	r3,	r4,	r3
-	SWI	r3,	r19,	1300664
+	SWI	r3,	r19,	1040748
 	ATOMIC_INC	r4,	0
 	CMP	r3,	r4,	r3
-	bleid	r3,	$0BB0_277
+	bleid	r3,	$0BB0_390
 	NOP
-	LWI	r3,	r19,	1300600
+	LWI	r3,	r19,	1040672
 	FPDIV	r3,	r3,	r5
-	SWI	r3,	r19,	1300648
-	LWI	r3,	r19,	1300604
+	SWI	r3,	r19,	1040732
+	LWI	r3,	r19,	1040676
 	FPDIV	r3,	r3,	r5
-	SWI	r3,	r19,	1300652
-	ADDI	r3,	r19,	520184
-	LWI	r5,	r19,	1300536
-	SWI	r5,	r19,	1300216
-	LWI	r5,	r19,	1300528
-	SWI	r5,	r19,	1300212
-	LWI	r5,	r19,	1300524
-	SWI	r5,	r19,	1300208
+	SWI	r3,	r19,	1040736
+	ADDI	r3,	r19,	184
+	LWI	r5,	r19,	1040608
+	SWI	r5,	r19,	1040216
+	LWI	r5,	r19,	1040600
+	SWI	r5,	r19,	1040212
+	LWI	r5,	r19,	1040596
+	SWI	r5,	r19,	1040208
 	ADD	r5,	r0,	r0
-	SWI	r5,	r19,	1300580
-	LWI	r5,	r19,	1300216
-	SWI	r5,	r19,	1300656
+	SWI	r5,	r19,	1040652
+	LWI	r5,	r19,	1040216
+	SWI	r5,	r19,	1040740
 	ADDI	r3,	r3,	32
-	SWI	r3,	r19,	1300660
+	SWI	r3,	r19,	1040744
 $0BB0_134:
-	LWI	r3,	r19,	1300596
+	LWI	r3,	r19,	1040668
 	DIV	r5,	r3,	r4
 	MUL	r3,	r5,	r3
-	SWI	r3,	r19,	1300584
+	SWI	r3,	r19,	1040656
 	RSUB	r4,	r3,	r4
-	SWI	r4,	r19,	1300588
+	SWI	r4,	r19,	1040660
 	FPCONV	r3,	r5
 	FPCONV	r4,	r4
-	LWI	r5,	r19,	1300652
+	LWI	r5,	r19,	1040736
 	FPADD	r3,	r3,	r5
 	ORI	r5,	r0,	1056964608
-	LWI	r6,	r19,	1300648
+	LWI	r6,	r19,	1040732
 	FPADD	r4,	r4,	r6
 	FPADD	r3,	r3,	r5
 	FPADD	r4,	r4,	r5
 	FPADD	r3,	r3,	r3
 	FPADD	r4,	r4,	r4
-	LWI	r5,	r19,	1300604
+	LWI	r5,	r19,	1040676
 	FPDIV	r3,	r3,	r5
-	LWI	r5,	r19,	1300600
+	LWI	r5,	r19,	1040672
 	FPDIV	r4,	r4,	r5
-	LWI	r5,	r19,	1300640
+	LWI	r5,	r19,	1040724
 	FPMUL	r5,	r5,	r3
-	LWI	r6,	r19,	1300628
+	LWI	r6,	r19,	1040712
 	FPMUL	r6,	r6,	r4
-	LWI	r7,	r19,	1300636
+	LWI	r7,	r19,	1040720
 	FPMUL	r7,	r7,	r3
-	LWI	r8,	r19,	1300624
+	LWI	r8,	r19,	1040708
 	FPMUL	r8,	r8,	r4
-	LWI	r9,	r19,	1300632
+	LWI	r9,	r19,	1040716
 	FPMUL	r4,	r9,	r4
-	LWI	r9,	r19,	1300644
+	LWI	r9,	r19,	1040728
 	FPMUL	r3,	r9,	r3
 	FPADD	r5,	r5,	r6
 	FPADD	r6,	r7,	r8
-	LWI	r7,	r19,	1300616
+	LWI	r7,	r19,	1040700
 	FPADD	r5,	r5,	r7
-	LWI	r7,	r19,	1300612
+	LWI	r7,	r19,	1040696
 	FPADD	r6,	r6,	r7
 	FPADD	r4,	r4,	r3
-	LWI	r3,	r19,	1300620
+	LWI	r3,	r19,	1040704
 	FPADD	r4,	r3,	r4
 	FPMUL	r3,	r6,	r6
 	FPMUL	r7,	r5,	r5
@@ -937,37 +943,37 @@ $0BB0_134:
 	ORI	r7,	r0,	1065353216
 	FPDIV	r3,	r7,	r3
 	FPDIV	r4,	r4,	r3
-	SWI	r4,	r19,	1300228
+	SWI	r4,	r19,	1040228
 	FPDIV	r4,	r5,	r3
-	SWI	r4,	r19,	1300480
+	SWI	r4,	r19,	1040556
 	FPDIV	r3,	r6,	r3
-	SWI	r3,	r19,	1300476
-	LWI	r5,	r19,	1300228
-	LWI	r6,	r19,	1300580
+	SWI	r3,	r19,	1040552
+	LWI	r5,	r19,	1040228
+	LWI	r6,	r19,	1040652
 	BITOR	r5,	r6,	r5
-	SWI	r5,	r19,	1300592
-	SWI	r4,	r19,	1300224
-	SWI	r3,	r19,	1300220
-	SWI	r5,	r19,	1300232
+	SWI	r5,	r19,	1040664
+	SWI	r4,	r19,	1040224
+	SWI	r3,	r19,	1040220
+	SWI	r5,	r19,	1040232
 	ADD	r4,	r0,	r0
-	SWI	r4,	r19,	1300496
-	LWI	r3,	r19,	1300232
-	SWI	r3,	r19,	1300484
+	SWI	r4,	r19,	1040592
+	LWI	r3,	r19,	1040232
+	SWI	r3,	r19,	1040560
 	ADDI	r3,	r0,	-1
-	SWI	r3,	r19,	1300468
+	SWI	r3,	r19,	1040544
 	ADDI	r3,	r0,	1343554297
-	SWI	r3,	r19,	1300488
-	SWI	r4,	r19,	1300532
-	SWI	r4,	r19,	1300540
-	SWI	r4,	r19,	1300500
-	SWI	r4,	r19,	1300504
-	SWI	r4,	r19,	1300512
-	SWI	r4,	r19,	1300520
-	SWI	r4,	r19,	1300544
-	SWI	r4,	r19,	1300548
-	SWI	r4,	r19,	1300516
-	SWI	r4,	r19,	1300552
-	SWI	r4,	r19,	1300556
+	SWI	r3,	r19,	1040540
+	SWI	r4,	r19,	1040584
+	SWI	r4,	r19,	1040588
+	SWI	r4,	r19,	1040568
+	SWI	r4,	r19,	1040576
+	SWI	r4,	r19,	1040572
+	SWI	r4,	r19,	1040612
+	SWI	r4,	r19,	1040604
+	SWI	r4,	r19,	1040616
+	SWI	r4,	r19,	1040624
+	SWI	r4,	r19,	1040620
+	SWI	r4,	r19,	1040628
 $0BB0_135:
 	ADDI	r3,	r0,	3
 	ANDI	r3,	r3,	31
@@ -978,7 +984,7 @@ $0BB0_136:
 	bneid	r3,	$0BB0_136
 	ADDK	r4,	r4,	r4
 $0BB0_137:
-	LWI	r3,	r19,	1300508
+	LWI	r3,	r19,	1040580
 	ADD	r3,	r4,	r3
 	LOAD	r4,	r3,	2
 	LOAD	r5,	r3,	1
@@ -986,10 +992,10 @@ $0BB0_137:
 	LOAD	r7,	r3,	5
 	LOAD	r8,	r3,	4
 	LOAD	r9,	r3,	3
-	LWI	r10,	r19,	1300524
+	LWI	r10,	r19,	1040596
 	FPRSUB	r6,	r10,	r6
 	FPRSUB	r9,	r10,	r9
-	LWI	r10,	r19,	1300476
+	LWI	r10,	r19,	1040552
 	FPDIV	r6,	r6,	r10
 	FPDIV	r9,	r9,	r10
 	FPGT	r10,	r6,	r9
@@ -1043,10 +1049,10 @@ $0BB0_153:
 $0BB0_156:
 	bneid	r11,	$0BB0_225
 	NOP
-	LWI	r9,	r19,	1300528
+	LWI	r9,	r19,	1040600
 	FPRSUB	r5,	r9,	r5
 	FPRSUB	r8,	r9,	r8
-	LWI	r9,	r19,	1300480
+	LWI	r9,	r19,	1040556
 	FPDIV	r5,	r5,	r9
 	FPDIV	r8,	r8,	r9
 	FPGT	r9,	r5,	r8
@@ -1098,10 +1104,10 @@ $0BB0_173:
 $0BB0_176:
 	bneid	r8,	$0BB0_225
 	NOP
-	LWI	r6,	r19,	1300536
+	LWI	r6,	r19,	1040608
 	FPRSUB	r4,	r6,	r4
 	FPRSUB	r6,	r6,	r7
-	LWI	r7,	r19,	1300484
+	LWI	r7,	r19,	1040560
 	FPDIV	r4,	r4,	r7
 	FPDIV	r6,	r6,	r7
 	FPGT	r7,	r4,	r6
@@ -1155,13 +1161,13 @@ $0BB0_196:
 	NOP
 	LOAD	r4,	r3,	7
 	LOAD	r3,	r3,	6
-	SWI	r3,	r19,	1300472
+	SWI	r3,	r19,	1040548
 	ADD	r5,	r0,	r0
 	CMP	r3,	r5,	r3
 	bltid	r3,	$0BB0_229
 	NOP
 	ADD	r3,	r0,	r0
-	LWI	r5,	r19,	1300472
+	LWI	r5,	r19,	1040548
 	CMP	r3,	r3,	r5
 	bleid	r3,	$0BB0_225
 	NOP
@@ -1176,22 +1182,22 @@ $0BB0_199:
 	LOAD	r11,	r4,	7
 	LOAD	r12,	r4,	6
 	FPRSUB	r7,	r10,	r7
-	SWI	r7,	r19,	1300492
+	SWI	r7,	r19,	1040564
 	FPRSUB	r8,	r11,	r8
 	FPRSUB	r9,	r12,	r9
-	LWI	r20,	r19,	1300480
+	LWI	r20,	r19,	1040556
 	FPMUL	r21,	r20,	r7
-	LWI	r22,	r19,	1300484
+	LWI	r22,	r19,	1040560
 	FPMUL	r23,	r8,	r22
 	FPRSUB	r6,	r12,	r6
 	LOAD	r24,	r4,	10
 	FPRSUB	r21,	r23,	r21
 	FPMUL	r22,	r9,	r22
-	LWI	r23,	r19,	1300476
+	LWI	r23,	r19,	1040552
 	FPMUL	r25,	r23,	r7
 	FPRSUB	r3,	r10,	r3
 	FPRSUB	r5,	r11,	r5
-	LWI	r26,	r19,	1300524
+	LWI	r26,	r19,	1040596
 	FPRSUB	r12,	r12,	r26
 	FPRSUB	r22,	r25,	r22
 	FPMUL	r23,	r8,	r23
@@ -1200,7 +1206,7 @@ $0BB0_199:
 	ORI	r26,	r0,	0
 	ADD	r27,	r0,	r0
 	LOAD	r28,	r4,	9
-	LWI	r28,	r19,	1300528
+	LWI	r28,	r19,	1040600
 	FPRSUB	r11,	r11,	r28
 	FPMUL	r21,	r21,	r12
 	FPRSUB	r20,	r20,	r23
@@ -1212,7 +1218,7 @@ $0BB0_199:
 	FPMUL	r7,	r6,	r7
 	MULI	r24,	r24,	25
 	LOAD	r27,	r27,	9
-	LWI	r31,	r19,	1300536
+	LWI	r31,	r19,	1040608
 	FPRSUB	r10,	r10,	r31
 	FPRSUB	r28,	r29,	r28
 	FPRSUB	r7,	r7,	r30
@@ -1265,14 +1271,14 @@ $0BB0_204:
 	FPRSUB	r3,	r3,	r10
 	FPMUL	r5,	r5,	r12
 	FPMUL	r6,	r6,	r11
-	LWI	r10,	r19,	1300476
+	LWI	r10,	r19,	1040552
 	FPMUL	r10,	r7,	r10
 	ORI	r11,	r0,	0
 	FPRSUB	r5,	r6,	r5
-	LWI	r6,	r19,	1300480
+	LWI	r6,	r19,	1040556
 	FPMUL	r6,	r3,	r6
 	FPADD	r10,	r10,	r11
-	LWI	r12,	r19,	1300484
+	LWI	r12,	r19,	1040560
 	FPMUL	r12,	r5,	r12
 	FPADD	r6,	r6,	r10
 	FPADD	r6,	r12,	r6
@@ -1299,7 +1305,7 @@ $0BB0_210:
 	ORI	r7,	r0,	0
 	FPMUL	r3,	r3,	r8
 	FPADD	r6,	r6,	r7
-	LWI	r8,	r19,	1300492
+	LWI	r8,	r19,	1040564
 	FPMUL	r5,	r5,	r8
 	FPADD	r3,	r3,	r6
 	FPADD	r3,	r5,	r3
@@ -1331,9 +1337,9 @@ $0BB0_216:
 $0BB0_219:
 	bneid	r6,	$0BB0_224
 	NOP
-	LWI	r5,	r19,	1300488
-	SWI	r5,	r19,	1300236
-	LWI	r5,	r19,	1300236
+	LWI	r5,	r19,	1040540
+	SWI	r5,	r19,	1040236
+	LWI	r5,	r19,	1040236
 	FPUN	r6,	r5,	r3
 	FPLE	r5,	r5,	r3
 	BITOR	r5,	r6,	r5
@@ -1354,7 +1360,7 @@ $0BB0_222:
 	LOAD	r20,	r4,	6
 	LOAD	r21,	r4,	10
 	LOAD	r22,	r4,	9
-	SWI	r22,	r19,	1300560
+	SWI	r22,	r19,	1040640
 	ADD	r22,	r0,	r0
 	MULI	r21,	r21,	25
 	LOAD	r22,	r22,	9
@@ -1362,53 +1368,53 @@ $0BB0_222:
 	LOAD	r22,	r21,	6
 	LOAD	r23,	r21,	5
 	LOAD	r21,	r21,	4
-	SWI	r22,	r19,	1300280
-	SWI	r23,	r19,	1300284
-	SWI	r21,	r19,	1300288
-	SWI	r11,	r19,	1300268
-	SWI	r12,	r19,	1300272
-	SWI	r20,	r19,	1300276
-	SWI	r8,	r19,	1300256
-	SWI	r9,	r19,	1300260
-	SWI	r10,	r19,	1300264
-	SWI	r5,	r19,	1300244
-	SWI	r6,	r19,	1300248
-	SWI	r7,	r19,	1300252
-	SWI	r3,	r19,	1300240
+	SWI	r22,	r19,	1040280
+	SWI	r23,	r19,	1040284
+	SWI	r21,	r19,	1040288
+	SWI	r11,	r19,	1040268
+	SWI	r12,	r19,	1040272
+	SWI	r20,	r19,	1040276
+	SWI	r8,	r19,	1040256
+	SWI	r9,	r19,	1040260
+	SWI	r10,	r19,	1040264
+	SWI	r5,	r19,	1040244
+	SWI	r6,	r19,	1040248
+	SWI	r7,	r19,	1040252
+	SWI	r3,	r19,	1040240
 	ADDI	r3,	r0,	1060320051
-	SWI	r3,	r19,	1300564
+	SWI	r3,	r19,	1040632
 	ADDI	r3,	r0,	1050253722
-	SWI	r3,	r19,	1300568
-	LWI	r3,	r19,	1300280
-	SWI	r3,	r19,	1300496
-	LWI	r5,	r19,	1300284
-	SWI	r5,	r19,	1300532
-	LWI	r5,	r19,	1300288
-	SWI	r5,	r19,	1300540
-	LWI	r20,	r19,	1300268
-	SWI	r20,	r19,	1300500
-	LWI	r20,	r19,	1300272
-	SWI	r20,	r19,	1300504
-	LWI	r20,	r19,	1300276
-	SWI	r20,	r19,	1300512
-	LWI	r5,	r19,	1300256
-	SWI	r5,	r19,	1300520
-	LWI	r5,	r19,	1300260
-	SWI	r5,	r19,	1300544
-	LWI	r5,	r19,	1300264
-	SWI	r5,	r19,	1300548
-	LWI	r5,	r19,	1300244
-	SWI	r5,	r19,	1300516
-	LWI	r5,	r19,	1300248
-	SWI	r5,	r19,	1300552
-	LWI	r5,	r19,	1300252
-	SWI	r5,	r19,	1300556
-	LWI	r3,	r19,	1300240
-	SWI	r3,	r19,	1300488
+	SWI	r3,	r19,	1040636
+	LWI	r3,	r19,	1040280
+	SWI	r3,	r19,	1040592
+	LWI	r5,	r19,	1040284
+	SWI	r5,	r19,	1040584
+	LWI	r5,	r19,	1040288
+	SWI	r5,	r19,	1040588
+	LWI	r5,	r19,	1040268
+	SWI	r5,	r19,	1040568
+	LWI	r5,	r19,	1040272
+	SWI	r5,	r19,	1040576
+	LWI	r5,	r19,	1040276
+	SWI	r5,	r19,	1040572
+	LWI	r5,	r19,	1040256
+	SWI	r5,	r19,	1040612
+	LWI	r5,	r19,	1040260
+	SWI	r5,	r19,	1040604
+	LWI	r5,	r19,	1040264
+	SWI	r5,	r19,	1040616
+	LWI	r5,	r19,	1040244
+	SWI	r5,	r19,	1040624
+	LWI	r5,	r19,	1040248
+	SWI	r5,	r19,	1040620
+	LWI	r5,	r19,	1040252
+	SWI	r5,	r19,	1040628
+	LWI	r3,	r19,	1040240
+	SWI	r3,	r19,	1040540
 $0BB0_224:
-	LWI	r3,	r19,	1300472
+	LWI	r3,	r19,	1040548
 	ADDI	r3,	r3,	-1
-	SWI	r3,	r19,	1300472
+	SWI	r3,	r19,	1040548
 	ADDI	r4,	r4,	11
 	ADD	r5,	r0,	r0
 	CMP	r3,	r5,	r3
@@ -1416,13 +1422,13 @@ $0BB0_224:
 	NOP
 $0BB0_225:
 	ADD	r4,	r0,	r0
-	LWI	r3,	r19,	1300468
+	LWI	r3,	r19,	1040544
 	CMP	r4,	r4,	r3
 	bltid	r4,	$0BB0_232
 	NOP
 	ADDI	r4,	r0,	2
 	ANDI	r4,	r4,	31
-	LWI	r3,	r19,	1300468
+	LWI	r3,	r19,	1040544
 	beqid	r4,	$0BB0_228
 	ADDI	r3,	r3,	0
 $0BB0_227:
@@ -1432,15 +1438,15 @@ $0BB0_227:
 $0BB0_228:
 	ADDI	r4,	r19,	56
 	LW	r4,	r4,	r3
-	LWI	r3,	r19,	1300468
+	LWI	r3,	r19,	1040544
 	ADDI	r3,	r3,	-1
-	SWI	r3,	r19,	1300468
+	SWI	r3,	r19,	1040544
 	brid	$0BB0_135
 	NOP
 $0BB0_229:
 	ADDI	r3,	r0,	2
 	ANDI	r3,	r3,	31
-	LWI	r5,	r19,	1300468
+	LWI	r5,	r19,	1040544
 	beqid	r3,	$0BB0_231
 	ADDI	r5,	r5,	0
 $0BB0_230:
@@ -1449,246 +1455,841 @@ $0BB0_230:
 	ADDK	r5,	r5,	r5
 $0BB0_231:
 	ADDI	r3,	r19,	56
-	LWI	r6,	r19,	1300468
+	LWI	r6,	r19,	1040544
 	ADDI	r6,	r6,	1
-	SWI	r6,	r19,	1300468
+	SWI	r6,	r19,	1040544
 	ADDI	r6,	r4,	1
 	ADD	r3,	r3,	r5
 	brid	$0BB0_135
 	SWI	r6,	r3,	4
 $0BB0_232:
-	LWI	r4,	r19,	1300488
-	SWI	r4,	r19,	1300316
-	LWI	r4,	r19,	1300316
+	LWI	r4,	r19,	1040540
+	SWI	r4,	r19,	1040292
+	LWI	r4,	r19,	1040292
 	ORI	r3,	r0,	1343554297
-	LWI	r5,	r19,	1300556
-	SWI	r5,	r19,	1300312
-	LWI	r5,	r19,	1300552
-	SWI	r5,	r19,	1300308
-	LWI	r5,	r19,	1300548
-	SWI	r5,	r19,	1300304
-	LWI	r5,	r19,	1300544
-	SWI	r5,	r19,	1300300
-	LWI	r5,	r19,	1300540
-	SWI	r5,	r19,	1300296
-	LWI	r5,	r19,	1300532
-	SWI	r5,	r19,	1300292
-	LWI	r5,	r19,	1300312
-	LWI	r6,	r19,	1300308
-	LWI	r7,	r19,	1300304
-	LWI	r8,	r19,	1300300
-	LWI	r9,	r19,	1300296
-	SWI	r9,	r19,	1300468
-	LWI	r9,	r19,	1300292
-	SWI	r9,	r19,	1300472
-	ORI	r9,	r0,	1057988018
-	ORI	r10,	r0,	1060806590
-	ORI	r11,	r0,	1065151889
-	FPUN	r12,	r4,	r3
+	ORI	r5,	r0,	1057988018
+	ORI	r6,	r0,	1060806590
+	ORI	r7,	r0,	1065151889
+	FPUN	r8,	r4,	r3
 	FPGE	r3,	r4,	r3
-	BITOR	r3,	r12,	r3
+	BITOR	r3,	r8,	r3
 	bneid	r3,	$0BB0_234
-	ADDI	r20,	r0,	1
-	ADDI	r20,	r0,	0
+	ADDI	r9,	r0,	1
+	ADDI	r9,	r0,	0
 $0BB0_234:
+	bneid	r9,	$0BB0_374
+	NOP
+	LWI	r5,	r19,	1040624
+	SWI	r5,	r19,	1040348
+	LWI	r5,	r19,	1040612
+	SWI	r5,	r19,	1040336
+	LWI	r5,	r19,	1040568
+	SWI	r5,	r19,	1040324
+	LWI	r5,	r19,	1040576
+	SWI	r5,	r19,	1040328
+	LWI	r5,	r19,	1040628
+	SWI	r5,	r19,	1040356
+	LWI	r5,	r19,	1040616
+	SWI	r5,	r19,	1040344
+	LWI	r5,	r19,	1040572
+	SWI	r5,	r19,	1040332
+	LWI	r5,	r19,	1040620
+	SWI	r5,	r19,	1040352
+	LWI	r5,	r19,	1040604
+	SWI	r5,	r19,	1040340
+	LWI	r5,	r19,	1040348
+	LWI	r6,	r19,	1040336
+	LWI	r7,	r19,	1040324
+	LWI	r3,	r19,	1040328
+	LWI	r8,	r19,	1040340
+	LWI	r9,	r19,	1040352
+	LWI	r10,	r19,	1040356
+	LWI	r11,	r19,	1040344
+	LWI	r12,	r19,	1040332
+	FPRSUB	r5,	r6,	r5
+	FPRSUB	r3,	r3,	r8
+	FPRSUB	r10,	r11,	r10
+	FPRSUB	r6,	r7,	r6
+	FPRSUB	r7,	r12,	r11
+	FPRSUB	r8,	r8,	r9
+	FPMUL	r9,	r8,	r6
+	FPMUL	r11,	r3,	r5
+	FPMUL	r5,	r7,	r5
+	FPMUL	r6,	r10,	r6
+	FPRSUB	r9,	r11,	r9
+	FPRSUB	r5,	r6,	r5
+	FPMUL	r6,	r3,	r10
+	FPMUL	r7,	r7,	r8
+	LWI	r3,	r19,	1040664
+	SWI	r3,	r19,	1040300
+	FPRSUB	r6,	r7,	r6
+	FPMUL	r7,	r9,	r9
+	FPMUL	r3,	r5,	r5
+	LWI	r8,	r19,	1040300
+	LWI	r10,	r19,	1040552
+	FPMUL	r11,	r10,	r10
+	LWI	r12,	r19,	1040556
+	FPMUL	r20,	r12,	r12
+	FPADD	r7,	r7,	r3
+	FPMUL	r3,	r6,	r6
+	FPADD	r7,	r7,	r3
+	FPADD	r3,	r11,	r20
+	FPMUL	r11,	r8,	r8
+	FPADD	r3,	r3,	r11
+	FPINVSQRT	r7,	r7
+	ORI	r11,	r0,	1065353216
+	FPINVSQRT	r3,	r3
+	FPDIV	r3,	r11,	r3
+	FPDIV	r7,	r11,	r7
+	FPDIV	r9,	r9,	r7
+	FPDIV	r11,	r10,	r3
+	FPDIV	r5,	r5,	r7
+	FPDIV	r20,	r12,	r3
+	FPMUL	r11,	r11,	r9
+	ORI	r21,	r0,	0
+	FPDIV	r6,	r6,	r7
+	FPDIV	r7,	r8,	r3
+	FPMUL	r3,	r20,	r5
+	FPADD	r11,	r11,	r21
+	LWI	r20,	r19,	1040740
+	SWI	r20,	r19,	1040316
+	FPMUL	r8,	r8,	r4
+	FPMUL	r12,	r12,	r4
+	FPMUL	r4,	r10,	r4
+	FPMUL	r7,	r7,	r6
+	FPADD	r3,	r3,	r11
+	FPADD	r7,	r7,	r3
+	LWI	r3,	r19,	1040636
+	SWI	r3,	r19,	1040304
+	LWI	r3,	r19,	1040632
+	SWI	r3,	r19,	1040296
+	LWI	r3,	r19,	1040316
+	SWI	r8,	r19,	1040320
+	SWI	r12,	r19,	1040312
+	SWI	r4,	r19,	1040308
+	SWI	r6,	r19,	1040368
+	SWI	r5,	r19,	1040364
+	SWI	r9,	r19,	1040360
+	LWI	r10,	r19,	1040364
+	SWI	r10,	r19,	1040616
+	LWI	r10,	r19,	1040360
+	LWI	r11,	r19,	1040368
+	LWI	r20,	r19,	1040304
+	LWI	r22,	r19,	1040296
+	SWI	r22,	r19,	1040624
+	FPUN	r22,	r7,	r21
+	FPLE	r7,	r7,	r21
+	BITOR	r7,	r22,	r7
+	bneid	r7,	$0BB0_237
+	ADDI	r21,	r0,	1
+	ADDI	r21,	r0,	0
+$0BB0_237:
+	LWI	r7,	r19,	1040596
+	FPADD	r4,	r4,	r7
+	SWI	r4,	r19,	1040564
+	LWI	r4,	r19,	1040600
+	FPADD	r4,	r12,	r4
+	SWI	r4,	r19,	1040568
+	FPADD	r4,	r3,	r8
+	SWI	r4,	r19,	1040572
+	beqid	r21,	$0BB0_239
+	NOP
+	SWI	r10,	r19,	1040620
+	LWI	r5,	r19,	1040616
+	brid	$0BB0_240
+	NOP
+$0BB0_239:
+	SWI	r6,	r19,	1040380
+	SWI	r5,	r19,	1040376
+	SWI	r9,	r19,	1040372
+	LWI	r5,	r19,	1040380
+	LWI	r4,	r19,	1040376
+	LWI	r6,	r19,	1040372
+	XORI	r4,	r4,	2147483648
+	SWI	r4,	r19,	1040616
+	XORI	r10,	r6,	2147483648
+	XORI	r11,	r5,	2147483648
+	SWI	r10,	r19,	1040620
+	ADD	r5,	r4,	r0
+$0BB0_240:
+	LWI	r6,	r19,	1040564
+	LWI	r4,	r19,	1040684
+	FPRSUB	r4,	r6,	r4
+	LWI	r7,	r19,	1040568
+	LWI	r6,	r19,	1040688
+	FPRSUB	r6,	r7,	r6
+	LWI	r3,	r19,	1040572
+	LWI	r7,	r19,	1040692
+	FPRSUB	r7,	r3,	r7
+	FPMUL	r3,	r4,	r4
+	FPMUL	r8,	r6,	r6
+	FPADD	r3,	r3,	r8
+	FPMUL	r8,	r7,	r7
+	FPADD	r3,	r3,	r8
+	ORI	r8,	r0,	1065353216
+	FPINVSQRT	r9,	r3
+	FPDIV	r8,	r8,	r9
+	SWI	r10,	r19,	1040384
+	SWI	r5,	r19,	1040388
+	FPDIV	r4,	r4,	r8
+	SWI	r4,	r19,	1040552
+	LWI	r5,	r19,	1040384
+	SWI	r11,	r19,	1040392
+	FPDIV	r6,	r6,	r8
+	SWI	r6,	r19,	1040556
+	LWI	r9,	r19,	1040388
+	FPMUL	r4,	r4,	r5
+	ORI	r5,	r0,	0
+	FPDIV	r7,	r7,	r8
+	SWI	r7,	r19,	1040560
+	LWI	r8,	r19,	1040392
+	SWI	r8,	r19,	1040604
+	FPMUL	r6,	r6,	r9
+	FPADD	r4,	r4,	r5
+	FPMUL	r7,	r7,	r8
+	FPADD	r4,	r6,	r4
+	FPADD	r4,	r7,	r4
+	SWI	r4,	r19,	1040664
+	FPUN	r6,	r4,	r5
+	FPLE	r4,	r4,	r5
+	BITOR	r4,	r6,	r4
+	bneid	r4,	$0BB0_242
+	ADDI	r7,	r0,	1
+	ADDI	r7,	r0,	0
+$0BB0_242:
+	FPMUL	r4,	r20,	r5
+	SWI	r4,	r19,	1040612
+	beqid	r7,	$0BB0_244
+	NOP
+	LWI	r3,	r19,	1040612
+	SWI	r3,	r19,	1040540
+	brid	$0BB0_350
+	NOP
+$0BB0_244:
+	ADD	r4,	r0,	r0
+	ADDI	r5,	r0,	-1
+	SWI	r5,	r19,	1040544
+	FPINVSQRT	r5,	r3
+	SWI	r5,	r19,	1040628
+$0BB0_245:
+	ADDI	r5,	r0,	3
+	ANDI	r5,	r5,	31
+	beqid	r5,	$0BB0_247
+	ADDI	r4,	r4,	0
+$0BB0_246:
+	ADDI	r5,	r5,	-1
+	bneid	r5,	$0BB0_246
+	ADDK	r4,	r4,	r4
+$0BB0_247:
+	LWI	r5,	r19,	1040580
+	ADD	r5,	r4,	r5
+	LOAD	r4,	r5,	2
+	LOAD	r6,	r5,	1
+	LOAD	r7,	r5,	0
+	LOAD	r3,	r5,	5
+	LOAD	r8,	r5,	4
+	LOAD	r9,	r5,	3
+	LWI	r10,	r19,	1040564
+	FPRSUB	r7,	r10,	r7
+	FPRSUB	r9,	r10,	r9
+	LWI	r10,	r19,	1040552
+	FPDIV	r7,	r7,	r10
+	FPDIV	r9,	r9,	r10
+	FPGT	r10,	r7,	r9
+	ADDI	r11,	r0,	1
+	ADDI	r12,	r0,	0
+	bneid	r10,	$0BB0_249
+	ADD	r20,	r11,	r0
+	ADD	r20,	r12,	r0
+$0BB0_249:
+	bneid	r20,	$0BB0_251
+	ADD	r10,	r9,	r0
+	ADD	r10,	r7,	r0
+$0BB0_251:
+	ORI	r21,	r0,	-803929351
+	bneid	r20,	$0BB0_253
+	NOP
+	ADD	r7,	r9,	r0
+$0BB0_253:
+	ORI	r9,	r0,	1343554297
+	FPGT	r20,	r10,	r21
+	FPLT	r22,	r7,	r9
+	bneid	r20,	$0BB0_255
+	ADD	r23,	r11,	r0
+	ADD	r23,	r12,	r0
+$0BB0_255:
+	bneid	r22,	$0BB0_257
+	ADD	r20,	r11,	r0
+	ADD	r20,	r12,	r0
+$0BB0_257:
+	bneid	r23,	$0BB0_259
+	NOP
+	ADD	r10,	r21,	r0
+$0BB0_259:
 	bneid	r20,	$0BB0_261
 	NOP
-	ADD	r9,	r0,	r0
-	ADDI	r10,	r19,	184
-	ADDI	r11,	r0,	10000
-$0BB0_236:
-	SWI	r0,	r10,	0
-	SWI	r0,	r10,	4
-	SWI	r0,	r10,	8
-	SWI	r0,	r10,	12
-	SWI	r0,	r10,	16
-	SWI	r0,	r10,	20
-	ADDI	r3,	r0,	1065353216
-	SWI	r3,	r10,	24
-	ADDI	r12,	r0,	-1
-	ADDK	r11,	r11,	r12
-	ADDKC	r9,	r9,	r12
-	ADDI	r12,	r10,	52
-	SWI	r3,	r10,	28
-	ADD	r20,	r0,	r0
-	BITOR	r21,	r11,	r9
-	SWI	r3,	r10,	32
-	CMP	r3,	r20,	r21
-	bneid	r3,	$0BB0_236
-	ADD	r10,	r12,	r0
-	LWI	r9,	r19,	1300516
-	SWI	r9,	r19,	1300356
-	LWI	r9,	r19,	1300520
-	SWI	r9,	r19,	1300348
-	SWI	r9,	r19,	1300352
-	LWI	r9,	r19,	1300500
-	SWI	r9,	r19,	1300340
-	LWI	r9,	r19,	1300504
-	SWI	r9,	r19,	1300344
-	LWI	r9,	r19,	1300512
-	SWI	r9,	r19,	1300360
-	LWI	r9,	r19,	1300356
-	LWI	r10,	r19,	1300348
-	LWI	r11,	r19,	1300352
-	LWI	r3,	r19,	1300340
-	LWI	r12,	r19,	1300344
-	LWI	r20,	r19,	1300360
-	FPRSUB	r9,	r10,	r9
-	FPRSUB	r10,	r12,	r8
-	FPRSUB	r5,	r7,	r5
-	FPRSUB	r11,	r3,	r11
-	FPRSUB	r3,	r20,	r7
-	FPRSUB	r6,	r8,	r6
-	FPMUL	r7,	r6,	r11
-	FPMUL	r8,	r10,	r9
-	FPMUL	r9,	r3,	r9
-	FPMUL	r11,	r5,	r11
-	FPRSUB	r7,	r8,	r7
-	FPRSUB	r9,	r11,	r9
-	FPMUL	r10,	r10,	r5
-	FPMUL	r11,	r3,	r6
-	FPRSUB	r10,	r11,	r10
-	FPMUL	r11,	r7,	r7
-	FPMUL	r3,	r9,	r9
-	LWI	r5,	r19,	1300592
-	SWI	r5,	r19,	1300320
-	FPADD	r11,	r11,	r3
-	FPMUL	r3,	r10,	r10
-	FPADD	r11,	r11,	r3
-	LWI	r3,	r19,	1300320
-	LWI	r5,	r19,	1300656
-	SWI	r5,	r19,	1300332
-	FPMUL	r3,	r3,	r4
-	LWI	r5,	r19,	1300480
-	FPMUL	r5,	r5,	r4
-	LWI	r6,	r19,	1300476
-	FPMUL	r4,	r6,	r4
-	ORI	r6,	r0,	1065353216
-	FPINVSQRT	r8,	r11
-	LWI	r12,	r19,	1300332
-	SWI	r3,	r19,	1300336
-	SWI	r5,	r19,	1300328
-	SWI	r4,	r19,	1300324
-	ORI	r11,	r0,	0
-	ADDI	r20,	r0,	1
-	LWI	r21,	r19,	1300572
-	CMP	r20,	r20,	r21
-	bgeid	r20,	$0BB0_239
+	ADD	r7,	r9,	r0
+$0BB0_261:
+	FPGT	r9,	r10,	r7
+	bneid	r9,	$0BB0_263
 	NOP
-	ADD	r9,	r11,	r0
-	brid	$0BB0_261
-	ADD	r10,	r11,	r0
-$0BB0_239:
-	FPDIV	r6,	r6,	r8
-	LWI	r8,	r19,	1300524
-	FPADD	r4,	r4,	r8
-	SWI	r4,	r19,	1300476
-	LWI	r4,	r19,	1300528
-	FPADD	r20,	r5,	r4
-	FPADD	r21,	r12,	r3
-	FPDIV	r22,	r10,	r6
-	FPDIV	r23,	r9,	r6
-	FPDIV	r24,	r7,	r6
-	LWI	r25,	r19,	1300660
-	LWI	r26,	r19,	1300580
-	LWI	r27,	r19,	1300572
-	ADD	r10,	r11,	r0
-	ADD	r9,	r11,	r0
-$0BB0_240:
-	LWI	r4,	r25,	-28
-	LWI	r3,	r25,	-32
-	LWI	r5,	r19,	1300476
-	FPRSUB	r5,	r3,	r5
-	SWI	r4,	r19,	1300364
-	SWI	r3,	r19,	1300368
-	LWI	r6,	r25,	-24
-	FPMUL	r5,	r5,	r5
-	ORI	r7,	r0,	1060320051
+	ADD	r11,	r12,	r0
+$0BB0_263:
+	bneid	r11,	$0BB0_335
+	NOP
+	ORI	r9,	r0,	0
+	ADDI	r11,	r0,	1
+	FPLT	r9,	r7,	r9
+	bneid	r9,	$0BB0_266
+	NOP
+	ADDI	r11,	r0,	0
+$0BB0_266:
+	bneid	r11,	$0BB0_335
+	NOP
+	LWI	r9,	r19,	1040568
+	FPRSUB	r6,	r9,	r6
+	FPRSUB	r8,	r9,	r8
+	LWI	r9,	r19,	1040556
+	FPDIV	r6,	r6,	r9
+	FPDIV	r8,	r8,	r9
+	FPGT	r9,	r6,	r8
+	ADDI	r11,	r0,	1
+	ADDI	r12,	r0,	0
+	bneid	r9,	$0BB0_269
+	ADD	r20,	r11,	r0
+	ADD	r20,	r12,	r0
+$0BB0_269:
+	bneid	r20,	$0BB0_271
+	ADD	r9,	r8,	r0
+	ADD	r9,	r6,	r0
+$0BB0_271:
+	bneid	r20,	$0BB0_273
+	NOP
+	ADD	r6,	r8,	r0
+$0BB0_273:
+	FPGT	r8,	r9,	r10
+	FPLT	r20,	r6,	r7
+	bneid	r8,	$0BB0_275
+	ADD	r21,	r11,	r0
+	ADD	r21,	r12,	r0
+$0BB0_275:
+	bneid	r20,	$0BB0_277
+	ADD	r8,	r11,	r0
+	ADD	r8,	r12,	r0
+$0BB0_277:
+	bneid	r21,	$0BB0_279
+	NOP
+	ADD	r9,	r10,	r0
+$0BB0_279:
+	bneid	r8,	$0BB0_281
+	NOP
+	ADD	r6,	r7,	r0
+$0BB0_281:
+	FPGT	r7,	r9,	r6
+	bneid	r7,	$0BB0_283
+	NOP
+	ADD	r11,	r12,	r0
+$0BB0_283:
+	bneid	r11,	$0BB0_335
+	NOP
+	ORI	r7,	r0,	0
 	ADDI	r8,	r0,	1
-	FPGT	r7,	r5,	r7
-	bneid	r7,	$0BB0_242
+	FPLT	r7,	r6,	r7
+	bneid	r7,	$0BB0_286
 	NOP
 	ADDI	r8,	r0,	0
-$0BB0_242:
-	bneid	r8,	$0BB0_254
+$0BB0_286:
+	bneid	r8,	$0BB0_335
 	NOP
-	FPRSUB	r7,	r4,	r20
-	FPMUL	r7,	r7,	r7
-	FPADD	r5,	r7,	r5
-	ORI	r7,	r0,	1060320051
+	LWI	r7,	r19,	1040572
+	FPRSUB	r4,	r7,	r4
+	FPRSUB	r7,	r7,	r3
+	LWI	r3,	r19,	1040560
+	FPDIV	r4,	r4,	r3
+	FPDIV	r7,	r7,	r3
+	FPGT	r3,	r4,	r7
 	ADDI	r8,	r0,	1
-	FPGT	r7,	r5,	r7
-	bneid	r7,	$0BB0_245
+	ADDI	r10,	r0,	0
+	bneid	r3,	$0BB0_289
+	ADD	r11,	r8,	r0
+	ADD	r11,	r10,	r0
+$0BB0_289:
+	bneid	r11,	$0BB0_291
+	ADD	r3,	r7,	r0
+	ADD	r3,	r4,	r0
+$0BB0_291:
+	bneid	r11,	$0BB0_293
 	NOP
-	ADDI	r8,	r0,	0
-$0BB0_245:
-	bneid	r8,	$0BB0_254
+	ADD	r4,	r7,	r0
+$0BB0_293:
+	FPGT	r7,	r3,	r9
+	FPLT	r11,	r4,	r6
+	bneid	r7,	$0BB0_295
+	ADD	r12,	r8,	r0
+	ADD	r12,	r10,	r0
+$0BB0_295:
+	bneid	r11,	$0BB0_297
+	ADD	r7,	r8,	r0
+	ADD	r7,	r10,	r0
+$0BB0_297:
+	bneid	r7,	$0BB0_299
 	NOP
-	SWI	r6,	r19,	1300372
-	LWI	r7,	r19,	1300372
-	FPRSUB	r7,	r7,	r21
-	FPMUL	r7,	r7,	r7
-	FPADD	r28,	r7,	r5
-	ORI	r5,	r0,	1060320051
+	ADD	r4,	r6,	r0
+$0BB0_299:
+	bneid	r12,	$0BB0_301
+	NOP
+	ADD	r3,	r9,	r0
+$0BB0_301:
+	FPGT	r6,	r3,	r4
+	bneid	r6,	$0BB0_303
+	NOP
+	ADD	r8,	r10,	r0
+$0BB0_303:
+	bneid	r8,	$0BB0_335
+	NOP
+	ORI	r6,	r0,	0
 	ADDI	r7,	r0,	1
-	FPGT	r5,	r28,	r5
-	bneid	r5,	$0BB0_248
+	FPLT	r4,	r4,	r6
+	bneid	r4,	$0BB0_306
 	NOP
 	ADDI	r7,	r0,	0
-$0BB0_248:
-	bneid	r7,	$0BB0_254
+$0BB0_306:
+	bneid	r7,	$0BB0_335
+	NOP
+	LOAD	r4,	r5,	7
+	LOAD	r5,	r5,	6
+	SWI	r5,	r19,	1040548
+	ADD	r6,	r0,	r0
+	CMP	r5,	r6,	r5
+	bltid	r5,	$0BB0_339
+	NOP
+	ADD	r5,	r0,	r0
+	LWI	r6,	r19,	1040548
+	CMP	r5,	r5,	r6
+	bleid	r5,	$0BB0_335
+	NOP
+$0BB0_309:
+	LOAD	r5,	r4,	2
+	LOAD	r6,	r4,	1
+	LOAD	r7,	r4,	0
+	LOAD	r3,	r4,	5
+	LOAD	r8,	r4,	4
+	LOAD	r9,	r4,	3
+	LOAD	r10,	r4,	8
+	LOAD	r11,	r4,	7
+	LOAD	r12,	r4,	6
+	FPRSUB	r3,	r10,	r3
+	SWI	r3,	r19,	1040576
+	FPRSUB	r8,	r11,	r8
+	FPRSUB	r9,	r12,	r9
+	LWI	r20,	r19,	1040556
+	FPMUL	r21,	r20,	r3
+	LWI	r22,	r19,	1040560
+	FPMUL	r23,	r8,	r22
+	FPRSUB	r7,	r12,	r7
+	LOAD	r24,	r4,	10
+	FPRSUB	r21,	r23,	r21
+	FPMUL	r22,	r9,	r22
+	LWI	r23,	r19,	1040552
+	FPMUL	r25,	r23,	r3
+	FPRSUB	r5,	r10,	r5
+	FPRSUB	r6,	r11,	r6
+	LWI	r26,	r19,	1040564
+	FPRSUB	r12,	r12,	r26
+	FPRSUB	r22,	r25,	r22
+	FPMUL	r23,	r8,	r23
+	FPMUL	r20,	r9,	r20
+	FPMUL	r25,	r21,	r7
+	ORI	r26,	r0,	0
+	ADD	r27,	r0,	r0
+	LOAD	r28,	r4,	9
+	LWI	r28,	r19,	1040568
+	FPRSUB	r11,	r11,	r28
+	FPMUL	r21,	r21,	r12
+	FPRSUB	r20,	r20,	r23
+	FPMUL	r23,	r22,	r6
+	FPADD	r25,	r25,	r26
+	FPMUL	r28,	r6,	r3
+	FPMUL	r29,	r8,	r5
+	FPMUL	r30,	r9,	r5
+	FPMUL	r3,	r7,	r3
+	MULI	r24,	r24,	25
+	LOAD	r27,	r27,	9
+	LWI	r31,	r19,	1040572
+	FPRSUB	r10,	r10,	r31
+	FPRSUB	r28,	r29,	r28
+	FPRSUB	r3,	r3,	r30
+	ADD	r24,	r27,	r24
+	FPMUL	r22,	r22,	r11
+	FPADD	r21,	r21,	r26
+	FPMUL	r27,	r20,	r5
+	FPADD	r23,	r23,	r25
+	FPMUL	r25,	r8,	r7
+	FPMUL	r29,	r9,	r6
+	FPRSUB	r25,	r29,	r25
+	LOAD	r29,	r24,	6
+	FPMUL	r20,	r20,	r10
+	FPADD	r21,	r22,	r21
+	ORI	r22,	r0,	1065353216
+	FPADD	r23,	r27,	r23
+	FPMUL	r27,	r28,	r28
+	FPMUL	r3,	r3,	r3
+	FPDIV	r22,	r22,	r23
+	FPADD	r20,	r20,	r21
+	LOAD	r21,	r24,	5
+	FPADD	r3,	r27,	r3
+	FPMUL	r21,	r25,	r25
+	FPMUL	r20,	r20,	r22
+	FPADD	r3,	r3,	r21
+	LOAD	r21,	r24,	4
+	ADDI	r21,	r0,	1
+	FPLT	r23,	r20,	r26
+	FPINVSQRT	r3,	r3
+	bneid	r23,	$0BB0_311
+	NOP
+	ADDI	r21,	r0,	0
+$0BB0_311:
+	bneid	r21,	$0BB0_334
+	NOP
+	ORI	r3,	r0,	1065353216
+	ADDI	r21,	r0,	1
+	FPGT	r3,	r20,	r3
+	bneid	r3,	$0BB0_314
+	NOP
+	ADDI	r21,	r0,	0
+$0BB0_314:
+	bneid	r21,	$0BB0_334
+	NOP
+	FPMUL	r3,	r11,	r5
+	FPMUL	r21,	r6,	r10
+	FPRSUB	r3,	r21,	r3
+	FPMUL	r10,	r7,	r10
+	FPMUL	r5,	r12,	r5
+	FPRSUB	r5,	r5,	r10
+	FPMUL	r6,	r6,	r12
+	FPMUL	r7,	r7,	r11
+	LWI	r10,	r19,	1040552
+	FPMUL	r10,	r3,	r10
+	ORI	r11,	r0,	0
+	FPRSUB	r6,	r7,	r6
+	LWI	r7,	r19,	1040556
+	FPMUL	r7,	r5,	r7
+	FPADD	r10,	r10,	r11
+	LWI	r12,	r19,	1040560
+	FPMUL	r12,	r6,	r12
+	FPADD	r7,	r7,	r10
+	FPADD	r7,	r12,	r7
+	FPMUL	r7,	r7,	r22
+	ADDI	r10,	r0,	1
+	FPLT	r11,	r7,	r11
+	bneid	r11,	$0BB0_317
+	NOP
+	ADDI	r10,	r0,	0
+$0BB0_317:
+	bneid	r10,	$0BB0_334
+	NOP
+	FPADD	r7,	r7,	r20
+	ORI	r10,	r0,	1065353216
+	ADDI	r11,	r0,	1
+	FPGT	r7,	r7,	r10
+	bneid	r7,	$0BB0_320
+	NOP
+	ADDI	r11,	r0,	0
+$0BB0_320:
+	bneid	r11,	$0BB0_334
+	NOP
+	FPMUL	r7,	r3,	r9
+	ORI	r3,	r0,	0
+	FPMUL	r5,	r5,	r8
+	FPADD	r7,	r7,	r3
+	LWI	r8,	r19,	1040576
+	FPMUL	r6,	r6,	r8
+	FPADD	r5,	r5,	r7
+	FPADD	r5,	r6,	r5
+	FPMUL	r5,	r5,	r22
+	FPUN	r6,	r5,	r3
+	FPLE	r7,	r5,	r3
+	BITOR	r6,	r6,	r7
+	bneid	r6,	$0BB0_323
+	ADDI	r3,	r0,	1
+	ADDI	r3,	r0,	0
+$0BB0_323:
+	bneid	r3,	$0BB0_334
+	NOP
+	ORI	r6,	r0,	981668463
+	ADDI	r7,	r0,	1
+	FPLT	r6,	r5,	r6
+	bneid	r6,	$0BB0_326
+	NOP
+	ADDI	r7,	r0,	0
+$0BB0_326:
+	bneid	r7,	$0BB0_334
+	NOP
+	ORI	r6,	r0,	1343554297
+	ADDI	r7,	r0,	1
+	FPEQ	r6,	r5,	r6
+	bneid	r6,	$0BB0_329
+	NOP
+	ADDI	r7,	r0,	0
+$0BB0_329:
+	bneid	r7,	$0BB0_334
+	NOP
+	LWI	r6,	r19,	1040540
+	SWI	r6,	r19,	1040396
+	LWI	r6,	r19,	1040396
+	FPUN	r7,	r6,	r5
+	FPLE	r6,	r6,	r5
+	BITOR	r6,	r7,	r6
+	bneid	r6,	$0BB0_332
+	ADDI	r3,	r0,	1
+	ADDI	r3,	r0,	0
+$0BB0_332:
+	bneid	r3,	$0BB0_334
+	NOP
+	LOAD	r6,	r4,	2
+	LOAD	r6,	r4,	1
+	LOAD	r6,	r4,	0
+	LOAD	r6,	r4,	5
+	LOAD	r6,	r4,	4
+	LOAD	r6,	r4,	3
+	LOAD	r6,	r4,	8
+	LOAD	r6,	r4,	7
+	LOAD	r6,	r4,	6
+	LOAD	r6,	r4,	10
+	ADD	r7,	r0,	r0
+	LOAD	r3,	r4,	9
+	MULI	r6,	r6,	25
+	LOAD	r7,	r7,	9
+	ADD	r6,	r7,	r6
+	SWI	r5,	r19,	1040400
+	LOAD	r5,	r6,	6
+	LWI	r5,	r19,	1040400
+	SWI	r5,	r19,	1040540
+	LOAD	r5,	r6,	5
+	LOAD	r5,	r6,	4
+$0BB0_334:
+	LWI	r5,	r19,	1040548
+	ADDI	r5,	r5,	-1
+	SWI	r5,	r19,	1040548
+	ADDI	r4,	r4,	11
+	ADD	r6,	r0,	r0
+	CMP	r5,	r6,	r5
+	bneid	r5,	$0BB0_309
+	NOP
+$0BB0_335:
+	ADD	r4,	r0,	r0
+	LWI	r5,	r19,	1040544
+	CMP	r4,	r4,	r5
+	bltid	r4,	$0BB0_342
+	NOP
+	ADDI	r4,	r0,	2
+	ANDI	r4,	r4,	31
+	LWI	r5,	r19,	1040544
+	beqid	r4,	$0BB0_338
+	ADDI	r5,	r5,	0
+$0BB0_337:
+	ADDI	r4,	r4,	-1
+	bneid	r4,	$0BB0_337
+	ADDK	r5,	r5,	r5
+$0BB0_338:
+	ADDI	r4,	r19,	56
+	LW	r4,	r4,	r5
+	LWI	r5,	r19,	1040544
+	ADDI	r5,	r5,	-1
+	SWI	r5,	r19,	1040544
+	brid	$0BB0_245
+	NOP
+$0BB0_339:
+	ADDI	r5,	r0,	2
+	ANDI	r5,	r5,	31
+	LWI	r6,	r19,	1040544
+	beqid	r5,	$0BB0_341
+	ADDI	r6,	r6,	0
+$0BB0_340:
+	ADDI	r5,	r5,	-1
+	bneid	r5,	$0BB0_340
+	ADDK	r6,	r6,	r6
+$0BB0_341:
+	ADDI	r5,	r19,	56
+	LWI	r7,	r19,	1040544
+	ADDI	r7,	r7,	1
+	SWI	r7,	r19,	1040544
+	ADDI	r7,	r4,	1
+	ADD	r5,	r5,	r6
+	brid	$0BB0_245
+	SWI	r7,	r5,	4
+$0BB0_342:
+	LWI	r4,	r19,	1040540
+	SWI	r4,	r19,	1040404
+	ORI	r4,	r0,	1065353216
+	LWI	r5,	r19,	1040404
+	LWI	r6,	r19,	1040628
+	FPDIV	r4,	r4,	r6
+	FPUN	r6,	r5,	r4
+	FPGE	r4,	r5,	r4
+	BITOR	r4,	r6,	r4
+	bneid	r4,	$0BB0_344
+	ADDI	r7,	r0,	1
+	ADDI	r7,	r0,	0
+$0BB0_344:
+	bneid	r7,	$0BB0_349
+	NOP
+	ORI	r4,	r0,	1008981770
+	ADDI	r6,	r0,	1
+	FPGT	r4,	r5,	r4
+	bneid	r4,	$0BB0_347
+	NOP
+	ADDI	r6,	r0,	0
+$0BB0_347:
+	beqid	r6,	$0BB0_349
+	NOP
+	LWI	r4,	r19,	1040612
+	SWI	r4,	r19,	1040540
+	brid	$0BB0_350
+	NOP
+$0BB0_349:
+	LWI	r5,	r19,	1040664
+	LWI	r4,	r19,	1040624
+	FPMUL	r4,	r4,	r5
+	LWI	r5,	r19,	1040612
+	FPADD	r5,	r4,	r5
+	SWI	r5,	r19,	1040612
+	SWI	r4,	r19,	1040408
+	SWI	r5,	r19,	1040412
+	SWI	r5,	r19,	1040540
+$0BB0_350:
+	LWI	r4,	r19,	1040588
+	SWI	r4,	r19,	1040436
+	LWI	r4,	r19,	1040584
+	SWI	r4,	r19,	1040428
+	LWI	r4,	r19,	1040592
+	SWI	r4,	r19,	1040432
+	LWI	r20,	r19,	1040436
+	LWI	r21,	r19,	1040428
+	LWI	r5,	r19,	1040620
+	SWI	r5,	r19,	1040420
+	LWI	r5,	r19,	1040616
+	SWI	r5,	r19,	1040416
+	SWI	r4,	r19,	1040424
+	LWI	r4,	r19,	1040432
+	SWI	r4,	r19,	1040544
+	ORI	r4,	r0,	0
+	ADDI	r5,	r0,	1
+	LWI	r6,	r19,	1040644
+	CMP	r5,	r5,	r6
+	bgeid	r5,	$0BB0_352
+	NOP
+	ADD	r6,	r4,	r0
+	brid	$0BB0_368
+	ADD	r5,	r4,	r0
+$0BB0_352:
+	LWI	r22,	r19,	1040420
+	LWI	r23,	r19,	1040416
+	LWI	r24,	r19,	1040424
+	LWI	r25,	r19,	1040744
+	LWI	r26,	r19,	1040652
+	ADD	r27,	r6,	r0
+	ADD	r6,	r4,	r0
+	ADD	r5,	r4,	r0
+$0BB0_353:
+	LWI	r7,	r25,	-28
+	LWI	r3,	r25,	-32
+	LWI	r8,	r19,	1040564
+	FPRSUB	r8,	r3,	r8
+	SWI	r7,	r19,	1040440
+	SWI	r3,	r19,	1040444
+	LWI	r9,	r25,	-24
+	FPMUL	r8,	r8,	r8
+	ORI	r10,	r0,	1077936128
+	ADDI	r11,	r0,	1
+	FPGT	r10,	r8,	r10
+	bneid	r10,	$0BB0_355
+	NOP
+	ADDI	r11,	r0,	0
+$0BB0_355:
+	bneid	r11,	$0BB0_367
+	NOP
+	LWI	r10,	r19,	1040568
+	FPRSUB	r10,	r7,	r10
+	FPMUL	r10,	r10,	r10
+	FPADD	r8,	r10,	r8
+	ORI	r10,	r0,	1077936128
+	ADDI	r11,	r0,	1
+	FPGT	r10,	r8,	r10
+	bneid	r10,	$0BB0_358
+	NOP
+	ADDI	r11,	r0,	0
+$0BB0_358:
+	bneid	r11,	$0BB0_367
+	NOP
+	SWI	r9,	r19,	1040448
+	LWI	r10,	r19,	1040448
+	LWI	r11,	r19,	1040572
+	FPRSUB	r10,	r10,	r11
+	FPMUL	r10,	r10,	r10
+	FPADD	r28,	r10,	r8
+	ORI	r8,	r0,	1077936128
+	ADDI	r10,	r0,	1
+	FPGT	r8,	r28,	r8
+	bneid	r8,	$0BB0_361
+	NOP
+	ADDI	r10,	r0,	0
+$0BB0_361:
+	bneid	r10,	$0BB0_367
 	NOP
 	ADD	r29,	r0,	r0
-	BITOR	r9,	r6,	r29
-	SWI	r9,	r19,	1300376
-	FPMUL	r9,	r3,	r24
-	ORI	r10,	r0,	0
-	LWI	r11,	r19,	1300376
-	FPMUL	r4,	r4,	r23
-	FPADD	r9,	r9,	r10
-	FPMUL	r11,	r11,	r22
-	FPADD	r4,	r4,	r9
-	FPADD	r4,	r11,	r4
+	BITOR	r4,	r9,	r29
+	SWI	r4,	r19,	1040452
+	FPMUL	r4,	r3,	r22
+	ORI	r5,	r0,	0
+	LWI	r6,	r19,	1040452
+	FPMUL	r7,	r7,	r23
+	FPADD	r4,	r4,	r5
+	LWI	r3,	r19,	1040604
+	FPMUL	r6,	r6,	r3
+	FPADD	r4,	r7,	r4
+	FPADD	r4,	r6,	r4
 	FPNEG	r6,	r4
 	ADDI	r4,	r0,	1
-	FPLT	r9,	r6,	r10
-	bneid	r9,	$0BB0_251
+	FPLT	r5,	r6,	r5
+	bneid	r5,	$0BB0_364
 	NOP
 	ADDI	r4,	r0,	0
-$0BB0_251:
+$0BB0_364:
 	ADD	r30,	r0,	r0
-	bneid	r4,	$0BB0_253
+	bneid	r4,	$0BB0_366
 	ADD	r31,	r30,	r0
 	brlid	r15,	__extendsfdf2
 	ADDI	r1,	r1,	-8
 	ADDI	r1,	r1,	8
 	ADD	r30,	r3,	r0
 	ADD	r31,	r4,	r0
-$0BB0_253:
-	LWI	r4,	r19,	1300576
+$0BB0_366:
+	LWI	r4,	r19,	1040648
 	BITOR	r4,	r29,	r4
 	BITOR	r4,	r4,	r29
-	SWI	r4,	r19,	1300576
+	SWI	r4,	r19,	1040648
 	ORI	r4,	r0,	-1082130432
-	FPINVSQRT	r9,	r28
+	FPINVSQRT	r5,	r28
 	ADDI	r1,	r1,	-8
 	brlid	r15,	__extendsfdf2
-	FPDIV	r6,	r4,	r9
+	FPDIV	r6,	r4,	r5
 	ADDI	r1,	r1,	8
 	ADDI	r1,	r1,	-20
-	ADDI	r8,	r0,	1072693248
-	ADD	r28,	r0,	r0
+	ADDI	r28,	r0,	1072693248
+	ADD	r29,	r0,	r0
 	ADD	r6,	r3,	r0
 	ADD	r7,	r4,	r0
+	ADD	r8,	r28,	r0
 	brlid	r15,	__adddf3
-	ADD	r9,	r28,	r0
+	ADD	r9,	r29,	r0
 	ADDI	r1,	r1,	20
 	ADDI	r1,	r1,	-20
-	ADDI	r8,	r0,	1078525952
 	ADD	r6,	r3,	r0
 	ADD	r7,	r4,	r0
+	ADD	r8,	r28,	r0
 	brlid	r15,	__divdf3
-	ADD	r9,	r28,	r0
+	ADD	r9,	r29,	r0
 	ADDI	r1,	r1,	20
 	ADDI	r1,	r1,	-20
 	ADD	r6,	r30,	r0
@@ -1698,110 +2299,115 @@ $0BB0_253:
 	ADD	r9,	r4,	r0
 	ADDI	r1,	r1,	20
 	ADDI	r1,	r1,	-12
-	LWI	r9,	r19,	1300496
-	SWI	r9,	r19,	1300380
 	LWI	r28,	r25,	-8
 	ADD	r6,	r3,	r0
 	brlid	r15,	__truncdfsf2
 	ADD	r7,	r4,	r0
 	ADDI	r1,	r1,	12
 	LWI	r4,	r25,	-4
-	LWI	r9,	r25,	0
-	FPADD	r10,	r28,	r3
+	LWI	r5,	r25,	0
+	FPADD	r6,	r28,	r3
 	FPADD	r4,	r4,	r3
-	LWI	r11,	r19,	1300380
-	FPADD	r3,	r9,	r3
-	LWI	r9,	r19,	1300468
-	FPMUL	r9,	r9,	r10
-	LWI	r10,	r19,	1300472
-	FPMUL	r10,	r10,	r4
-	FPMUL	r11,	r11,	r3
-$0BB0_254:
-	ADDI	r4,	r0,	-1
-	ADDK	r27,	r27,	r4
-	ADDKC	r26,	r26,	r4
+	FPADD	r7,	r5,	r3
+	FPMUL	r5,	r20,	r6
+	FPMUL	r6,	r21,	r4
+	FPMUL	r4,	r7,	r24
+$0BB0_367:
+	ADDI	r7,	r0,	-1
+	ADDK	r27,	r27,	r7
+	ADDKC	r26,	r26,	r7
 	ADDI	r25,	r25,	52
-	ADD	r4,	r0,	r0
+	ADD	r7,	r0,	r0
 	BITOR	r3,	r27,	r26
-	CMP	r4,	r4,	r3
-	bneid	r4,	$0BB0_240
+	CMP	r7,	r7,	r3
+	bneid	r7,	$0BB0_353
 	NOP
+$0BB0_368:
+	LWI	r7,	r19,	1040540
+	FPMUL	r7,	r20,	r7
+	FPMUL	r5,	r5,	r7
+	ORI	r3,	r0,	0
+	ADDI	r8,	r0,	1
+	FPLT	r7,	r5,	r3
+	bneid	r7,	$0BB0_370
+	NOP
+	ADDI	r8,	r0,	0
+$0BB0_370:
+	LWI	r7,	r19,	1040540
+	FPMUL	r7,	r21,	r7
+	LWI	r10,	r19,	1040544
+	LWI	r9,	r19,	1040612
+	FPMUL	r9,	r9,	r10
+	FPMUL	r6,	r6,	r7
+	bneid	r8,	$0BB0_375
+	FPMUL	r7,	r9,	r4
+	ORI	r3,	r0,	1065353216
+	ADDI	r4,	r0,	1
+	FPGT	r8,	r5,	r3
+	bneid	r8,	$0BB0_373
+	NOP
+	ADDI	r4,	r0,	0
+$0BB0_373:
+	bneid	r4,	$0BB0_375
+	NOP
+$0BB0_374:
+	ADD	r3,	r5,	r0
+$0BB0_375:
 	ORI	r4,	r0,	0
-	ADDI	r3,	r0,	1
-	FPLT	r5,	r9,	r4
-	bneid	r5,	$0BB0_257
+	ADDI	r5,	r0,	1
+	FPLT	r8,	r7,	r4
+	bneid	r8,	$0BB0_377
 	NOP
-	ADDI	r3,	r0,	0
-$0BB0_257:
-	bneid	r3,	$0BB0_262
+	ADDI	r5,	r0,	0
+$0BB0_377:
+	bneid	r5,	$0BB0_382
 	NOP
 	ORI	r4,	r0,	1065353216
-	ADDI	r3,	r0,	1
-	FPGT	r5,	r9,	r4
-	bneid	r5,	$0BB0_260
-	NOP
-	ADDI	r3,	r0,	0
-$0BB0_260:
-	bneid	r3,	$0BB0_262
-	NOP
-$0BB0_261:
-	ADD	r4,	r9,	r0
-$0BB0_262:
-	ORI	r3,	r0,	0
 	ADDI	r5,	r0,	1
-	FPLT	r6,	r11,	r3
-	bneid	r6,	$0BB0_264
+	FPGT	r8,	r7,	r4
+	bneid	r8,	$0BB0_380
 	NOP
 	ADDI	r5,	r0,	0
-$0BB0_264:
-	bneid	r5,	$0BB0_269
+$0BB0_380:
+	bneid	r5,	$0BB0_382
 	NOP
-	ORI	r3,	r0,	1065353216
-	ADDI	r5,	r0,	1
-	FPGT	r6,	r11,	r3
-	bneid	r6,	$0BB0_267
-	NOP
-	ADDI	r5,	r0,	0
-$0BB0_267:
-	bneid	r5,	$0BB0_269
-	NOP
-	ADD	r3,	r11,	r0
-$0BB0_269:
+	ADD	r4,	r7,	r0
+$0BB0_382:
 	ORI	r5,	r0,	0
-	ADDI	r6,	r0,	1
-	FPLT	r7,	r10,	r5
-	bneid	r7,	$0BB0_271
+	ADDI	r7,	r0,	1
+	FPLT	r8,	r6,	r5
+	bneid	r8,	$0BB0_384
 	NOP
-	ADDI	r6,	r0,	0
-$0BB0_271:
-	bneid	r6,	$0BB0_276
+	ADDI	r7,	r0,	0
+$0BB0_384:
+	bneid	r7,	$0BB0_389
 	NOP
 	ORI	r5,	r0,	1065353216
-	ADDI	r6,	r0,	1
-	FPGT	r7,	r10,	r5
-	bneid	r7,	$0BB0_274
+	ADDI	r7,	r0,	1
+	FPGT	r8,	r6,	r5
+	bneid	r8,	$0BB0_387
 	NOP
-	ADDI	r6,	r0,	0
-$0BB0_274:
-	bneid	r6,	$0BB0_276
+	ADDI	r7,	r0,	0
+$0BB0_387:
+	bneid	r7,	$0BB0_389
 	NOP
-	ADD	r5,	r10,	r0
-$0BB0_276:
-	LWI	r7,	r19,	1300588
-	LWI	r6,	r19,	1300584
+	ADD	r5,	r6,	r0
+$0BB0_389:
+	LWI	r7,	r19,	1040660
+	LWI	r6,	r19,	1040656
 	ADD	r6,	r6,	r7
 	MULI	r6,	r6,	3
-	LWI	r7,	r19,	1300608
+	LWI	r7,	r19,	1040680
 	ADD	r6,	r6,	r7
-	STORE	r6,	r4,	0
+	STORE	r6,	r3,	0
 	STORE	r6,	r5,	1
-	STORE	r6,	r3,	2
+	STORE	r6,	r4,	2
 	ATOMIC_INC	r4,	0
-	LWI	r3,	r19,	1300664
+	LWI	r3,	r19,	1040748
 	CMP	r3,	r4,	r3
 	bgtid	r3,	$0BB0_134
 	NOP
-$0BB0_277:
+$0BB0_390:
 	LWI	r31,	r19,	8
 	LWI	r30,	r19,	12
 	LWI	r29,	r19,	16
@@ -1817,7 +2423,7 @@ $0BB0_277:
 	ADDK	r1,	r19,	r0
 	LWI	r19,	r1,	4
 	LWI	r15,	r1,	0
-	ADDI	r1,	r1,	1300668
+	ADDI	r1,	r1,	1040752
 	rtsd	r15,	8
 	ADD	r3,	r0,	r0
 #	.end	main

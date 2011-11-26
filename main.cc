@@ -23,10 +23,11 @@ inline Vector generate_random_direction() {
 		z = (trax_rand() - .5f) * 2.f;
 	}while (x*x + y*y + z*z > 1);
 	Vector direction(x, y, z);
-	return direction;
+	return direction.normalize();
 
 }
 
+int bar = 0;
 
 inline PointLight loadLightFromMemory(int addr) {
   return PointLight(loadFooFromMemory(addr), Color(1.f, 1.f, 1.f));
@@ -40,7 +41,7 @@ int main()
 	int start_fb = GetFrameBuffer();
 	float inv_width = loadf(0, 2);
 	float inv_height = loadf(0, 5);
-	int num_of_samples = 5, depth = 0, max_depth = 5, max_bounces = 3, absorbed = 0, bounces = 0;
+	int num_of_samples = 5, depth = 0, max_depth = 5, max_bounces = 6, absorbed = 0, bounces = 0;
 	float t, x_off, y_off;
 	
 	PointLight light = loadLightFromMemory(loadi(0, 12)); //correct this
@@ -58,9 +59,9 @@ int main()
 	Shader shade;
 	int start_scene = loadi( 0, 8 );
 	BVH bvh(start_scene);
-	int count = 0, num_of_photons = 15000, iterator = 0;
+	int count = 0, num_of_photons = 5000, iterator = 0;
 	float Kd = 0.7f;
-	Photon indirect_photons[num_of_photons], indirect_heap[num_of_photons];
+	Photon indirect_photons[num_of_photons * 4], indirect_heap[num_of_photons];
 
 //	first pass, create photon map
 
@@ -77,6 +78,7 @@ int main()
 			HitRecord hit_record;
 			bvh.intersect(hit_record, ray);
 			if (hit_record.did_hit()) {
+				//flip the normal..
 				Kd = hit_record.obj_id().Kd();
 				photon.set_power(Kd);//find a way to get the material's Kd value and color... assigning the color of the material to the photon doesn't seem right... what's the use of the flux then ?????
 				photon.set_position(hit_record.hit_position(ray));
@@ -93,7 +95,6 @@ int main()
 	PhotonMap map;
 	//map.generate(indirect_photons, indirect_heap, count, 0);
 //
-
 int foo = 0;
 	for(int pix = atomicinc(0); pix < xres*yres; pix = atomicinc(0)){
 		int i = pix / xres;
@@ -111,14 +112,14 @@ int foo = 0;
 			HitRecord hit_record;
 			bvh.intersect(hit_record, ray);
 
-//			result = shade.lambertian(bvh, hit_record, ray, light, ambient_light);
+			result = shade.lambertian(bvh, hit_record, ray, light, ambient_light, indirect_photons, count);
 
-			result = shade.test(bvh, hit_record, ray, light, ambient_light, map, indirect_photons, count);
 
 //		}
 //			trax_printf(foo++);
 //		result = result.times(1.f/num_of_samples);
-		image.set(i, j, result);
+			image.set(i, j, result);
 	}
+
 	trax_cleanup();
 }

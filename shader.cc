@@ -13,8 +13,8 @@
 #endif
 
 float MAX_DISTANCE = 0.7f;
-float exposure = 50.0f;
-float sqRadius = 0.7f;
+float exposure = 1.0f;
+float sqRadius = 3.0f;
 float gSqDist;
 
 #define PI 3.14159268
@@ -49,10 +49,10 @@ inline bool distance(Vector position, Vector photon_position, float sqradius) { 
 }
 
 
-Color Shader::lambertian(BVH &bvh, HitRecord hit_record, Ray ray, PointLight point_light, Color ambient_light) {
+Color Shader::lambertian(BVH &bvh, HitRecord hit_record, Ray ray, PointLight point_light, Color ambient_light, Photon heap[], int size) {
 
 	float costheta, cosphi;
-	Color back(.561f, .729f, .988f);
+	Color back(.561f, .729f, .988f), indirect;
 	if (hit_record.did_hit()) {
 	Ray ray_to_light_source;
 	Trigonum tri = hit_record.obj_id();
@@ -77,22 +77,15 @@ Color Shader::lambertian(BVH &bvh, HitRecord hit_record, Ray ray, PointLight poi
 		}
 	}
 	light = light.times(tri.surface_color());
-	return light;
+	indirect = indirect_illumination(hit_position, N, tri.surface_color(), heap, size);
+	return light.add(indirect);
 	}else
 		return back;
 
 }
 
-Color Shader::test(BVH &bvh, HitRecord hit_record, Ray ray, PointLight point_light, Color ambient_light, PhotonMap map, Photon heap[], int size) {
-	float costheta, cosphi;
-	Color back(.561f, .729f, .988f), temp;
-	if (hit_record.did_hit()) {
-		Ray ray_to_light_source;
-		Photon nearest[10000];
-		int count_nearest = 0;
-		Trigonum tri = hit_record.obj_id();
-		Vector hit_position = ray.get_origin().add((ray.get_direction().scmult(hit_record.min_t())));
-		Vector N = normal(tri);
+Color Shader::indirect_illumination(Vector hit_position, Vector N, Color surface_color, Photon heap[], int size) {
+	Color temp;
 //	costheta = N.dot(ray.get_direction().normalize());
 //	if (costheta > 0.f)
 //		N = N.scmult(-1.f);
@@ -144,13 +137,11 @@ Color Shader::test(BVH &bvh, HitRecord hit_record, Ray ray, PointLight point_lig
 	      float weight = max(0.0, N.dot(heap[i].get_position()) * -1.f);   //Single Photon Diffuse Lighting
 	      weight *= (1.0 - sqrt(gSqDist)) / exposure;                    //Weight by Photon-Point Distance
 	      Color energy(heap[i].get_powerr() + weight, heap[i].get_powerg() + weight, heap[i].get_powerb() + weight);
-	      energy = energy.times(tri.surface_color());//Add Photon's Energy to Total
+	      energy = energy.times(surface_color);//Add Photon's Energy to Total
 	      temp = energy;
 	   }
 	}
+//	  trax_printf(count);
 	  return temp;
-	}else
-		return back;
-
 }
 
