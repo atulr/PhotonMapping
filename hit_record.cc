@@ -34,7 +34,11 @@ bool HitRecord::hit(float t, const int &tri_address) {
 }
 //redundant method... Use min_t() instead!! later :D
 Vector HitRecord::hit_position(Ray ray) {
-	return (ray.get_direction().scmult(distance));
+//	trax_printf(ray.get_direction().scmult(distance).getx());
+//	trax_printf(ray.get_direction().scmult(distance).gety());
+//	trax_printf(ray.get_direction().scmult(distance).getz());
+//	trax_printf(666);
+	return (ray.get_origin().add(ray.get_direction().scmult(distance)));
 }
 
 bool HitRecord::did_hit(){

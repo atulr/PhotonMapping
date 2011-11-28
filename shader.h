@@ -19,10 +19,11 @@
 class BVH;
 
 class Shader{
-	Color indirect_illumination(Vector hit_position, Vector normal, Color surface_color, Photon heap[], int size);
+
 
 public:
 	Color lambertian(BVH &bvh, HitRecord hit_record, Ray ray, PointLight lights, Color ambient_light, Photon heap[], int size);
+	Color indirect_illumination(HitRecord hit_record, Ray ray, PhotonMap map);
 };
 
 #endif /* SHADER_H_ */

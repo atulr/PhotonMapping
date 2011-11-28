@@ -14,7 +14,7 @@
 
 float MAX_DISTANCE = 0.7f;
 float exposure = 1.0f;
-float sqRadius = 3.0f;
+float sqRadius = 0.4f;
 float gSqDist;
 
 #define PI 3.14159268
@@ -77,71 +77,31 @@ Color Shader::lambertian(BVH &bvh, HitRecord hit_record, Ray ray, PointLight poi
 		}
 	}
 	light = light.times(tri.surface_color());
-	indirect = indirect_illumination(hit_position, N, tri.surface_color(), heap, size);
+//	indirect = indirect_illumination(hit_position, N, tri.surface_color(), heap, size);
 	return light.add(indirect);
 	}else
 		return back;
 
 }
 
-Color Shader::indirect_illumination(Vector hit_position, Vector N, Color surface_color, Photon heap[], int size) {
-	Color temp;
-//	costheta = N.dot(ray.get_direction().normalize());
-//	if (costheta > 0.f)
-//		N = N.scmult(-1.f);
-//
+Color Shader::indirect_illumination(HitRecord hit_record, Ray ray, PhotonMap map ) {
+	Color back(1.f, 1.f, 1.f);
+	if(hit_record.did_hit()){
+	float irr[3] = {1.f, 1.f, 1.f}, color[3];
+	int nphotons = 10;
+	float max_dist = 0.7f;
+	Vector hit_position = ray.get_origin().add((ray.get_direction().scmult(hit_record.min_t())));
+//	hit_position = hit_position.normalize();
+	Trigonum tri = hit_record.obj_id();
+	Vector N = normal(tri);
+	map.irradiance_estimate(irr, hit_position, N, max_dist, nphotons);
+	color[0]+=(irr[0]*tri.surface_color().red());
+	color[1]+=(irr[1]*tri.surface_color().green());
+	color[2]+=(irr[2]*tri.surface_color().blue());
 
-//	Vector L = point_light.get_position().sub(hit_position);
-//	Vector Ln = L.normalize();
-//	cosphi = N.dot(Ln);
-//	ray_to_light_source.set_origin(hit_position);
-//	ray_to_light_source.set_direction(Ln);
-//	if (cosphi > 0.f) {
-//		if (!tri.intersects_other_triangles(bvh, hit_record, ray_to_light_source, L.length())) {
-//			light = light.add(point_light.get_color().times((float)(tri.Kd() * cosphi)));
-//		}else{
-//			 //it's a shadow with ambient lighting :D:D:D
-//		}
-//	}
-//	map.locate_photons(hit_position, MAX_DISTANCE*MAX_DISTANCE, 0,nearest, heap, size, count_nearest);
-//	 //find a way to check if the heap is empty
-//		Photon tempPhotons[10000];
-//		//assumes color is already set to 0 or just want to add to it
-//		float temp;
-//		Vector temp_dir;
-//		float irr[3], color[3];
-//		irr[0]=0;irr[1]=0;irr[2]=0;
-//		Photon tempPhoton=nearest[count_nearest];
-//		float maxD=MAX_DISTANCE*MAX_DISTANCE;
-//		while(count_nearest)//sum up the powers
-//		{
-//			//might make sense to implement a stack class..later :D
-//			tempPhoton=nearest[count_nearest--];
-//			temp_dir= tempPhoton.get_incidence().scmult(-1.f);
-//			temp=max(temp_dir.dot(N), 0.0);
-//
-//			irr[0] += temp*tempPhoton.get_powerr();
-//			irr[1] += temp*tempPhoton.get_powerg();
-//			irr[2] += temp*tempPhoton.get_powerb();
-//		}
-//			color[0]+=(irr[0]*tri.surface_color().red())/(PI*maxD*size);
-//			color[1]+=(irr[1]*tri.surface_color().green())/(PI*maxD*size);
-//			color[2]+=(irr[2]*tri.surface_color().blue())/(PI*maxD*size);
-//			Color light(color[0], color[1], color[2]);
-//	//fix the lighting bit..
-////	light = light.times(tri.surface_color());
-//	return light;
-
-	  for (int i = 0; i < size; i++){                    //Photons Which Hit Current Object
-	    if (distance(hit_position, heap[i].get_position(), sqRadius)){           //Is Photon Close to Point?
-	      float weight = max(0.0, N.dot(heap[i].get_position()) * -1.f);   //Single Photon Diffuse Lighting
-	      weight *= (1.0 - sqrt(gSqDist)) / exposure;                    //Weight by Photon-Point Distance
-	      Color energy(heap[i].get_powerr() + weight, heap[i].get_powerg() + weight, heap[i].get_powerb() + weight);
-	      energy = energy.times(surface_color);//Add Photon's Energy to Total
-	      temp = energy;
-	   }
+	Color light(color[0], color[1], color[2]);
+	return light;
 	}
-//	  trax_printf(count);
-	  return temp;
+	return back;
 }
 

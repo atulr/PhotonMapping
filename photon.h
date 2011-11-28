@@ -17,7 +17,7 @@ private:
 	Vector position;
 	Vector incident;
 	float power[3];
-	float phi, theta;
+//	float phi, theta; redundant, I guess after we have position
 	int flag;
 
 public:
