@@ -44,6 +44,7 @@ public:
 	float get_powerg();
 	float get_powerb();
 	void set_power(float Kd);
+	void set_power(Color color);
 };
 
 #endif /* PHOTON_H_ */

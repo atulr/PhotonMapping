@@ -41,6 +41,12 @@ void Photon::set_power(float Kd) {
 	power[2] = power[2] * Kd;
 }
 
+void Photon::set_power(Color color) {
+	power[0] = power[0] * color.red();
+	power[1] = power[1] * color.blue();
+	power[2] = power[2] * color.green();
+}
+
 void Photon::set_incident(Vector inc) {
 	incident = inc;
 }

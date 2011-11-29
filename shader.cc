@@ -19,6 +19,15 @@ float gSqDist;
 
 #define PI 3.14159268
 
+bool inline close_enough(Vector vector1, Vector vector2) {
+	float x = vector1.getx() - vector2.getx();
+	float y = vector1.gety() - vector2.gety();
+	float z = vector1.getz() - vector2.getz();
+	if (x*x + y*y + z*z < MAX_DISTANCE*MAX_DISTANCE)
+		return true;
+	return false;
+}
+
 inline float max(float val1, float val2) {
 	if (val1 > val2)
 		return val1;
@@ -103,5 +112,30 @@ Color Shader::indirect_illumination(HitRecord hit_record, Ray ray, PhotonMap map
 	return light;
 	}
 	return back;
+}
+
+Color Shader::temp(Photon photons[], HitRecord hit_record, Ray ray, int size) {
+	float power[3] = {0.f, 0.f, 0.f};
+	Ray ray_to_light_source;
+	Trigonum tri = hit_record.obj_id();
+	Vector hit_position = ray.get_origin().add((ray.get_direction().scmult(hit_record.min_t())));
+	Vector N = normal(tri);
+
+	for (int i = 0; i < size; i++) {
+		if (close_enough(photons[i].get_position(), hit_position)) {
+			power[0] += photons[i].get_powerr();
+			power[1] += photons[i].get_powerg();
+			power[2] += photons[i].get_powerb();
+		}
+	}
+
+	power[0] /= (PI * MAX_DISTANCE * MAX_DISTANCE);
+	power[1] /= (PI * MAX_DISTANCE * MAX_DISTANCE);
+	power[2] /= (PI * MAX_DISTANCE * MAX_DISTANCE);
+
+
+	Color light(power[0], power[1], power[2]);
+	light = tri.surface_color().times(light);
+	return light;
 }
 

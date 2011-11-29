@@ -42,7 +42,6 @@ void PhotonMap::store(Photon &photon) {
 	stored_photons++;
 }
 
-//still to write it ..
 void PhotonMap::balance() {
 	if (stored_photons > 1) {
 		Photon pa1[stored_photons + 1];
@@ -153,8 +152,7 @@ void PhotonMap::median_split(Photon p[], const int start, const int end, const i
 void PhotonMap::irradiance_estimate(float irrad[3], Vector pos, Vector normal, const float max_dist, const int nphotons) {
 	irrad[0] = irrad[1] = irrad[2] = 0.0f;
 	NearestPhoton np;
-	Vector temp(pos.getx(), pos.gety(), pos.getz());
-	np.pos = temp;
+	np.pos = pos;
 	np.max = nphotons;
 	np.found = 0;
 	np.got_heap = 0;
@@ -180,10 +178,9 @@ void PhotonMap::irradiance_estimate(float irrad[3], Vector pos, Vector normal, c
 void PhotonMap::locate_photons(NearestPhoton &np, const int index) {
 	Photon p = photons[index];
 	float dist1;
-
 	if(index < half_stored_photons) {
 		dist1 = np.get_axis(p.get_dimension()) - p.get_axis(p.get_dimension());
-
+//		trax_printf(dist1);
 		if(dist1 > 0.0f) {
 			locate_photons(np, 2*index + 1);
 			if (dist1 * dist1 < np.dist2[0])
@@ -196,19 +193,10 @@ void PhotonMap::locate_photons(NearestPhoton &np, const int index) {
 	}
 
 	dist1 = p.get_axis(0) - np.get_axis(0);
-//	trax_printf(p.get_axis(0));
-//	trax_printf(np.get_axis(0));
-//	trax_printf(111);
 	float dist2 = dist1 * dist1;
 	dist1 = p.get_axis(1) - np.get_axis(1);
-//	trax_printf(p.get_axis(1));
-//	trax_printf(np.get_axis(1));
-//	trax_printf(222);
 	dist2 += dist1 * dist1;
 	dist1 = p.get_axis(2) - np.get_axis(2);
-//	trax_printf(p.get_axis(2));
-//	trax_printf(np.get_axis(2));
-//	trax_printf(333);
 	dist2 += dist1 * dist1;
 
 	if(dist2 < np.dist2[0]) {
