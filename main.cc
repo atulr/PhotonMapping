@@ -34,14 +34,14 @@ inline PointLight loadLightFromMemory(int addr) {
 }
 
 int main()
-{	//might have to change the tree impl..
+{
 	trax_setup();
 	int xres = loadi( 0, 1 );
 	int yres = loadi( 0, 4 );
 	int start_fb = GetFrameBuffer();
 	float inv_width = loadf(0, 2);
 	float inv_height = loadf(0, 5);
-	int num_of_samples = 5, depth = 0, max_depth = 5, max_bounces = 3, absorbed = 0, bounces = 0;
+	int num_of_samples = 20, depth = 0, max_depth = 5, max_bounces = 3, absorbed = 0, bounces = 0;
 	float t, x_off, y_off;
 	
 	PointLight light = loadLightFromMemory(loadi(0, 12)); //correct this
@@ -59,44 +59,51 @@ int main()
 	Shader shade;
 	int start_scene = loadi( 0, 8 );
 	BVH bvh(start_scene);
-	int count = 0, num_of_photons = 45000, iterator = 0;
-	float Kd = 0.7f;
-	Photon indirect_photons[num_of_photons * 3], indirect_heap[num_of_photons];
+	int count = 0, num_of_photons = 100000, iterator = 0;
+	Photon indirect_photons[num_of_photons * 2], volume[num_of_photons/4];
 //	first pass, create photon map
-//use the hemisphere thing for photon generation..
 
 	Vector light_position = loadFooFromMemory(loadi(0, 12));
 	Vector ray_origin = light_position;
+
 	while(iterator < num_of_photons) { //move this to a function..this doesn't feel right!!
+		float surface_color[3] = {0.f, 0.f, 0.f};
+		float shadow_color[3] = {-0.25f, -0.25f, -0.25f};
+		float Kd = 0.7f;
 		while(!absorbed && bounces < max_bounces) {
 			bounces++;
+			float attenuation_factor = 1.f;
 			Vector direction = generate_random_direction();
-			Photon photon;
+			Vector shadow_direction;
+			Photon photon(surface_color, Kd);
 			HitRecord hit_record;
 			Ray random_ray(ray_origin, direction);
 			bvh.intersect(hit_record, random_ray);
 			if (hit_record.did_hit()) {
-				//flip the normal..
-				// the power of the photon should be saved in a way so as to propagate flux..
-				Kd = hit_record.obj_id().Kd();
-//				photon.set_power(hit_record.obj_id().surface_color());//find a way to get the material's Kd value and color... assigning the color of the material to the photon doesn't seem right... what's the use of the flux then ?????
-				photon.set_power(Kd);//find a way to get the material's Kd value and color... assigning the color of the material to the photon doesn't seem right... what's the use of the flux then ?????
+				surface_color[0] = hit_record.obj_id().surface_color().red() * attenuation_factor;
+				surface_color[1] = hit_record.obj_id().surface_color().green() * attenuation_factor;
+				surface_color[2] = hit_record.obj_id().surface_color().blue() * attenuation_factor;
+				if (surface_color[0] + surface_color[1] + surface_color[2] > 3) { //weird hack.. some of the color values exceed 1!!!
+					surface_color[0] *= .001f;
+					surface_color[1] *= .001f;
+					surface_color[2] *= .001f;
+				}
 				photon.set_position(hit_record.hit_position(random_ray));
-//				map.store(photon);
-				indirect_photons[count++] = photon;
+				if (bounces > 1)
+					indirect_photons[count++] = photon;
+				else {
+					//it's a direct photon :P
+				}
 				ray_origin = hit_record.hit_position(random_ray);
 			}
+			attenuation_factor /= 2.f;
 		}
 		iterator++;
 
 		bounces = 0;
 		absorbed = 0;
 	}
-//	map.balance();
-//figure out a way to bounce photons around... and multiply the photons with the Kd of the material they intersect
 
-	//map.generate(indirect_photons, indirect_heap, count, 0);
-//
 int foo = 0;
 	for(int pix = atomicinc(0); pix < xres*yres; pix = atomicinc(0)){
 		int i = pix / xres;
@@ -107,14 +114,10 @@ int foo = 0;
 			camera.make_ray(ray, x, y);
 			HitRecord hit_record;
 			bvh.intersect(hit_record, ray);
+			trax_printf(foo++);
+			result = shade.lambertian(bvh, hit_record, ray, light, ambient_light, indirect_photons, count);
+			result = result.add(shade.temp(indirect_photons, hit_record, ray, count).times(1.f));
 
-//			result = shade.lambertian(bvh, hit_record, ray, light, ambient_light, indirect_photons, count);
-			result = shade.temp(indirect_photons, hit_record, ray, count);
-
-
-//		}
-//			trax_printf(foo++);
-//		result = result.times(1.f/num_of_samples);
 			image.set(i, j, result);
 	}
 

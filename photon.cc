@@ -12,7 +12,7 @@ Vector Photon::get_position(){
 }
 
 Vector Photon::get_incidence() {
-	return incident;
+//	return incident;
 }
 
 void Photon::set_position(Vector pos) {
@@ -20,7 +20,7 @@ void Photon::set_position(Vector pos) {
 }
 
 int Photon::get_dimension() {
-	return flag;
+//	return flag;
 }
 
 float Photon::get_powerr() {
@@ -48,7 +48,7 @@ void Photon::set_power(Color color) {
 }
 
 void Photon::set_incident(Vector inc) {
-	incident = inc;
+//	incident = inc;
 }
 
 float Photon::get_axis(int dim) {
@@ -59,6 +59,6 @@ float Photon::get_axis(int dim) {
 	return get_position().getz();
 }
 
-void Photon::set_flag(int f) {
-	flag = f;
+void Photon::set_flag(bool val) {
+	is_direct = val;
 }

@@ -12,9 +12,9 @@
 #include <stdio.h>
 #endif
 
-float MAX_DISTANCE = 0.7f;
+float MAX_DISTANCE = 17.f;
 float exposure = 1.0f;
-float sqRadius = 0.4f;
+float sqRadius = 2.f;
 float gSqDist;
 
 #define PI 3.14159268
@@ -58,84 +58,82 @@ inline bool distance(Vector position, Vector photon_position, float sqradius) { 
 }
 
 
-Color Shader::lambertian(BVH &bvh, HitRecord hit_record, Ray ray, PointLight point_light, Color ambient_light, Photon heap[], int size) {
-
+Color Shader::lambertian(BVH &bvh, HitRecord hit_record, Ray ray, PointLight point_light, Color ambient_light, Photon photons[], int size) {
+	float power[3] = {0.f, 0.f, 0.f};
 	float costheta, cosphi;
+	int foo = 0, num_of_photons = 0;
+	Color light;
 	Color back(.561f, .729f, .988f), indirect;
 	if (hit_record.did_hit()) {
-	Ray ray_to_light_source;
-	Trigonum tri = hit_record.obj_id();
-	Vector hit_position = ray.get_origin().add((ray.get_direction().scmult(hit_record.min_t())));
-	Vector N = normal(tri);
-	costheta = N.dot(ray.get_direction().normalize());
-	if (costheta > 0.f)
-		N = N.scmult(-1.f);
+//		for (int k = 0; k < 10; k++) {
+//			float x_off = (trax_rand() - .5f) * 2.f;
+//			float y_off = (trax_rand() - .5f) * 2.f;
+//			float z_off = (trax_rand() - .5f) * 2.f;
+//			Vector random(x_off, y_off, z_off);
+			Ray ray_to_light_source;
+			Trigonum tri = hit_record.obj_id();
+			Vector hit_position = ray.get_origin().add((ray.get_direction().scmult(hit_record.min_t())));
+//			hit_position = hit_position.add(random);
+			Vector N = normal(tri);
+			costheta = N.dot(ray.get_direction().normalize());
+			if (costheta > 0.f)
+				N = N.scmult(-1.f);
 
-	Color light = ambient_light.times(tri.Ka());
+			Vector L = point_light.get_position().sub(hit_position);
+			Vector Ln = L.normalize();
+			cosphi = N.dot(Ln);
+			ray_to_light_source.set_origin(hit_position);
+			ray_to_light_source.set_direction(Ln);
+			if (cosphi > 0.f) {
+				if (!tri.intersects_other_triangles(bvh, hit_record, ray_to_light_source, L.length())) {
+					light = light.add(point_light.get_color().times((float)(tri.Kd() * cosphi)));
+				}
+				//			light = illumination;
+			}else{
+				//it's a shadow with ambient lighting :D:D:D
+			}
 
-	Vector L = point_light.get_position().sub(hit_position);
-	Vector Ln = L.normalize();
-	cosphi = N.dot(Ln);
-	ray_to_light_source.set_origin(hit_position);
-	ray_to_light_source.set_direction(Ln);
-	if (cosphi > 0.f) {
-		if (!tri.intersects_other_triangles(bvh, hit_record, ray_to_light_source, L.length())) {
-			light = light.add(point_light.get_color().times((float)(tri.Kd() * cosphi)));
-		}else{
-			 //it's a shadow with ambient lighting :D:D:D
+			//		light = light.times(tri.surface_color()).times(0.7f);
+//			indirect = temp(photons, hit_record, ray, size);
+//			light = (light.add(indirect));
+			light = light.times(tri.surface_color());
+			return light;
 		}
-	}
-	light = light.times(tri.surface_color());
-//	indirect = indirect_illumination(hit_position, N, tri.surface_color(), heap, size);
-	return light.add(indirect);
-	}else
+	else
 		return back;
 
-}
-
-Color Shader::indirect_illumination(HitRecord hit_record, Ray ray, PhotonMap map ) {
-	Color back(1.f, 1.f, 1.f);
-	if(hit_record.did_hit()){
-	float irr[3] = {1.f, 1.f, 1.f}, color[3];
-	int nphotons = 10;
-	float max_dist = 0.7f;
-	Vector hit_position = ray.get_origin().add((ray.get_direction().scmult(hit_record.min_t())));
-//	hit_position = hit_position.normalize();
-	Trigonum tri = hit_record.obj_id();
-	Vector N = normal(tri);
-	map.irradiance_estimate(irr, hit_position, N, max_dist, nphotons);
-	color[0]+=(irr[0]*tri.surface_color().red());
-	color[1]+=(irr[1]*tri.surface_color().green());
-	color[2]+=(irr[2]*tri.surface_color().blue());
-
-	Color light(color[0], color[1], color[2]);
-	return light;
-	}
-	return back;
 }
 
 Color Shader::temp(Photon photons[], HitRecord hit_record, Ray ray, int size) {
 	float power[3] = {0.f, 0.f, 0.f};
 	Ray ray_to_light_source;
+	int num_of_photons = 0;
+	Color back(0.f, 0.f, 0.f);
 	Trigonum tri = hit_record.obj_id();
 	Vector hit_position = ray.get_origin().add((ray.get_direction().scmult(hit_record.min_t())));
-	Vector N = normal(tri);
 
+	Vector N = normal(tri);
 	for (int i = 0; i < size; i++) {
 		if (close_enough(photons[i].get_position(), hit_position)) {
+			num_of_photons++;
 			power[0] += photons[i].get_powerr();
 			power[1] += photons[i].get_powerg();
 			power[2] += photons[i].get_powerb();
+			if (num_of_photons > 10)
+				break;
 		}
 	}
 
-	power[0] /= (PI * MAX_DISTANCE * MAX_DISTANCE);
-	power[1] /= (PI * MAX_DISTANCE * MAX_DISTANCE);
-	power[2] /= (PI * MAX_DISTANCE * MAX_DISTANCE);
 
-
-	Color light(power[0], power[1], power[2]);
-	light = tri.surface_color().times(light);
-	return light;
+	if (num_of_photons) {
+		power[0] /= (num_of_photons);
+		power[1] /= (num_of_photons);
+		power[2] /= (num_of_photons);
+		Color light(power[0], power[1], power[2]);
+		light = light.times(tri.surface_color());
+		return light;
+	}
+	else
+		return back;
 }
 

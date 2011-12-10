@@ -1,0 +1,133 @@
+---- Thread 00 ----
+	PC 5:  Stalled ----- 1703330043 in-flight  CPI 1.1039 -- Total Cycles 11362402334
+ Total CPI 1.1039 , IPC 0.9059 -- Total Cycles 11362402334
+kernel	thread(called, cycles)
+	0	
+Data dependence stalls (caused by):
+   FPADD       	891341	(0.398 %)
+   FPMUL       	164325048	(73.400 %)
+   LOAD        	1174	(0.001 %)
+   FPINVSQRT   	1744594	(0.779 %)
+   FPDIV       	56347342	(25.169 %)
+   DIV         	311296	(0.139 %)
+   FPRSUB      	255840	(0.114 %)
+Number of thread-cycles contention found when issuing:
+   ADD         	255843	(0.051 %)
+   FPMUL       	295031	(0.059 %)
+   LOAD        	959517	(0.193 %)
+   STORE       	32768	(0.007 %)
+   CMP         	16384	(0.003 %)
+   ADDI        	295336	(0.059 %)
+   ANDI        	2024	(0.000 %)
+   ORI         	164386230	(33.041 %)
+   MULI        	239456	(0.048 %)
+   LWI         	331034529	(66.537 %)
+Dynamic Instruction Mix: (6346041284 total)
+   ADD         	186651424	(2.941 %)
+   MUL         	16385	(0.000 %)
+   BITOR       	163539037	(2.577 %)
+   BITAND      	1	(0.000 %)
+   FPADD       	330754134	(5.212 %)
+   FPMUL       	498608099	(7.857 %)
+   LOAD        	10908303	(0.172 %)
+   ATOMIC_INC  	16385	(0.000 %)
+   FPINVSQRT   	366486	(0.006 %)
+   FPCONV      	64430	(0.001 %)
+   FPEQ        	71193	(0.001 %)
+   FPLT        	5258256	(0.083 %)
+   FPLE        	231283	(0.004 %)
+   STORE       	49152	(0.001 %)
+   LOADIMM     	1	(0.000 %)
+   RAND        	172272	(0.003 %)
+   ADDK        	1310740874	(20.654 %)
+   ADDKC       	25000	(0.000 %)
+   CMP         	164795942	(2.597 %)
+   RSUB        	16384	(0.000 %)
+   ADDI        	-1986166361	(-31.298 %)
+   ANDI        	328461282	(5.176 %)
+   ORI         	169045856	(2.664 %)
+   MULI        	307863	(0.005 %)
+   LW          	163628056	(2.578 %)
+   LWI         	1155885131	(18.214 %)
+   SW          	10122	(0.000 %)
+   SWI         	495012537	(7.800 %)
+   sbi         	35122	(0.001 %)
+   beqid       	328486744	(5.176 %)
+   bgtid       	80010	(0.001 %)
+   bleid       	121302	(0.002 %)
+   bltid       	164304712	(2.589 %)
+   bneid       	1666730424	(26.264 %)
+   brid        	872745	(0.014 %)
+   brlid       	1	(0.000 %)
+   rtsd        	1	(0.000 %)
+   FPDIV       	5631900	(0.089 %)
+   DIV         	16384	(0.000 %)
+   FPUN        	163481269	(2.576 %)
+   FPRSUB      	499014798	(7.863 %)
+   FPGT        	7835182	(0.123 %)
+   FPGE        	163249986	(2.572 %)
+   NOP         	347694793	(5.479 %)
+   PRINT       	16384	(0.000 %)
+ --Average #threads Issuing each cycle: 0.1499
+ --Total thread-cycles: 11362402334
+ --total thread-cycles issued: 1703379195 (14.991365%)
+ --iCache conflicts: 0 (0.000000%)
+ --thread*cycles of FU dependence: 497517119 (4.378626%)
+ --thread*cycles of data dependence: 223876635 (1.970328%)
+ --thread*cycles halted: 0 (0.000000%)
+iCache details:
+ --iCache cycles*banks: 363596874688 (2.926595% used)
+Issue breakdown:
+ --thread*cycles of issue worked: 10293313787 (90.590996%)
+ --thread*cycles of issue failed: 721393754 (6.348954%)
+ --thread*cycles of issue NOP/other: 347694793 (3.060046%)
+Number of thread-cycles not ready:	223876635
+Number of thread-cycles not fetched:	0
+SIMD stalls when issuing:	0
+SIMD issues:	10641008580
+SIMD fetches beyond the first:	0
+ATOMIC_INC called by threads:
+	 0: 16385
+
+ ## Core 0 ##
+Module Utilization
+
+	           FP AddSub:    0.91
+	          FP Compare:    0.09
+	          Int AddSub:    1.09
+	              FP Mul:    0.55
+	             Int Mul:    0.00
+	          FP InvSqrt:    0.00
+	              FP Div:    0.05
+	     Conversion Unit:    0.00
+
+
+L1 accesses: 	11916972
+L1 hits: 	11867794
+L1 misses: 	49178
+L1 bank conflicts: 	0
+L1 stores: 	49152
+L1 near hit: 	0
+L1 hit rate: 	0.995873
+
+ -= L2 #0 =-
+L2 accesses: 	49178
+L2 hits: 	0
+L2 misses: 	49178
+L2 stores: 	49152
+L2 bank conflicts: 	0
+L2 hit rate: 	0.000000
+L2 memory faults: 0
+L2 bandwidth limited stalls: 32768
+
+Bandwidth numbers for 1000MHz clock:
+   register to L1 bandwidth: 	 4195229.500000
+   L1 to L2 bandwidth: 	 554001.187500
+   L2 to memory bandwidth: 	 554001.187500
+Core size: 0.3783
+L2 size: 0.0000
+1-L2 size: 0.0000
+1-core chip size: 0.3783
+FPS Statistics:
+Total clock cycles: 11362402334
+  FPS assuming 1000MHz clock: 0.0880
