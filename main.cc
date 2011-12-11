@@ -27,6 +27,14 @@ inline Vector generate_random_direction() {
 
 }
 
+inline bool in_volume(Ray ray) {
+	Vector ray_vector = ray.get_origin().add(ray.get_direction());
+	if (ray_vector.getx() > 90 && ray_vector.getx() < 300 && ray_vector.gety() > 80 && ray_vector.gety() < 300 && ray_vector.getz() > 300 && ray_vector.getz() < 350) {
+		return true;
+	}
+		return false;
+}
+
 int bar = 0;
 
 inline PointLight loadLightFromMemory(int addr) {
@@ -59,14 +67,14 @@ int main()
 	Shader shade;
 	int start_scene = loadi( 0, 8 );
 	BVH bvh(start_scene);
-	int count = 0, num_of_photons = 100000, iterator = 0;
-	Photon indirect_photons[num_of_photons * 2], volume[num_of_photons/4];
+	int count = 0, num_of_photons = 125000, iterator = 0;
+	Photon indirect_photons[num_of_photons * 2];
 //	first pass, create photon map
 
 	Vector light_position = loadFooFromMemory(loadi(0, 12));
 	Vector ray_origin = light_position;
-
-	while(iterator < num_of_photons) { //move this to a function..this doesn't feel right!!
+//Okay, time do some ray marching.. :)
+	while(iterator < num_of_photons) {
 		float surface_color[3] = {0.f, 0.f, 0.f};
 		float shadow_color[3] = {-0.25f, -0.25f, -0.25f};
 		float Kd = 0.7f;
@@ -78,6 +86,11 @@ int main()
 			Photon photon(surface_color, Kd);
 			HitRecord hit_record;
 			Ray random_ray(ray_origin, direction);
+			if (bounces > 1) {
+				if (in_volume(random_ray)) {
+
+				}
+			}
 			bvh.intersect(hit_record, random_ray);
 			if (hit_record.did_hit()) {
 				surface_color[0] = hit_record.obj_id().surface_color().red() * attenuation_factor;
@@ -114,7 +127,7 @@ int foo = 0;
 			camera.make_ray(ray, x, y);
 			HitRecord hit_record;
 			bvh.intersect(hit_record, ray);
-			trax_printf(foo++);
+//			trax_printf(foo++);
 			result = shade.lambertian(bvh, hit_record, ray, light, ambient_light, indirect_photons, count);
 			result = result.add(shade.temp(indirect_photons, hit_record, ray, count).times(1.f));
 
