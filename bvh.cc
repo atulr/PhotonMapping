@@ -55,6 +55,15 @@ void BVH::intersect(HitRecord &hit_record, Ray &ray) {
 		Box b = loadBoxFromMemory(node_addr);
 		HitRecord box_hit;
 		if (b.intersect(box_hit, ray)) {
+//			trax_printf(111111);
+//			trax_printf(b.P1.getx());
+//			trax_printf(b.P1.gety());
+//			trax_printf(b.P1.getz());
+//			trax_printf(222222);
+//			trax_printf(b.P2.getx());
+//			trax_printf(b.P2.gety());
+//			trax_printf(b.P2.getz());
+//			trax_printf(3333333);
 			left_id = loadi( node_addr, 7 );
 			num_children = loadi( node_addr, 6 );
 			if (interior_node(num_children)) {

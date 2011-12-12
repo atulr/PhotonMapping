@@ -72,7 +72,7 @@ bool Box::intersect(HitRecord &hit_record, Ray &ray) {
 	if (tnear > tfar || tfar < 0)
 		return false;
 
-		return true;
+	return true;
 }
 
 

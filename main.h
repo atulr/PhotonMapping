@@ -13,5 +13,5 @@
 #include "material.h"
 #include "pin_hole_camera.h"
 #include "point_light.h"
-
+#include "participating_volume.h"
 #endif

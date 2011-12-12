@@ -27,15 +27,52 @@ inline Vector generate_random_direction() {
 
 }
 
-inline bool in_volume(Ray ray) {
-	Vector ray_vector = ray.get_origin().add(ray.get_direction());
-	if (ray_vector.getx() > 90 && ray_vector.getx() < 300 && ray_vector.gety() > 80 && ray_vector.gety() < 300 && ray_vector.getz() > 300 && ray_vector.getz() < 350) {
+float MAX_RADIUS = 100.f;
+
+bool inline close_enough(Vector vector1, Vector vector2) {
+	float x = vector1.getx() - vector2.getx();
+	float y = vector1.gety() - vector2.gety();
+	float z = vector1.getz() - vector2.getz();
+	if (x*x + y*y + z*z < MAX_RADIUS*MAX_RADIUS)
 		return true;
-	}
-		return false;
+	return false;
 }
 
-int bar = 0;
+
+Color inline march(Ray &ray, int size, Photon volume_photons[], ParticipatingVolume volume, float tnear, float tfar) {
+	float power[3] = {0.f, 0.f, 0.f};
+	int num_of_photons = 0;
+	Color volume_radiance;
+	float step;
+	step = tnear;
+	Vector position;
+//	Vector dir(position.getx() - volume.plane2().getx(), position.gety() - volume.plane2().gety(), position.getz() - volume.plane2().getz());
+//	length = dir.length();
+	while (step < tfar) {
+		for (int j = 0 ; j< size; j++) {
+			position = (ray.get_origin().add(ray.get_direction().scmult(step)));
+			if (close_enough(volume_photons[j].get_position(), position)) {
+				num_of_photons++;
+				power[0] += volume_photons[j].get_powerr();
+				power[1] += volume_photons[j].get_powerg();
+				power[2] += volume_photons[j].get_powerb();
+				if (num_of_photons > 20)
+					break;
+			}
+			if (num_of_photons) {
+//				power[0] /= (num_of_photons);
+//				power[1] /= (num_of_photons);
+//				power[2] /= (num_of_photons);
+				Color light(power[0], power[1], power[2]);
+				volume_radiance = light;
+			}
+		}
+
+		step += 1.f;
+	}
+	return volume_radiance.times(1.f/step);
+}
+
 
 inline PointLight loadLightFromMemory(int addr) {
   return PointLight(loadFooFromMemory(addr), Color(1.f, 1.f, 1.f));
@@ -67,13 +104,17 @@ int main()
 	Shader shade;
 	int start_scene = loadi( 0, 8 );
 	BVH bvh(start_scene);
-	int count = 0, num_of_photons = 125000, iterator = 0;
-	Photon indirect_photons[num_of_photons * 2];
+	int count = 0, num_of_photons = 110000, iterator = 0, v_p_count = 0;
+	Vector bounding_plane_2(314.001007f, 456.001007f, 330.001007f), bounding_plane_1(265.f, 296.f, 0.f);
+	ParticipatingVolume volume(bounding_plane_1, bounding_plane_2);
+	Photon indirect_photons[num_of_photons * 2], volume_photons[20000];
 //	first pass, create photon map
 
 	Vector light_position = loadFooFromMemory(loadi(0, 12));
 	Vector ray_origin = light_position;
-//Okay, time do some ray marching.. :)
+
+//Okay, time to do some ray marching.. :)
+
 	while(iterator < num_of_photons) {
 		float surface_color[3] = {0.f, 0.f, 0.f};
 		float shadow_color[3] = {-0.25f, -0.25f, -0.25f};
@@ -86,11 +127,6 @@ int main()
 			Photon photon(surface_color, Kd);
 			HitRecord hit_record;
 			Ray random_ray(ray_origin, direction);
-			if (bounces > 1) {
-				if (in_volume(random_ray)) {
-
-				}
-			}
 			bvh.intersect(hit_record, random_ray);
 			if (hit_record.did_hit()) {
 				surface_color[0] = hit_record.obj_id().surface_color().red() * attenuation_factor;
@@ -109,6 +145,11 @@ int main()
 				}
 				ray_origin = hit_record.hit_position(random_ray);
 			}
+			if (bounces > 1) {
+				if (volume.within(random_ray)) {
+					volume_photons[v_p_count++] = photon;
+				}
+			}
 			attenuation_factor /= 2.f;
 		}
 		iterator++;
@@ -118,6 +159,9 @@ int main()
 	}
 
 int foo = 0;
+//use the box intersection code to see if the ray hit the bounding volume...
+trax_printf(foo);
+float tnear, tfar;
 	for(int pix = atomicinc(0); pix < xres*yres; pix = atomicinc(0)){
 		int i = pix / xres;
 		int j = pix % xres;
@@ -127,10 +171,12 @@ int foo = 0;
 			camera.make_ray(ray, x, y);
 			HitRecord hit_record;
 			bvh.intersect(hit_record, ray);
-//			trax_printf(foo++);
 			result = shade.lambertian(bvh, hit_record, ray, light, ambient_light, indirect_photons, count);
-			result = result.add(shade.temp(indirect_photons, hit_record, ray, count).times(1.f));
-
+			result = result.add(shade.indirect(indirect_photons, hit_record, ray, count).times(1.f));
+			if (volume.intersect(ray, tnear, tfar)) {
+				result = result.add(march(ray, v_p_count, volume_photons, volume, tnear, tfar));
+				image.set(i, j, result);
+			}
 			image.set(i, j, result);
 	}
 

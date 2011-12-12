@@ -2,7 +2,9 @@
 #define __RAY_H__
 
 #include "vector.h"
-
+//#include "participating_volume.h"
+//#include "color.h"
+//#include "photon.h"
 class Ray {
 private:
 	Vector origin;
@@ -17,6 +19,7 @@ public:
 	void set_direction(Vector direction);
 	Vector get_origin();
 	Vector get_direction();
+//	Color march(ParticipatingVolume volume, Photon volume_photons[]);
 };
 
 #endif

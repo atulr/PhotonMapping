@@ -13,13 +13,10 @@
 #endif
 
 float MAX_DISTANCE = 17.f;
-float exposure = 1.0f;
-float sqRadius = 2.f;
-float gSqDist;
 
 #define PI 3.14159268
 
-bool inline close_enough(Vector vector1, Vector vector2) {
+bool inline close(Vector vector1, Vector vector2) {
 	float x = vector1.getx() - vector2.getx();
 	float y = vector1.gety() - vector2.gety();
 	float z = vector1.getz() - vector2.getz();
@@ -42,22 +39,6 @@ inline Vector normal(Trigonum triangle) {
 	return n.normalize();
 }
 
-inline bool distance(Vector position, Vector photon_position, float sqradius) { //Gated Squared Distance
-  float c = position.getx() - photon_position.getx();          //Efficient When Determining if Thousands of Points
-  float d = c*c;
- 	  	  	  //Are Within a Radius of a Point (and Most Are Not!)
-  if (d > sqradius) return false; //Gate 1 - If this dimension alone is larger than
-  c = position.gety() - photon_position.gety();                //         the search radius, no need to continue
-  d += c*c;
-  if (d > sqradius) return false; //Gate 2
-  c = position.getz() - photon_position.getz();
-  d += c*c;
-  if (d > sqradius) return false; //Gate 3
-  gSqDist = d;
-  return true ; //Store Squared Distance Itself in Global State
-}
-
-
 Color Shader::lambertian(BVH &bvh, HitRecord hit_record, Ray ray, PointLight point_light, Color ambient_light, Photon photons[], int size) {
 	float power[3] = {0.f, 0.f, 0.f};
 	float costheta, cosphi;
@@ -65,15 +46,9 @@ Color Shader::lambertian(BVH &bvh, HitRecord hit_record, Ray ray, PointLight poi
 	Color light;
 	Color back(.561f, .729f, .988f), indirect;
 	if (hit_record.did_hit()) {
-//		for (int k = 0; k < 10; k++) {
-//			float x_off = (trax_rand() - .5f) * 2.f;
-//			float y_off = (trax_rand() - .5f) * 2.f;
-//			float z_off = (trax_rand() - .5f) * 2.f;
-//			Vector random(x_off, y_off, z_off);
 			Ray ray_to_light_source;
 			Trigonum tri = hit_record.obj_id();
 			Vector hit_position = ray.get_origin().add((ray.get_direction().scmult(hit_record.min_t())));
-//			hit_position = hit_position.add(random);
 			Vector N = normal(tri);
 			costheta = N.dot(ray.get_direction().normalize());
 			if (costheta > 0.f)
@@ -88,14 +63,10 @@ Color Shader::lambertian(BVH &bvh, HitRecord hit_record, Ray ray, PointLight poi
 				if (!tri.intersects_other_triangles(bvh, hit_record, ray_to_light_source, L.length())) {
 					light = light.add(point_light.get_color().times((float)(tri.Kd() * cosphi)));
 				}
-				//			light = illumination;
 			}else{
 				//it's a shadow with ambient lighting :D:D:D
 			}
 
-			//		light = light.times(tri.surface_color()).times(0.7f);
-//			indirect = temp(photons, hit_record, ray, size);
-//			light = (light.add(indirect));
 			light = light.times(tri.surface_color());
 			return light;
 		}
@@ -104,7 +75,7 @@ Color Shader::lambertian(BVH &bvh, HitRecord hit_record, Ray ray, PointLight poi
 
 }
 
-Color Shader::temp(Photon photons[], HitRecord hit_record, Ray ray, int size) {
+Color Shader::indirect(Photon photons[], HitRecord hit_record, Ray ray, int size) {
 	float power[3] = {0.f, 0.f, 0.f};
 	Ray ray_to_light_source;
 	int num_of_photons = 0;
@@ -114,7 +85,7 @@ Color Shader::temp(Photon photons[], HitRecord hit_record, Ray ray, int size) {
 
 	Vector N = normal(tri);
 	for (int i = 0; i < size; i++) {
-		if (close_enough(photons[i].get_position(), hit_position)) {
+		if (close(photons[i].get_position(), hit_position)) {
 			num_of_photons++;
 			power[0] += photons[i].get_powerr();
 			power[1] += photons[i].get_powerg();

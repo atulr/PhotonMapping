@@ -22,3 +22,4 @@ Vector Ray::get_origin(){
 Vector Ray::get_direction(){
 	return direction;
 }
+

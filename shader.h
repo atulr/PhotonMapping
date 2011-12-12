@@ -23,8 +23,7 @@ class Shader{
 
 public:
 	Color lambertian(BVH &bvh, HitRecord hit_record, Ray ray, PointLight lights, Color ambient_light, Photon heap[], int size);
-	Color indirect_illumination(HitRecord hit_record, Ray ray, PhotonMap map);
-	Color temp(Photon photons[], HitRecord hit_record, Ray ray, int size);
+	Color indirect(Photon photons[], HitRecord hit_record, Ray ray, int size);
 };
 
 #endif /* SHADER_H_ */

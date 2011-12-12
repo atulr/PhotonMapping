@@ -18,6 +18,7 @@ define i32 @main() nounwind ssp {
 invcont8:
   %stack.i = alloca [32 x i32], align 4
   %map = alloca %struct.PhotonMap, align 8
+  %volume_photons = alloca [20000 x %struct.Photon], align 8
   %0 = call i32 @llvm.trax.loadi(i32 0, i32 1)
   %1 = call i32 @llvm.trax.loadi(i32 0, i32 4)
   %2 = call i32 @llvm.trax.loadi(i32 0, i32 7) nounwind
@@ -47,30 +48,29 @@ invcont8:
   %26 = call float @llvm.trax.loadf(i32 %25, i32 0) nounwind
   %27 = call float @llvm.trax.loadf(i32 %25, i32 1) nounwind
   %28 = call float @llvm.trax.loadf(i32 %25, i32 2) nounwind
-  br label %bb.i37
+  br label %bb.i58
 
-bb.i37:                                           ; preds = %bb.i37, %invcont8
-  %indvar1565 = phi i64 [ 0, %invcont8 ], [ %indvar.next1566, %bb.i37 ]
-  %scevgep1568 = getelementptr %struct.PhotonMap* %map, i64 0, i32 0, i64 %indvar1565, i32 2
-  %scevgep1569 = getelementptr %struct.PhotonMap* %map, i64 0, i32 0, i64 %indvar1565, i32 1, i64 2
-  %scevgep1570 = getelementptr %struct.PhotonMap* %map, i64 0, i32 0, i64 %indvar1565, i32 1, i64 1
-  %scevgep1571 = getelementptr %struct.PhotonMap* %map, i64 0, i32 0, i64 %indvar1565, i32 1, i64 0
-  %scevgep1572 = getelementptr %struct.PhotonMap* %map, i64 0, i32 0, i64 %indvar1565, i32 0, i32 2
-  %scevgep1573 = getelementptr %struct.PhotonMap* %map, i64 0, i32 0, i64 %indvar1565, i32 0, i32 1
-  %scevgep15741575 = getelementptr %struct.PhotonMap* %map, i64 0, i32 0, i64 %indvar1565, i32 0, i32 0
-  store float 0.000000e+00, float* %scevgep15741575, align 8
-  store float 0.000000e+00, float* %scevgep1573, align 4
-  store float 0.000000e+00, float* %scevgep1572, align 8
-  store float 1.000000e+00, float* %scevgep1571, align 4
-  store float 1.000000e+00, float* %scevgep1570, align 4
-  store float 1.000000e+00, float* %scevgep1569, align 4
-  store i8 0, i8* %scevgep1568, align 8
-  %indvar.next1566 = add i64 %indvar1565, 1
-  %exitcond1567 = icmp eq i64 %indvar.next1566, 5000
-  br i1 %exitcond1567, label %invcont11, label %bb.i37
+bb.i58:                                           ; preds = %bb.i58, %invcont8
+  %indvar1688 = phi i64 [ 0, %invcont8 ], [ %indvar.next1689, %bb.i58 ]
+  %scevgep1691 = getelementptr %struct.PhotonMap* %map, i64 0, i32 0, i64 %indvar1688, i32 2
+  %scevgep1692 = getelementptr %struct.PhotonMap* %map, i64 0, i32 0, i64 %indvar1688, i32 1, i64 2
+  %scevgep1693 = getelementptr %struct.PhotonMap* %map, i64 0, i32 0, i64 %indvar1688, i32 1, i64 1
+  %scevgep1694 = getelementptr %struct.PhotonMap* %map, i64 0, i32 0, i64 %indvar1688, i32 1, i64 0
+  %scevgep1695 = getelementptr %struct.PhotonMap* %map, i64 0, i32 0, i64 %indvar1688, i32 0, i32 2
+  %scevgep1696 = getelementptr %struct.PhotonMap* %map, i64 0, i32 0, i64 %indvar1688, i32 0, i32 1
+  %scevgep16971698 = getelementptr %struct.PhotonMap* %map, i64 0, i32 0, i64 %indvar1688, i32 0, i32 0
+  store float 0.000000e+00, float* %scevgep16971698, align 8
+  store float 0.000000e+00, float* %scevgep1696, align 4
+  store float 0.000000e+00, float* %scevgep1695, align 8
+  store float 1.000000e+00, float* %scevgep1694, align 4
+  store float 1.000000e+00, float* %scevgep1693, align 4
+  store float 1.000000e+00, float* %scevgep1692, align 4
+  store i8 0, i8* %scevgep1691, align 8
+  %indvar.next1689 = add i64 %indvar1688, 1
+  %exitcond1690 = icmp eq i64 %indvar.next1689, 5000
+  br i1 %exitcond1690, label %invcont11, label %bb.i58
 
-invcont11:                                        ; preds = %bb.i37
-  %tmp874 = bitcast float %12 to i32
+invcont11:                                        ; preds = %bb.i58
   %29 = getelementptr inbounds %struct.PhotonMap* %map, i64 0, i32 3, i64 2
   store float 1.000000e+07, float* %29, align 8
   %30 = getelementptr inbounds %struct.PhotonMap* %map, i64 0, i32 3, i64 1
@@ -86,44 +86,60 @@ invcont11:                                        ; preds = %bb.i37
   %35 = call i32 @llvm.trax.loadi(i32 0, i32 28)
   %36 = call i32 @llvm.trax.loadi(i32 0, i32 29)
   %37 = call i32 @llvm.trax.loadi(i32 0, i32 8)
-  %38 = alloca [250000 x %struct.Photon], align 1
+  %38 = alloca [220000 x %struct.Photon], align 1
   br label %bb
 
 bb:                                               ; preds = %bb, %invcont11
-  %indvar1554 = phi i64 [ 0, %invcont11 ], [ %indvar.next1555, %bb ]
-  %scevgep1557 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %indvar1554, i32 2
-  %scevgep1558 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %indvar1554, i32 1, i64 2
-  %scevgep1559 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %indvar1554, i32 1, i64 1
-  %scevgep1560 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %indvar1554, i32 1, i64 0
-  %scevgep1561 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %indvar1554, i32 0, i32 2
-  %scevgep1562 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %indvar1554, i32 0, i32 1
-  %scevgep15631564 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %indvar1554, i32 0, i32 0
-  store float 0.000000e+00, float* %scevgep15631564, align 4
-  store float 0.000000e+00, float* %scevgep1562, align 4
-  store float 0.000000e+00, float* %scevgep1561, align 4
-  store float 1.000000e+00, float* %scevgep1560, align 4
-  store float 1.000000e+00, float* %scevgep1559, align 4
-  store float 1.000000e+00, float* %scevgep1558, align 4
-  store i8 0, i8* %scevgep1557, align 4
-  %indvar.next1555 = add i64 %indvar1554, 1
-  %exitcond1556 = icmp eq i64 %indvar.next1555, 250000
-  br i1 %exitcond1556, label %invcont15, label %bb
+  %indvar1677 = phi i64 [ 0, %invcont11 ], [ %indvar.next1678, %bb ]
+  %scevgep1680 = getelementptr [220000 x %struct.Photon]* %38, i64 0, i64 %indvar1677, i32 2
+  %scevgep1681 = getelementptr [220000 x %struct.Photon]* %38, i64 0, i64 %indvar1677, i32 1, i64 2
+  %scevgep1682 = getelementptr [220000 x %struct.Photon]* %38, i64 0, i64 %indvar1677, i32 1, i64 1
+  %scevgep1683 = getelementptr [220000 x %struct.Photon]* %38, i64 0, i64 %indvar1677, i32 1, i64 0
+  %scevgep1684 = getelementptr [220000 x %struct.Photon]* %38, i64 0, i64 %indvar1677, i32 0, i32 2
+  %scevgep1685 = getelementptr [220000 x %struct.Photon]* %38, i64 0, i64 %indvar1677, i32 0, i32 1
+  %scevgep16861687 = getelementptr [220000 x %struct.Photon]* %38, i64 0, i64 %indvar1677, i32 0, i32 0
+  store float 0.000000e+00, float* %scevgep16861687, align 4
+  store float 0.000000e+00, float* %scevgep1685, align 4
+  store float 0.000000e+00, float* %scevgep1684, align 4
+  store float 1.000000e+00, float* %scevgep1683, align 4
+  store float 1.000000e+00, float* %scevgep1682, align 4
+  store float 1.000000e+00, float* %scevgep1681, align 4
+  store i8 0, i8* %scevgep1680, align 4
+  %indvar.next1678 = add i64 %indvar1677, 1
+  %exitcond1679 = icmp eq i64 %indvar.next1678, 220000
+  br i1 %exitcond1679, label %bb20, label %bb
 
-invcont15:                                        ; preds = %bb
+bb20:                                             ; preds = %bb20, %bb
+  %indvar1666 = phi i64 [ %indvar.next1667, %bb20 ], [ 0, %bb ]
+  %scevgep1669 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %indvar1666, i32 2
+  %scevgep1670 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %indvar1666, i32 1, i64 2
+  %scevgep1671 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %indvar1666, i32 1, i64 1
+  %scevgep1672 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %indvar1666, i32 1, i64 0
+  %scevgep1673 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %indvar1666, i32 0, i32 2
+  %scevgep1674 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %indvar1666, i32 0, i32 1
+  %scevgep16751676 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %indvar1666, i32 0, i32 0
+  store float 0.000000e+00, float* %scevgep16751676, align 8
+  store float 0.000000e+00, float* %scevgep1674, align 4
+  store float 0.000000e+00, float* %scevgep1673, align 8
+  store float 1.000000e+00, float* %scevgep1672, align 4
+  store float 1.000000e+00, float* %scevgep1671, align 4
+  store float 1.000000e+00, float* %scevgep1670, align 4
+  store i8 0, i8* %scevgep1669, align 8
+  %indvar.next1667 = add i64 %indvar1666, 1
+  %exitcond1668 = icmp eq i64 %indvar.next1667, 20000
+  br i1 %exitcond1668, label %invcont24, label %bb20
+
+invcont24:                                        ; preds = %bb20
   %39 = call i32 @llvm.trax.loadi(i32 0, i32 12)
   %40 = call float @llvm.trax.loadf(i32 %39, i32 0) nounwind
   %41 = call float @llvm.trax.loadf(i32 %39, i32 1) nounwind
   %42 = call float @llvm.trax.loadf(i32 %39, i32 2) nounwind
-  %tmp705 = bitcast float %40 to i32
-  %tmp706 = zext i32 %tmp705 to i64
-  %tmp699 = bitcast float %41 to i32
-  %tmp700 = zext i32 %tmp699 to i64
-  %tmp701 = shl nuw i64 %tmp700, 32
-  %ins703 = or i64 %tmp701, %tmp706
-  %tmp693 = bitcast float %42 to i32
-  br label %bb103.preheader
+  %tmp1104 = bitcast float %40 to i32
+  %tmp1098 = bitcast float %41 to i32
+  %tmp1092 = bitcast float %42 to i32
+  br label %bb113.preheader
 
-bb.i52:                                           ; preds = %bb103, %bb.i52
+bb.i86:                                           ; preds = %bb113, %bb.i86
   %43 = call float @llvm.trax.rand() nounwind
   %44 = fadd float %43, -5.000000e-01
   %45 = fmul float %44, 2.000000e+00
@@ -139,9 +155,9 @@ bb.i52:                                           ; preds = %bb103, %bb.i52
   %55 = fmul float %51, %51
   %56 = fadd float %54, %55
   %57 = fcmp ogt float %56, 1.000000e+00
-  br i1 %57, label %bb.i52, label %invcont30
+  br i1 %57, label %bb.i86, label %invcont54
 
-invcont30:                                        ; preds = %bb.i52
+invcont54:                                        ; preds = %bb.i86
   %58 = call float @llvm.trax.invsqrt(float %56) nounwind
   %59 = fdiv float 1.000000e+00, %58
   %60 = fdiv float %51, %59
@@ -149,328 +165,290 @@ invcont30:                                        ; preds = %bb.i52
   %62 = fdiv float %45, %59
   %tmp18.i = bitcast float %62 to i32
   %tmp12.i = bitcast float %61 to i32
-  %tmp1329 = bitcast float %60 to i32
-  %tmp1359 = zext i32 %tmp18.i to i96
-  %tmp1353 = zext i32 %tmp12.i to i96
-  %tmp1354 = shl nuw nsw i96 %tmp1353, 32
-  %ins1356 = or i96 %tmp1359, %tmp1354
-  %tmp614 = zext i96 %ins1356 to i128
-  %mask615 = and i128 %memtmp31.0, -79228162514264337593543950336
-  %tmp608 = zext i32 %tmp1329 to i128
-  %tmp609 = shl nuw nsw i128 %tmp608, 64
-  %mask610 = or i128 %tmp609, %mask615
-  %ins611 = or i128 %mask610, %tmp614
-  %ins611.tr = trunc i128 %ins611 to i96
-  %mask682 = and i512 %mask7231196, -726838724295606890549323807878830539891817061676795686782676873123622580271327503353597348126162915664230802099766744271117060969332736
-  %ins683 = or i512 %mask682, 1343554297
-  %tmp1363 = lshr i96 %ins611.tr, 64
-  %63 = icmp sgt i32 %bounces.0, 0
-  br i1 %63, label %bb43, label %invcont48
-
-bb43:                                             ; preds = %invcont30
-  %mask1478 = and i128 %memtmp.i78.1, -79228162514264337593543950336
-  %tmp1471 = zext i96 %tmp1363 to i128
-  %tmp1472 = shl nuw nsw i128 %tmp1471, 64
-  %mask1473 = or i128 %tmp614, %mask1478
-  %ins1474 = or i128 %mask1473, %tmp1472
-  %ins1474.tr = trunc i128 %ins1474 to i96
-  %tmp1481 = lshr i96 %ins1474.tr, 64
-  %tmp1482 = trunc i96 %tmp1481 to i32
-  %tmp1483 = bitcast i32 %tmp1482 to float
-  %64 = fadd float %62, %tmp1442
-  %65 = fadd float %61, %tmp1446
-  %66 = fadd float %tmp1387, %tmp1483
-  %67 = fcmp ule float %64, 9.000000e+01
-  %68 = fcmp uge float %64, 3.000000e+02
-  %or.cond = or i1 %67, %68
-  %69 = fcmp ule float %65, 8.000000e+01
-  %or.cond3653 = or i1 %or.cond, %69
-  %70 = fcmp uge float %65, 3.000000e+02
-  %or.cond3654 = or i1 %or.cond3653, %70
-  %71 = fcmp ule float %66, 3.000000e+02
-  %or.cond3655 = or i1 %or.cond3654, %71
-  %72 = fcmp uge float %66, 3.500000e+02
-  %or.cond3656 = or i1 %or.cond3655, %72
-  br i1 %or.cond3656, label %invcont48, label %invcont46
-
-invcont46:                                        ; preds = %bb43
-  %73 = sitofp i32 %bar.1 to float
-  %74 = add nsw i32 %bar.1, 1
-  call void @llvm.trax.printf(float %73)
-  br label %invcont48
-
-invcont48:                                        ; preds = %invcont46, %bb43, %invcont30
-  %memtmp.i78.0 = phi i128 [ %ins1474, %bb43 ], [ %ins1474, %invcont46 ], [ %memtmp.i78.1, %invcont30 ]
-  %bar.0 = phi i32 [ %bar.1, %bb43 ], [ %74, %invcont46 ], [ %bar.1, %invcont30 ]
-  %tmp581 = trunc i96 %tmp1363 to i32
-  %tmp582 = bitcast i32 %tmp581 to float
+  %tmp2346 = bitcast float %60 to i32
+  %tmp2376 = zext i32 %tmp18.i to i96
+  %tmp2370 = zext i32 %tmp12.i to i96
+  %tmp2371 = shl nuw nsw i96 %tmp2370, 32
+  %ins2373 = or i96 %tmp2376, %tmp2371
+  %tmp1011 = zext i96 %ins2373 to i128
+  %mask1012 = and i128 %memtmp40.0, -79228162514264337593543950336
+  %tmp1005 = zext i32 %tmp2346 to i128
+  %tmp1006 = shl nuw nsw i128 %tmp1005, 64
+  %mask1007 = or i128 %tmp1006, %mask1012
+  %ins1008 = or i128 %mask1007, %tmp1011
+  %ins1008.tr = trunc i128 %ins1008 to i96
+  %mask713 = and i512 %mask7501136, -726838724295606890549323807878830539891817061676795686782676873123622580271327503353597348126162915664230802099766744271117060969332736
+  %ins714 = or i512 %mask713, 1343554297
+  %tmp2380 = lshr i96 %ins1008.tr, 64
+  %tmp591 = trunc i96 %tmp2380 to i32
+  %tmp592 = bitcast i32 %tmp591 to float
   br label %bb.outer.i
 
-bb.outer.i:                                       ; preds = %bb9.i, %invcont48
-  %mask7231198 = phi i512 [ %ins683, %invcont48 ], [ %mask7231197, %bb9.i ]
-  %node_id.0.ph.i = phi i32 [ 0, %invcont48 ], [ %232, %bb9.i ]
-  %sp.0.ph.i = phi i32 [ -1, %invcont48 ], [ %233, %bb9.i ]
+bb.outer.i:                                       ; preds = %bb9.i, %invcont54
+  %mask7501138 = phi i512 [ %ins714, %invcont54 ], [ %mask7501137, %bb9.i ]
+  %node_id.0.ph.i = phi i32 [ 0, %invcont54 ], [ %220, %bb9.i ]
+  %sp.0.ph.i = phi i32 [ -1, %invcont54 ], [ %221, %bb9.i ]
   %tmp404.i = add i32 %sp.0.ph.i, 1
-  %tmp1504 = sext i32 %tmp404.i to i64
-  %tmp1507 = zext i32 %sp.0.ph.i to i64
+  %tmp1563 = sext i32 %tmp404.i to i64
+  %tmp1566 = zext i32 %sp.0.ph.i to i64
   br label %bb.i
 
 bb.i:                                             ; preds = %bb3.i, %bb.outer.i
   %indvar.i = phi i64 [ %indvar.next.i, %bb3.i ], [ 0, %bb.outer.i ]
-  %node_id.0.i = phi i32 [ %110, %bb3.i ], [ %node_id.0.ph.i, %bb.outer.i ]
-  %tmp1505 = add i64 %tmp1504, %indvar.i
-  %scevgep.i = getelementptr [32 x i32]* %stack.i, i64 0, i64 %tmp1505
-  %tmp1508 = add i64 %tmp1507, %indvar.i
-  %sp.0.i = trunc i64 %tmp1508 to i32
-  %75 = shl nsw i32 %node_id.0.i, 3
-  %76 = add nsw i32 %75, %37
-  %77 = call float @llvm.trax.loadf(i32 %76, i32 2) nounwind
-  %78 = call float @llvm.trax.loadf(i32 %76, i32 1) nounwind
-  %79 = call float @llvm.trax.loadf(i32 %76, i32 0) nounwind
-  %80 = call float @llvm.trax.loadf(i32 %76, i32 5) nounwind
-  %81 = call float @llvm.trax.loadf(i32 %76, i32 4) nounwind
-  %82 = call float @llvm.trax.loadf(i32 %76, i32 3) nounwind
-  %83 = fsub float %79, %tmp623
-  %84 = fdiv float %83, %62
-  %85 = fsub float %82, %tmp623
-  %86 = fdiv float %85, %62
-  %87 = fcmp ogt float %84, %86
-  %tx1.i.0.i = select i1 %87, float %86, float %84
-  %tx2.i.0.i = select i1 %87, float %84, float %86
-  %88 = fcmp ogt float %tx1.i.0.i, -1.000000e+10
-  %tnear.i.0.i = select i1 %88, float %tx1.i.0.i, float -1.000000e+10
-  %89 = fcmp olt float %tx2.i.0.i, 1.000000e+10
-  %tfar.i.0.i = select i1 %89, float %tx2.i.0.i, float 1.000000e+10
-  %90 = fcmp ogt float %tnear.i.0.i, %tfar.i.0.i
-  %91 = fcmp olt float %tfar.i.0.i, 0.000000e+00
-  %or.cond.i = or i1 %90, %91
+  %node_id.0.i = phi i32 [ %98, %bb3.i ], [ %node_id.0.ph.i, %bb.outer.i ]
+  %tmp1564 = add i64 %tmp1563, %indvar.i
+  %scevgep.i = getelementptr [32 x i32]* %stack.i, i64 0, i64 %tmp1564
+  %tmp1567 = add i64 %tmp1566, %indvar.i
+  %sp.0.i = trunc i64 %tmp1567 to i32
+  %63 = shl nsw i32 %node_id.0.i, 3
+  %64 = add nsw i32 %63, %37
+  %65 = call float @llvm.trax.loadf(i32 %64, i32 2) nounwind
+  %66 = call float @llvm.trax.loadf(i32 %64, i32 1) nounwind
+  %67 = call float @llvm.trax.loadf(i32 %64, i32 0) nounwind
+  %68 = call float @llvm.trax.loadf(i32 %64, i32 5) nounwind
+  %69 = call float @llvm.trax.loadf(i32 %64, i32 4) nounwind
+  %70 = call float @llvm.trax.loadf(i32 %64, i32 3) nounwind
+  %71 = fsub float %67, %tmp631
+  %72 = fdiv float %71, %62
+  %73 = fsub float %70, %tmp631
+  %74 = fdiv float %73, %62
+  %75 = fcmp ogt float %72, %74
+  %tx1.i.0.i = select i1 %75, float %74, float %72
+  %tx2.i.0.i = select i1 %75, float %72, float %74
+  %76 = fcmp ogt float %tx1.i.0.i, -1.000000e+10
+  %tnear.i.0.i = select i1 %76, float %tx1.i.0.i, float -1.000000e+10
+  %77 = fcmp olt float %tx2.i.0.i, 1.000000e+10
+  %tfar.i.0.i = select i1 %77, float %tx2.i.0.i, float 1.000000e+10
+  %78 = fcmp ogt float %tnear.i.0.i, %tfar.i.0.i
+  %79 = fcmp olt float %tfar.i.0.i, 0.000000e+00
+  %or.cond.i = or i1 %78, %79
   br i1 %or.cond.i, label %bb7.i, label %bb29.i.i
 
 bb29.i.i:                                         ; preds = %bb.i
-  %92 = fsub float %78, %tmp617
-  %93 = fdiv float %92, %61
-  %94 = fsub float %81, %tmp617
-  %95 = fdiv float %94, %61
-  %96 = fcmp ogt float %93, %95
-  %ty1.i.0.i = select i1 %96, float %95, float %93
-  %ty2.i.0.i = select i1 %96, float %93, float %95
-  %97 = fcmp ogt float %ty1.i.0.i, %tnear.i.0.i
-  %tnear.i.1.i = select i1 %97, float %ty1.i.0.i, float %tnear.i.0.i
-  %98 = fcmp olt float %ty2.i.0.i, %tfar.i.0.i
-  %tfar.i.1.i = select i1 %98, float %ty2.i.0.i, float %tfar.i.0.i
-  %99 = fcmp ogt float %tnear.i.1.i, %tfar.i.1.i
-  %100 = fcmp olt float %tfar.i.1.i, 0.000000e+00
-  %or.cond1395.i = or i1 %99, %100
+  %80 = fsub float %66, %tmp625
+  %81 = fdiv float %80, %61
+  %82 = fsub float %69, %tmp625
+  %83 = fdiv float %82, %61
+  %84 = fcmp ogt float %81, %83
+  %ty1.i.0.i = select i1 %84, float %83, float %81
+  %ty2.i.0.i = select i1 %84, float %81, float %83
+  %85 = fcmp ogt float %ty1.i.0.i, %tnear.i.0.i
+  %tnear.i.1.i = select i1 %85, float %ty1.i.0.i, float %tnear.i.0.i
+  %86 = fcmp olt float %ty2.i.0.i, %tfar.i.0.i
+  %tfar.i.1.i = select i1 %86, float %ty2.i.0.i, float %tfar.i.0.i
+  %87 = fcmp ogt float %tnear.i.1.i, %tfar.i.1.i
+  %88 = fcmp olt float %tfar.i.1.i, 0.000000e+00
+  %or.cond1395.i = or i1 %87, %88
   br i1 %or.cond1395.i, label %bb7.i, label %bb62.i.i
 
 bb62.i.i:                                         ; preds = %bb29.i.i
-  %101 = fsub float %77, %tmp1387
-  %102 = fdiv float %101, %tmp582
-  %103 = fsub float %80, %tmp1387
-  %104 = fdiv float %103, %tmp582
-  %105 = fcmp ogt float %102, %104
-  %tz1.i.0.i = select i1 %105, float %104, float %102
-  %tz2.i.0.i = select i1 %105, float %102, float %104
-  %106 = fcmp ogt float %tz1.i.0.i, %tnear.i.1.i
-  %tnear.i.2.i = select i1 %106, float %tz1.i.0.i, float %tnear.i.1.i
-  %107 = fcmp olt float %tz2.i.0.i, %tfar.i.1.i
-  %tfar.i.2.i = select i1 %107, float %tz2.i.0.i, float %tfar.i.1.i
-  %108 = fcmp ogt float %tnear.i.2.i, %tfar.i.2.i
-  %109 = fcmp olt float %tfar.i.2.i, 0.000000e+00
-  %or.cond1396.i = or i1 %108, %109
-  br i1 %or.cond1396.i, label %bb7.i, label %bb1.i69
+  %89 = fsub float %65, %tmp617
+  %90 = fdiv float %89, %tmp592
+  %91 = fsub float %68, %tmp617
+  %92 = fdiv float %91, %tmp592
+  %93 = fcmp ogt float %90, %92
+  %tz1.i.0.i = select i1 %93, float %92, float %90
+  %tz2.i.0.i = select i1 %93, float %90, float %92
+  %94 = fcmp ogt float %tz1.i.0.i, %tnear.i.1.i
+  %tnear.i.2.i = select i1 %94, float %tz1.i.0.i, float %tnear.i.1.i
+  %95 = fcmp olt float %tz2.i.0.i, %tfar.i.1.i
+  %tfar.i.2.i = select i1 %95, float %tz2.i.0.i, float %tfar.i.1.i
+  %96 = fcmp ogt float %tnear.i.2.i, %tfar.i.2.i
+  %97 = fcmp olt float %tfar.i.2.i, 0.000000e+00
+  %or.cond1396.i = or i1 %96, %97
+  br i1 %or.cond1396.i, label %bb7.i, label %bb1.i29
 
-bb1.i69:                                          ; preds = %bb62.i.i
-  %110 = call i32 @llvm.trax.loadi(i32 %76, i32 7) nounwind
-  %111 = call i32 @llvm.trax.loadi(i32 %76, i32 6) nounwind
-  %112 = icmp slt i32 %111, 0
-  br i1 %112, label %bb3.i, label %bb6.preheader.i
+bb1.i29:                                          ; preds = %bb62.i.i
+  %98 = call i32 @llvm.trax.loadi(i32 %64, i32 7) nounwind
+  %99 = call i32 @llvm.trax.loadi(i32 %64, i32 6) nounwind
+  %100 = icmp slt i32 %99, 0
+  br i1 %100, label %bb3.i, label %bb6.preheader.i
 
-bb6.preheader.i:                                  ; preds = %bb1.i69
-  %113 = icmp sgt i32 %111, 0
-  br i1 %113, label %bb5.i70, label %bb7.i
+bb6.preheader.i:                                  ; preds = %bb1.i29
+  %101 = icmp sgt i32 %99, 0
+  br i1 %101, label %bb5.i, label %bb7.i
 
-bb3.i:                                            ; preds = %bb1.i69
-  %114 = add nsw i32 %110, 1
-  store i32 %114, i32* %scevgep.i, align 4
+bb3.i:                                            ; preds = %bb1.i29
+  %102 = add nsw i32 %98, 1
+  store i32 %102, i32* %scevgep.i, align 4
   %indvar.next.i = add i64 %indvar.i, 1
   br label %bb.i
 
-bb5.i70:                                          ; preds = %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i, %bb6.preheader.i
-  %mask7231194 = phi i512 [ %mask7231193, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i ], [ %mask7231198, %bb6.preheader.i ]
-  %storemerge388.i = phi i32 [ %228, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i ], [ 0, %bb6.preheader.i ]
-  %tmp1498 = mul i32 %storemerge388.i, 11
-  %tmp396.i = add i32 %110, %tmp1498
-  %115 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 2) nounwind
-  %116 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 1) nounwind
-  %117 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 0) nounwind
-  %118 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 5) nounwind
-  %119 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 4) nounwind
-  %120 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 3) nounwind
-  %121 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 8) nounwind
-  %122 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 7) nounwind
-  %123 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 6) nounwind
-  %124 = call i32 @llvm.trax.loadi(i32 %tmp396.i, i32 10) nounwind
-  %125 = call i32 @llvm.trax.loadi(i32 %tmp396.i, i32 9) nounwind
-  %126 = call i32 @llvm.trax.loadi(i32 0, i32 9) nounwind
-  %127 = mul nsw i32 %124, 25
-  %128 = add nsw i32 %126, %127
-  %129 = call float @llvm.trax.loadf(i32 %128, i32 6) nounwind
-  %130 = call float @llvm.trax.loadf(i32 %128, i32 5) nounwind
-  %131 = call float @llvm.trax.loadf(i32 %128, i32 4) nounwind
-  %132 = fsub float %117, %123
-  %133 = fsub float %116, %122
-  %134 = fsub float %115, %121
-  %135 = fsub float %120, %123
-  %136 = fsub float %119, %122
-  %137 = fsub float %118, %121
-  %138 = fmul float %133, %137
-  %139 = fmul float %136, %134
-  %140 = fsub float %138, %139
-  %141 = fmul float %135, %134
-  %142 = fmul float %132, %137
+bb5.i:                                            ; preds = %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i, %bb6.preheader.i
+  %mask7501134 = phi i512 [ %mask7501133, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i ], [ %mask7501138, %bb6.preheader.i ]
+  %storemerge388.i = phi i32 [ %216, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i ], [ 0, %bb6.preheader.i ]
+  %tmp1557 = mul i32 %storemerge388.i, 11
+  %tmp396.i = add i32 %98, %tmp1557
+  %103 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 2) nounwind
+  %104 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 1) nounwind
+  %105 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 0) nounwind
+  %106 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 5) nounwind
+  %107 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 4) nounwind
+  %108 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 3) nounwind
+  %109 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 8) nounwind
+  %110 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 7) nounwind
+  %111 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 6) nounwind
+  %112 = call i32 @llvm.trax.loadi(i32 %tmp396.i, i32 10) nounwind
+  %113 = call i32 @llvm.trax.loadi(i32 %tmp396.i, i32 9) nounwind
+  %114 = call i32 @llvm.trax.loadi(i32 0, i32 9) nounwind
+  %115 = mul nsw i32 %112, 25
+  %116 = add nsw i32 %114, %115
+  %117 = call float @llvm.trax.loadf(i32 %116, i32 6) nounwind
+  %118 = call float @llvm.trax.loadf(i32 %116, i32 5) nounwind
+  %119 = call float @llvm.trax.loadf(i32 %116, i32 4) nounwind
+  %120 = fsub float %105, %111
+  %121 = fsub float %104, %110
+  %122 = fsub float %103, %109
+  %123 = fsub float %108, %111
+  %124 = fsub float %107, %110
+  %125 = fsub float %106, %109
+  %126 = fmul float %121, %125
+  %127 = fmul float %124, %122
+  %128 = fsub float %126, %127
+  %129 = fmul float %123, %122
+  %130 = fmul float %120, %125
+  %131 = fsub float %129, %130
+  %132 = fmul float %124, %120
+  %133 = fmul float %123, %121
+  %134 = fsub float %132, %133
+  %135 = fmul float %128, %128
+  %136 = fmul float %131, %131
+  %137 = fadd float %135, %136
+  %138 = fmul float %134, %134
+  %139 = fadd float %137, %138
+  %140 = call float @llvm.trax.invsqrt(float %139) nounwind
+  %141 = fmul float %61, %125
+  %142 = fmul float %124, %tmp592
   %143 = fsub float %141, %142
-  %144 = fmul float %136, %132
-  %145 = fmul float %135, %133
+  %144 = fmul float %123, %tmp592
+  %145 = fmul float %62, %125
   %146 = fsub float %144, %145
-  %147 = fmul float %140, %140
-  %148 = fmul float %143, %143
-  %149 = fadd float %147, %148
-  %150 = fmul float %146, %146
-  %151 = fadd float %149, %150
-  %152 = call float @llvm.trax.invsqrt(float %151) nounwind
-  %153 = fmul float %61, %137
-  %154 = fmul float %136, %tmp582
-  %155 = fsub float %153, %154
-  %156 = fmul float %135, %tmp582
-  %157 = fmul float %62, %137
-  %158 = fsub float %156, %157
-  %159 = fmul float %136, %62
-  %160 = fmul float %135, %61
-  %161 = fsub float %159, %160
-  %162 = fmul float %155, %132
-  %163 = fadd float %162, 0.000000e+00
-  %164 = fmul float %158, %133
+  %147 = fmul float %124, %62
+  %148 = fmul float %123, %61
+  %149 = fsub float %147, %148
+  %150 = fmul float %143, %120
+  %151 = fadd float %150, 0.000000e+00
+  %152 = fmul float %146, %121
+  %153 = fadd float %152, %151
+  %154 = fmul float %149, %122
+  %155 = fadd float %154, %153
+  %156 = fdiv float 1.000000e+00, %155
+  %157 = fsub float %tmp631, %111
+  %158 = fsub float %tmp625, %110
+  %159 = fsub float %tmp617, %109
+  %160 = fmul float %143, %157
+  %161 = fadd float %160, 0.000000e+00
+  %162 = fmul float %146, %158
+  %163 = fadd float %162, %161
+  %164 = fmul float %149, %159
   %165 = fadd float %164, %163
-  %166 = fmul float %161, %134
-  %167 = fadd float %166, %165
-  %168 = fdiv float 1.000000e+00, %167
-  %169 = fsub float %tmp623, %123
-  %170 = fsub float %tmp617, %122
-  %171 = fsub float %tmp1387, %121
-  %172 = fmul float %155, %169
-  %173 = fadd float %172, 0.000000e+00
-  %174 = fmul float %158, %170
-  %175 = fadd float %174, %173
-  %176 = fmul float %161, %171
-  %177 = fadd float %176, %175
-  %178 = fmul float %177, %168
-  %179 = fcmp olt float %178, 0.000000e+00
-  %180 = fcmp ogt float %178, 1.000000e+00
-  %or.cond1397.i = or i1 %179, %180
+  %166 = fmul float %165, %156
+  %167 = fcmp olt float %166, 0.000000e+00
+  %168 = fcmp ogt float %166, 1.000000e+00
+  %or.cond1397.i = or i1 %167, %168
   br i1 %or.cond1397.i, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i, label %bb73.i.i
 
-bb73.i.i:                                         ; preds = %bb5.i70
-  %181 = fmul float %170, %134
-  %182 = fmul float %133, %171
-  %183 = fsub float %181, %182
-  %184 = fmul float %132, %171
-  %185 = fmul float %169, %134
-  %186 = fsub float %184, %185
-  %187 = fmul float %133, %169
-  %188 = fmul float %132, %170
-  %189 = fsub float %187, %188
-  %190 = fmul float %183, %62
-  %191 = fadd float %190, 0.000000e+00
-  %192 = fmul float %186, %61
-  %193 = fadd float %192, %191
-  %194 = fmul float %189, %tmp582
-  %195 = fadd float %194, %193
-  %196 = fmul float %195, %168
-  %197 = fcmp olt float %196, 0.000000e+00
-  br i1 %197, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i, label %bb94.i55.i
+bb73.i.i:                                         ; preds = %bb5.i
+  %169 = fmul float %158, %122
+  %170 = fmul float %121, %159
+  %171 = fsub float %169, %170
+  %172 = fmul float %120, %159
+  %173 = fmul float %157, %122
+  %174 = fsub float %172, %173
+  %175 = fmul float %121, %157
+  %176 = fmul float %120, %158
+  %177 = fsub float %175, %176
+  %178 = fmul float %171, %62
+  %179 = fadd float %178, 0.000000e+00
+  %180 = fmul float %174, %61
+  %181 = fadd float %180, %179
+  %182 = fmul float %177, %tmp592
+  %183 = fadd float %182, %181
+  %184 = fmul float %183, %156
+  %185 = fcmp olt float %184, 0.000000e+00
+  br i1 %185, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i, label %bb94.i55.i
 
 bb94.i55.i:                                       ; preds = %bb73.i.i
-  %198 = fadd float %196, %178
-  %199 = fcmp ogt float %198, 1.000000e+00
-  br i1 %199, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i, label %bb96.i.i
+  %186 = fadd float %184, %166
+  %187 = fcmp ogt float %186, 1.000000e+00
+  br i1 %187, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i, label %bb96.i.i
 
 bb96.i.i:                                         ; preds = %bb94.i55.i
-  %200 = fmul float %183, %135
-  %201 = fadd float %200, 0.000000e+00
-  %202 = fmul float %186, %136
-  %203 = fadd float %202, %201
-  %204 = fmul float %189, %137
-  %205 = fadd float %204, %203
-  %206 = fmul float %205, %168
-  %207 = fcmp ule float %206, 0.000000e+00
-  %208 = fcmp olt float %206, 0x3F50624DE0000000
-  %or.cond1398.i = or i1 %207, %208
-  %209 = fcmp oeq float %206, 1.000000e+10
-  %or.cond1399.i = or i1 %or.cond1398.i, %209
+  %188 = fmul float %171, %123
+  %189 = fadd float %188, 0.000000e+00
+  %190 = fmul float %174, %124
+  %191 = fadd float %190, %189
+  %192 = fmul float %177, %125
+  %193 = fadd float %192, %191
+  %194 = fmul float %193, %156
+  %195 = fcmp ule float %194, 0.000000e+00
+  %196 = fcmp olt float %194, 0x3F50624DE0000000
+  %or.cond1398.i = or i1 %195, %196
+  %197 = fcmp oeq float %194, 1.000000e+10
+  %or.cond1399.i = or i1 %or.cond1398.i, %197
   br i1 %or.cond1399.i, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i, label %bb2.i.i.i
 
 bb2.i.i.i:                                        ; preds = %bb96.i.i
-  %tmp676 = trunc i512 %mask7231194 to i32
-  %tmp677 = bitcast i32 %tmp676 to float
-  %210 = fcmp ogt float %tmp677, %206
-  br i1 %210, label %bb3.i.i.i, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i
+  %tmp707 = trunc i512 %mask7501134 to i32
+  %tmp708 = bitcast i32 %tmp707 to float
+  %198 = fcmp ogt float %tmp708, %194
+  br i1 %198, label %bb3.i.i.i, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i
 
 bb3.i.i.i:                                        ; preds = %bb2.i.i.i
-  %tmp671 = bitcast float %206 to i32
-  %tmp672 = zext i32 %tmp671 to i512
-  %211 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 2) nounwind
-  %212 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 1) nounwind
-  %213 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 0) nounwind
-  %214 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 5) nounwind
-  %215 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 4) nounwind
-  %216 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 3) nounwind
-  %217 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 8) nounwind
-  %218 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 7) nounwind
-  %219 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 6) nounwind
-  %220 = call i32 @llvm.trax.loadi(i32 %tmp396.i, i32 10) nounwind
-  %221 = call i32 @llvm.trax.loadi(i32 %tmp396.i, i32 9) nounwind
-  %tmp369.i = bitcast float %213 to i32
+  %tmp702 = bitcast float %194 to i32
+  %tmp703 = zext i32 %tmp702 to i512
+  %199 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 2) nounwind
+  %200 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 1) nounwind
+  %201 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 0) nounwind
+  %202 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 5) nounwind
+  %203 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 4) nounwind
+  %204 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 3) nounwind
+  %205 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 8) nounwind
+  %206 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 7) nounwind
+  %207 = call float @llvm.trax.loadf(i32 %tmp396.i, i32 6) nounwind
+  %208 = call i32 @llvm.trax.loadi(i32 %tmp396.i, i32 10) nounwind
+  %209 = call i32 @llvm.trax.loadi(i32 %tmp396.i, i32 9) nounwind
+  %tmp369.i = bitcast float %201 to i32
   %tmp370.i = zext i32 %tmp369.i to i480
-  %tmp301.i = bitcast float %212 to i32
+  %tmp301.i = bitcast float %200 to i32
   %tmp302.i = zext i32 %tmp301.i to i480
   %tmp303.i = shl nuw nsw i480 %tmp302.i, 32
-  %tmp295.i = bitcast float %211 to i32
+  %tmp295.i = bitcast float %199 to i32
   %tmp296.i = zext i32 %tmp295.i to i480
   %tmp297.i = shl nuw nsw i480 %tmp296.i, 64
-  %tmp363.i = bitcast float %216 to i32
+  %tmp363.i = bitcast float %204 to i32
   %tmp364.i = zext i32 %tmp363.i to i480
   %tmp365.i = shl nuw nsw i480 %tmp364.i, 96
-  %tmp357.i = bitcast float %215 to i32
+  %tmp357.i = bitcast float %203 to i32
   %tmp358.i = zext i32 %tmp357.i to i480
   %tmp359.i = shl nuw nsw i480 %tmp358.i, 128
-  %tmp351.i = bitcast float %214 to i32
+  %tmp351.i = bitcast float %202 to i32
   %tmp352.i = zext i32 %tmp351.i to i480
   %tmp353.i = shl nuw nsw i480 %tmp352.i, 160
-  %tmp345.i = bitcast float %219 to i32
+  %tmp345.i = bitcast float %207 to i32
   %tmp346.i = zext i32 %tmp345.i to i480
   %tmp347.i = shl nuw nsw i480 %tmp346.i, 192
-  %tmp339.i = bitcast float %218 to i32
+  %tmp339.i = bitcast float %206 to i32
   %tmp340.i = zext i32 %tmp339.i to i480
   %tmp341.i = shl nuw nsw i480 %tmp340.i, 224
-  %tmp333.i = bitcast float %217 to i32
+  %tmp333.i = bitcast float %205 to i32
   %tmp334.i = zext i32 %tmp333.i to i480
   %tmp335.i = shl nuw nsw i480 %tmp334.i, 256
-  %tmp290.i = zext i32 %221 to i480
+  %tmp290.i = zext i32 %209 to i480
   %tmp291.i = shl nuw nsw i480 %tmp290.i, 288
-  %222 = call i32 @llvm.trax.loadi(i32 0, i32 9) nounwind
-  %223 = mul nsw i32 %220, 25
-  %224 = add nsw i32 %222, %223
-  %225 = call float @llvm.trax.loadf(i32 %224, i32 6) nounwind
-  %226 = call float @llvm.trax.loadf(i32 %224, i32 5) nounwind
-  %227 = call float @llvm.trax.loadf(i32 %224, i32 4) nounwind
-  %tmp325.i = bitcast float %227 to i32
+  %210 = call i32 @llvm.trax.loadi(i32 0, i32 9) nounwind
+  %211 = mul nsw i32 %208, 25
+  %212 = add nsw i32 %210, %211
+  %213 = call float @llvm.trax.loadf(i32 %212, i32 6) nounwind
+  %214 = call float @llvm.trax.loadf(i32 %212, i32 5) nounwind
+  %215 = call float @llvm.trax.loadf(i32 %212, i32 4) nounwind
+  %tmp325.i = bitcast float %215 to i32
   %tmp326.i = zext i32 %tmp325.i to i480
   %tmp327.i = shl nuw nsw i480 %tmp326.i, 320
-  %tmp317.i = bitcast float %226 to i32
+  %tmp317.i = bitcast float %214 to i32
   %tmp318.i = zext i32 %tmp317.i to i480
   %tmp319.i = shl nuw nsw i480 %tmp318.i, 352
-  %tmp309.i = bitcast float %225 to i32
+  %tmp309.i = bitcast float %213 to i32
   %tmp310.i = zext i32 %tmp309.i to i480
   %tmp311.i = shl nuw nsw i480 %tmp310.i, 384
   %mask298.i = or i480 %tmp297.i, %tmp370.i
@@ -486,1200 +464,1599 @@ bb3.i.i.i:                                        ; preds = %bb2.i.i.i
   %mask312.masked.masked.i = or i480 %mask320.masked.masked.masked.i, %tmp319.i
   %ins288.i = or i480 %mask312.masked.masked.i, %tmp327.i
   %ins285.i = or i480 %ins288.i, 770681673391627619131312691654083964084373995933406099189890146314966155308140517402099473489517307419678932548501811235986099843289400054120448
-  %tmp666 = zext i480 %ins285.i to i512
-  %tmp667 = shl nuw i512 %tmp666, 32
-  %ins669 = or i512 %tmp667, %tmp672
+  %tmp697 = zext i480 %ins285.i to i512
+  %tmp698 = shl nuw i512 %tmp697, 32
+  %ins700 = or i512 %tmp698, %tmp703
   br label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i
 
-_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i: ; preds = %bb3.i.i.i, %bb2.i.i.i, %bb96.i.i, %bb94.i55.i, %bb73.i.i, %bb5.i70
-  %mask7231193 = phi i512 [ %ins669, %bb3.i.i.i ], [ %mask7231194, %bb2.i.i.i ], [ %mask7231194, %bb96.i.i ], [ %mask7231194, %bb94.i55.i ], [ %mask7231194, %bb73.i.i ], [ %mask7231194, %bb5.i70 ]
-  %228 = add nsw i32 %storemerge388.i, 1
-  %exitcond1497 = icmp eq i32 %228, %111
-  br i1 %exitcond1497, label %bb7.i, label %bb5.i70
+_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i: ; preds = %bb3.i.i.i, %bb2.i.i.i, %bb96.i.i, %bb94.i55.i, %bb73.i.i, %bb5.i
+  %mask7501133 = phi i512 [ %ins700, %bb3.i.i.i ], [ %mask7501134, %bb2.i.i.i ], [ %mask7501134, %bb96.i.i ], [ %mask7501134, %bb94.i55.i ], [ %mask7501134, %bb73.i.i ], [ %mask7501134, %bb5.i ]
+  %216 = add nsw i32 %storemerge388.i, 1
+  %exitcond1556 = icmp eq i32 %216, %99
+  br i1 %exitcond1556, label %bb7.i, label %bb5.i
 
 bb7.i:                                            ; preds = %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i, %bb6.preheader.i, %bb62.i.i, %bb29.i.i, %bb.i
-  %mask7231197 = phi i512 [ %mask7231198, %bb6.preheader.i ], [ %mask7231193, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i ], [ %mask7231198, %bb.i ], [ %mask7231198, %bb29.i.i ], [ %mask7231198, %bb62.i.i ]
-  %229 = icmp slt i32 %sp.0.i, 0
-  br i1 %229, label %_ZN3BVH9intersectER9HitRecordR3Ray.exit, label %bb9.i
+  %mask7501137 = phi i512 [ %mask7501138, %bb6.preheader.i ], [ %mask7501133, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i ], [ %mask7501138, %bb.i ], [ %mask7501138, %bb29.i.i ], [ %mask7501138, %bb62.i.i ]
+  %217 = icmp slt i32 %sp.0.i, 0
+  br i1 %217, label %_ZN3BVH9intersectER9HitRecordR3Ray.exit, label %bb9.i
 
 bb9.i:                                            ; preds = %bb7.i
-  %230 = sext i32 %sp.0.i to i64
-  %231 = getelementptr inbounds [32 x i32]* %stack.i, i64 0, i64 %230
-  %232 = load i32* %231, align 4
-  %233 = add nsw i32 %sp.0.i, -1
+  %218 = sext i32 %sp.0.i to i64
+  %219 = getelementptr inbounds [32 x i32]* %stack.i, i64 0, i64 %218
+  %220 = load i32* %219, align 4
+  %221 = add nsw i32 %sp.0.i, -1
   br label %bb.outer.i
 
 _ZN3BVH9intersectER9HitRecordR3Ray.exit:          ; preds = %bb7.i
-  %tmp679 = trunc i512 %mask7231197 to i32
-  %tmp680 = bitcast i32 %tmp679 to float
-  %234 = fcmp olt float %tmp680, 1.000000e+10
-  %indvar.next1519 = add i32 %indvar1518, 1
-  br i1 %234, label %invcont78, label %bb103
+  %tmp710 = trunc i512 %mask7501137 to i32
+  %tmp711 = bitcast i32 %tmp710 to float
+  %222 = fcmp olt float %tmp711, 1.000000e+10
+  br i1 %222, label %invcont83, label %invcont54.bb107_crit_edge
 
-invcont78:                                        ; preds = %_ZN3BVH9intersectER9HitRecordR3Ray.exit
-  %tmp698 = lshr i512 %mask7231197, 352
-  %tmp702 = trunc i512 %tmp698 to i32
-  %tmp703 = bitcast i32 %tmp702 to float
-  %tmp691 = lshr i512 %mask7231197, 384
-  %tmp692 = trunc i512 %tmp691 to i32
-  %tmp694 = bitcast i32 %tmp692 to float
-  %tmp1563 = trunc i512 %tmp698 to i128
-  %tmp1564 = and i128 %tmp1563, 79228162495817593519834398720
-  %tmp530 = lshr exact i128 %tmp1564, 64
-  %tmp531 = trunc i128 %tmp530 to i32
-  %tmp532 = bitcast i32 %tmp531 to float
-  %235 = fadd float %tmp703, %tmp694
-  %236 = fadd float %235, %tmp532
-  %237 = fcmp ogt float %236, 3.000000e+00
-  br i1 %237, label %bb79, label %invcont92
+invcont54.bb107_crit_edge:                        ; preds = %_ZN3BVH9intersectER9HitRecordR3Ray.exit
+  %.pre = icmp sgt i32 %bounces.0, 0
+  %indvar.next1594 = add i32 %indvar1593, 1
+  br i1 %.pre, label %bb108, label %bb113
 
-bb79:                                             ; preds = %invcont78
-  %238 = fmul float %tmp703, 0x3F50624DE0000000
-  %239 = fmul float %tmp694, 0x3F50624DE0000000
-  %240 = fmul float %tmp532, 0x3F50624DE0000000
-  br label %invcont92
+invcont83:                                        ; preds = %_ZN3BVH9intersectER9HitRecordR3Ray.exit
+  %tmp728 = lshr i512 %mask7501137, 352
+  %tmp729 = trunc i512 %tmp728 to i32
+  %tmp730 = bitcast i32 %tmp729 to float
+  %tmp722 = lshr i512 %mask7501137, 384
+  %tmp723 = trunc i512 %tmp722 to i32
+  %tmp724 = bitcast i32 %tmp723 to float
+  %tmp2436 = trunc i512 %tmp728 to i128
+  %tmp2437 = and i128 %tmp2436, 79228162495817593519834398720
+  %tmp927 = lshr exact i128 %tmp2437, 64
+  %tmp928 = trunc i128 %tmp927 to i32
+  %tmp929 = bitcast i32 %tmp928 to float
+  %223 = fadd float %tmp730, %tmp724
+  %224 = fadd float %223, %tmp929
+  %225 = fcmp ogt float %224, 3.000000e+00
+  br i1 %225, label %bb84, label %invcont97
 
-invcont92:                                        ; preds = %bb79, %invcont78
-  %surface_color.0.0 = phi float [ %238, %bb79 ], [ %tmp703, %invcont78 ]
-  %surface_color.1.0 = phi float [ %239, %bb79 ], [ %tmp694, %invcont78 ]
-  %surface_color.2.0 = phi float [ %240, %bb79 ], [ %tmp532, %invcont78 ]
-  %241 = fmul float %62, %tmp680
-  %242 = fmul float %61, %tmp680
-  %243 = fmul float %tmp582, %tmp680
-  %244 = fadd float %241, %tmp623
-  %245 = fadd float %242, %tmp617
-  %246 = fadd float %tmp1387, %243
-  %tmp17.i.i = bitcast float %244 to i32
-  %tmp18.i.i = zext i32 %tmp17.i.i to i64
-  %tmp11.i.i = bitcast float %245 to i32
-  %tmp12.i.i = zext i32 %tmp11.i.i to i64
-  %tmp13.i.i = shl nuw i64 %tmp12.i.i, 32
-  %ins15.i.i = or i64 %tmp13.i.i, %tmp18.i.i
-  %tmp519 = bitcast float %246 to i32
-  br i1 %63, label %bb93, label %bb103.outer
+bb84:                                             ; preds = %invcont83
+  %226 = fmul float %tmp730, 0x3F50624DE0000000
+  %227 = fmul float %tmp724, 0x3F50624DE0000000
+  %228 = fmul float %tmp929, 0x3F50624DE0000000
+  br label %invcont97
 
-bb93:                                             ; preds = %invcont92
-  store float %244, float* %scevgep15511552, align 4
-  store float %245, float* %scevgep1550, align 4
-  store float %246, float* %scevgep1549, align 4
-  store float %247, float* %scevgep1548, align 4
-  store float %248, float* %scevgep1547, align 4
-  store float %249, float* %scevgep1546, align 4
-  store i8 0, i8* %scevgep1545, align 4
-  %indvar.next1539 = add i64 %indvar1538, 1
-  br label %bb103.outer.outer
+invcont97:                                        ; preds = %bb84, %invcont83
+  %surface_color.0.0 = phi float [ %226, %bb84 ], [ %tmp730, %invcont83 ]
+  %surface_color.1.0 = phi float [ %227, %bb84 ], [ %tmp724, %invcont83 ]
+  %surface_color.2.0 = phi float [ %228, %bb84 ], [ %tmp929, %invcont83 ]
+  %229 = fmul float %62, %tmp711
+  %230 = fmul float %61, %tmp711
+  %231 = fmul float %tmp592, %tmp711
+  %232 = fadd float %229, %tmp631
+  %233 = fadd float %230, %tmp625
+  %234 = fadd float %tmp617, %231
+  %tmp17.i.i = bitcast float %232 to i32
+  %tmp11.i.i = bitcast float %233 to i32
+  %tmp916 = bitcast float %234 to i32
+  %235 = icmp sgt i32 %bounces.0, 0
+  br i1 %235, label %bb107.thread, label %bb113.outer
 
-bb103.outer.outer:                                ; preds = %bb103.preheader, %bb93
-  %indvar1538 = phi i64 [ 0, %bb103.preheader ], [ %indvar.next1539, %bb93 ]
-  %mask7231196.ph.ph = phi i512 [ %mask72311951438, %bb103.preheader ], [ %mask7231197, %bb93 ]
-  %surface_color.0.2.ph.ph = phi float [ 0.000000e+00, %bb103.preheader ], [ %surface_color.0.0, %bb93 ]
-  %surface_color.1.2.ph.ph = phi float [ 0.000000e+00, %bb103.preheader ], [ %surface_color.1.0, %bb93 ]
-  %surface_color.2.2.ph.ph = phi float [ 0.000000e+00, %bb103.preheader ], [ %surface_color.2.0, %bb93 ]
-  %memtmp31.0.ph.ph = phi i128 [ %memtmp31.11440, %bb103.preheader ], [ %ins611, %bb93 ]
-  %ray_origin.1.off0.ph.ph = phi i32 [ %ray_origin.2.off01441, %bb103.preheader ], [ %tmp17.i.i, %bb93 ]
-  %ray_origin.1.off03611.ph.ph = phi i64 [ %ray_origin.2.off036251442, %bb103.preheader ], [ %ins15.i.i, %bb93 ]
-  %ray_origin.1.off32.ph.ph = phi i32 [ %ray_origin.2.off321443, %bb103.preheader ], [ %tmp11.i.i, %bb93 ]
-  %ray_origin.1.off64.ph.ph = phi i32 [ %ray_origin.2.off641444, %bb103.preheader ], [ %tmp519, %bb93 ]
-  %memtmp.i78.1.ph.ph = phi i128 [ %memtmp.i78.21445, %bb103.preheader ], [ %memtmp.i78.0, %bb93 ]
-  %bar.1.ph.ph = phi i32 [ %bar.21447, %bb103.preheader ], [ %bar.0, %bb93 ]
-  %bounces.0.ph.ph = phi i32 [ 0, %bb103.preheader ], [ %tmp1521, %bb93 ]
-  %tmp1541 = add i64 %tmp1540, %indvar1538
-  %count.2.ph.ph = trunc i64 %tmp1541 to i32
-  %tmp1544 = add i64 %tmp1543, %indvar1538
-  %scevgep1545 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %tmp1544, i32 2
-  %scevgep1546 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %tmp1544, i32 1, i64 2
-  %scevgep1547 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %tmp1544, i32 1, i64 1
-  %scevgep1548 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %tmp1544, i32 1, i64 0
-  %scevgep1549 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %tmp1544, i32 0, i32 2
-  %scevgep1550 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %tmp1544, i32 0, i32 1
-  %scevgep15511552 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %tmp1544, i32 0, i32 0
-  br label %bb103.outer
+bb107.thread:                                     ; preds = %invcont97
+  %236 = sext i32 %count.2.ph.ph1451 to i64
+  %237 = getelementptr inbounds [220000 x %struct.Photon]* %38, i64 0, i64 %236, i32 0, i32 0
+  store float %232, float* %237, align 4
+  %238 = getelementptr inbounds [220000 x %struct.Photon]* %38, i64 0, i64 %236, i32 0, i32 1
+  store float %233, float* %238, align 4
+  %239 = getelementptr inbounds [220000 x %struct.Photon]* %38, i64 0, i64 %236, i32 0, i32 2
+  store float %234, float* %239, align 4
+  %240 = getelementptr inbounds [220000 x %struct.Photon]* %38, i64 0, i64 %236, i32 1, i64 0
+  store float %272, float* %240, align 4
+  %241 = getelementptr inbounds [220000 x %struct.Photon]* %38, i64 0, i64 %236, i32 1, i64 1
+  store float %273, float* %241, align 4
+  %242 = getelementptr inbounds [220000 x %struct.Photon]* %38, i64 0, i64 %236, i32 1, i64 2
+  store float %274, float* %242, align 4
+  %243 = getelementptr inbounds [220000 x %struct.Photon]* %38, i64 0, i64 %236, i32 2
+  store i8 0, i8* %243, align 4
+  %244 = add nsw i32 %count.2.ph.ph1451, 1
+  br label %bb108
 
-bb103.outer:                                      ; preds = %bb103.outer.outer, %invcont92
-  %mask7231196.ph = phi i512 [ %mask7231197, %invcont92 ], [ %mask7231196.ph.ph, %bb103.outer.outer ]
-  %surface_color.0.2.ph = phi float [ %surface_color.0.0, %invcont92 ], [ %surface_color.0.2.ph.ph, %bb103.outer.outer ]
-  %surface_color.1.2.ph = phi float [ %surface_color.1.0, %invcont92 ], [ %surface_color.1.2.ph.ph, %bb103.outer.outer ]
-  %surface_color.2.2.ph = phi float [ %surface_color.2.0, %invcont92 ], [ %surface_color.2.2.ph.ph, %bb103.outer.outer ]
-  %memtmp31.0.ph = phi i128 [ %ins611, %invcont92 ], [ %memtmp31.0.ph.ph, %bb103.outer.outer ]
-  %ray_origin.1.off0.ph = phi i32 [ %tmp17.i.i, %invcont92 ], [ %ray_origin.1.off0.ph.ph, %bb103.outer.outer ]
-  %ray_origin.1.off03611.ph = phi i64 [ %ins15.i.i, %invcont92 ], [ %ray_origin.1.off03611.ph.ph, %bb103.outer.outer ]
-  %ray_origin.1.off32.ph = phi i32 [ %tmp11.i.i, %invcont92 ], [ %ray_origin.1.off32.ph.ph, %bb103.outer.outer ]
-  %ray_origin.1.off64.ph = phi i32 [ %tmp519, %invcont92 ], [ %ray_origin.1.off64.ph.ph, %bb103.outer.outer ]
-  %memtmp.i78.1.ph = phi i128 [ %memtmp.i78.0, %invcont92 ], [ %memtmp.i78.1.ph.ph, %bb103.outer.outer ]
-  %bar.1.ph = phi i32 [ %bar.0, %invcont92 ], [ %bar.1.ph.ph, %bb103.outer.outer ]
-  %bounces.0.ph = phi i32 [ %tmp1521, %invcont92 ], [ %bounces.0.ph.ph, %bb103.outer.outer ]
-  %247 = fmul float %surface_color.0.2.ph, 0x3FE6666660000000
-  %248 = fmul float %surface_color.1.2.ph, 0x3FE6666660000000
-  %249 = fmul float %surface_color.2.2.ph, 0x3FE6666660000000
-  %tmp1387 = bitcast i32 %ray_origin.1.off64.ph to float
-  %tmp1441 = trunc i64 %ray_origin.1.off03611.ph to i32
-  %tmp1442 = bitcast i32 %tmp1441 to float
-  %tmp1444 = lshr i64 %ray_origin.1.off03611.ph, 32
-  %tmp1445 = trunc i64 %tmp1444 to i32
-  %tmp1446 = bitcast i32 %tmp1445 to float
-  %tmp623 = bitcast i32 %ray_origin.1.off0.ph to float
-  %tmp617 = bitcast i32 %ray_origin.1.off32.ph to float
-  %tmp1520 = add i32 %bounces.0.ph, 1
-  br label %bb103
+bb108:                                            ; preds = %bb107.thread, %invcont54.bb107_crit_edge
+  %count.15792 = phi i32 [ %244, %bb107.thread ], [ %count.2.ph.ph1451, %invcont54.bb107_crit_edge ]
+  %ray_origin.0.off645784 = phi i32 [ %tmp916, %bb107.thread ], [ %ray_origin.1.off64.ph, %invcont54.bb107_crit_edge ]
+  %ray_origin.0.off325782 = phi i32 [ %tmp11.i.i, %bb107.thread ], [ %ray_origin.1.off32.ph, %invcont54.bb107_crit_edge ]
+  %ray_origin.0.off05780 = phi i32 [ %tmp17.i.i, %bb107.thread ], [ %ray_origin.1.off0.ph, %invcont54.bb107_crit_edge ]
+  %photon.0.2.05768 = phi float [ %234, %bb107.thread ], [ 0.000000e+00, %invcont54.bb107_crit_edge ]
+  %photon.0.1.05767 = phi float [ %233, %bb107.thread ], [ 0.000000e+00, %invcont54.bb107_crit_edge ]
+  %photon.0.0.05766 = phi float [ %232, %bb107.thread ], [ 0.000000e+00, %invcont54.bb107_crit_edge ]
+  %surface_color.2.15765 = phi float [ %surface_color.2.0, %bb107.thread ], [ %surface_color.2.2.ph, %invcont54.bb107_crit_edge ]
+  %surface_color.1.15763 = phi float [ %surface_color.1.0, %bb107.thread ], [ %surface_color.1.2.ph, %invcont54.bb107_crit_edge ]
+  %surface_color.0.15761 = phi float [ %surface_color.0.0, %bb107.thread ], [ %surface_color.0.2.ph, %invcont54.bb107_crit_edge ]
+  %245 = fsub float 2.650000e+02, %tmp631
+  %246 = fdiv float %245, %62
+  %247 = fsub float 0x4073A00420000000, %tmp631
+  %248 = fdiv float %247, %62
+  %249 = fcmp ogt float %246, %248
+  %tx1.i267.0 = select i1 %249, float %248, float %246
+  %tx2.i268.0 = select i1 %249, float %246, float %248
+  %250 = fcmp ogt float %tx1.i267.0, -1.000000e+10
+  %tnear.i273.0 = select i1 %250, float %tx1.i267.0, float -1.000000e+10
+  %251 = fcmp olt float %tx2.i268.0, 1.000000e+10
+  %tfar.i274.0 = select i1 %251, float %tx2.i268.0, float 1.000000e+10
+  %252 = fcmp ogt float %tnear.i273.0, %tfar.i274.0
+  %253 = fcmp olt float %tfar.i274.0, 0.000000e+00
+  %or.cond = or i1 %252, %253
+  br i1 %or.cond, label %bb113.outer.outer1439, label %bb29.i387
 
-bb103:                                            ; preds = %bb103.outer, %_ZN3BVH9intersectER9HitRecordR3Ray.exit
-  %indvar1518 = phi i32 [ 0, %bb103.outer ], [ %indvar.next1519, %_ZN3BVH9intersectER9HitRecordR3Ray.exit ]
-  %mask7231196 = phi i512 [ %mask7231196.ph, %bb103.outer ], [ %mask7231197, %_ZN3BVH9intersectER9HitRecordR3Ray.exit ]
-  %memtmp31.0 = phi i128 [ %memtmp31.0.ph, %bb103.outer ], [ %ins611, %_ZN3BVH9intersectER9HitRecordR3Ray.exit ]
-  %memtmp.i78.1 = phi i128 [ %memtmp.i78.1.ph, %bb103.outer ], [ %memtmp.i78.0, %_ZN3BVH9intersectER9HitRecordR3Ray.exit ]
-  %bar.1 = phi i32 [ %bar.1.ph, %bb103.outer ], [ %bar.0, %_ZN3BVH9intersectER9HitRecordR3Ray.exit ]
-  %tmp1521 = add i32 %tmp1520, %indvar1518
-  %bounces.0 = add i32 %bounces.0.ph, %indvar1518
-  %250 = icmp slt i32 %bounces.0, 3
-  br i1 %250, label %bb.i52, label %bb105
+bb29.i387:                                        ; preds = %bb108
+  %tmp3458 = zext i96 %tmp2380 to i128
+  %tmp3459 = shl nuw nsw i128 %tmp3458, 64
+  %254 = fsub float 2.960000e+02, %tmp625
+  %255 = fdiv float %254, %61
+  %256 = fsub float 0x407C800420000000, %tmp625
+  %257 = fdiv float %256, %61
+  %258 = fcmp ogt float %255, %257
+  %ty1.i269.0 = select i1 %258, float %257, float %255
+  %ty2.i270.0 = select i1 %258, float %255, float %257
+  %259 = fcmp ogt float %ty1.i269.0, %tnear.i273.0
+  %tnear.i273.1 = select i1 %259, float %ty1.i269.0, float %tnear.i273.0
+  %260 = fcmp olt float %ty2.i270.0, %tfar.i274.0
+  %tfar.i274.1 = select i1 %260, float %ty2.i270.0, float %tfar.i274.0
+  %261 = fcmp ogt float %tnear.i273.1, %tfar.i274.1
+  %262 = fcmp olt float %tfar.i274.1, 0.000000e+00
+  %or.cond5819 = or i1 %261, %262
+  br i1 %or.cond5819, label %bb113.outer.outer1439, label %bb62.i442
 
-bb105:                                            ; preds = %bb103
-  %251 = add nsw i32 %iterator.01449, 1
-  %exitcond1553 = icmp eq i32 %251, 125000
-  br i1 %exitcond1553, label %invcont109, label %bb103.preheader
+bb62.i442:                                        ; preds = %bb29.i387
+  %263 = fsub float 0.000000e+00, %tmp617
+  %mask3289 = and i128 %memtmp69.i284.2.ph.ph, -79228162514264337593543950336
+  %mask3284 = or i128 %tmp1011, %mask3289
+  %ins3285 = or i128 %mask3284, %tmp3459
+  %tmp3270 = lshr i128 %ins3285, 64
+  %tmp3271 = trunc i128 %tmp3270 to i32
+  %tmp3272 = bitcast i32 %tmp3271 to float
+  %264 = fdiv float %263, %tmp3272
+  %265 = fsub float 0x4074A00420000000, %tmp617
+  %mask3245 = and i128 %memtmp81.i286.2.ph.ph, -79228162514264337593543950336
+  %mask3240 = or i128 %tmp1011, %mask3245
+  %ins3241 = or i128 %mask3240, %tmp3459
+  %tmp3226 = lshr i128 %ins3241, 64
+  %tmp3227 = trunc i128 %tmp3226 to i32
+  %tmp3228 = bitcast i32 %tmp3227 to float
+  %266 = fdiv float %265, %tmp3228
+  %267 = fcmp ogt float %264, %266
+  %tz1.i271.0 = select i1 %267, float %266, float %264
+  %tz2.i272.0 = select i1 %267, float %264, float %266
+  %268 = fcmp ogt float %tz1.i271.0, %tnear.i273.1
+  %tnear.i273.2 = select i1 %268, float %tz1.i271.0, float %tnear.i273.1
+  %269 = fcmp olt float %tz2.i272.0, %tfar.i274.1
+  %tfar.i274.2 = select i1 %269, float %tz2.i272.0, float %tfar.i274.1
+  %270 = fcmp ogt float %tnear.i273.2, %tfar.i274.2
+  %271 = fcmp olt float %tfar.i274.2, 0.000000e+00
+  %or.cond5820 = or i1 %270, %271
+  br i1 %or.cond5820, label %bb113.outer.outer, label %bb111
 
-bb103.preheader:                                  ; preds = %bb105, %invcont15
-  %iterator.01449 = phi i32 [ 0, %invcont15 ], [ %251, %bb105 ]
-  %count.31448 = phi i32 [ 0, %invcont15 ], [ %count.2.ph.ph, %bb105 ]
-  %bar.21447 = phi i32 [ 0, %invcont15 ], [ %bar.1, %bb105 ]
-  %memtmp.i78.21445 = phi i128 [ undef, %invcont15 ], [ %memtmp.i78.1, %bb105 ]
-  %ray_origin.2.off641444 = phi i32 [ %tmp693, %invcont15 ], [ %ray_origin.1.off64.ph, %bb105 ]
-  %ray_origin.2.off321443 = phi i32 [ %tmp699, %invcont15 ], [ %ray_origin.1.off32.ph, %bb105 ]
-  %ray_origin.2.off036251442 = phi i64 [ %ins703, %invcont15 ], [ %ray_origin.1.off03611.ph, %bb105 ]
-  %ray_origin.2.off01441 = phi i32 [ %tmp705, %invcont15 ], [ %ray_origin.1.off0.ph, %bb105 ]
-  %memtmp31.11440 = phi i128 [ undef, %invcont15 ], [ %memtmp31.0, %bb105 ]
-  %mask72311951438 = phi i512 [ undef, %invcont15 ], [ %mask7231196, %bb105 ]
-  %tmp1540 = zext i32 %count.31448 to i64
-  %tmp1543 = sext i32 %count.31448 to i64
-  br label %bb103.outer.outer
+bb111:                                            ; preds = %bb62.i442
+  store float %photon.0.0.05766, float* %scevgep16631664, align 8
+  store float %photon.0.1.05767, float* %scevgep1662, align 4
+  store float %photon.0.2.05768, float* %scevgep1661, align 8
+  store float %272, float* %scevgep1660, align 4
+  store float %273, float* %scevgep1659, align 4
+  store float %274, float* %scevgep1658, align 4
+  store i8 0, i8* %scevgep1657, align 8
+  %indvar.next1650 = add i64 %indvar1649, 1
+  br label %bb113.outer.outer.outer
 
-invcont109:                                       ; preds = %bb105
-  %252 = call i32 @llvm.trax.atominc(i32 0)
-  %253 = mul nsw i32 %1, %0
-  %254 = sitofp i32 %0 to float
-  %255 = fdiv float %254, -2.000000e+00
-  %256 = sitofp i32 %1 to float
-  %257 = fdiv float %256, -2.000000e+00
-  %258 = icmp sgt i32 %253, %252
-  br i1 %258, label %invcont118.lr.ph, label %return
+bb113.outer.outer.outer:                          ; preds = %bb113.preheader, %bb111
+  %indvar1649 = phi i64 [ 0, %bb113.preheader ], [ %indvar.next1650, %bb111 ]
+  %mask7501136.ph.ph.ph = phi i512 [ %mask75011351482, %bb113.preheader ], [ %mask7501137, %bb111 ]
+  %surface_color.0.2.ph.ph.ph = phi float [ 0.000000e+00, %bb113.preheader ], [ %surface_color.0.15761, %bb111 ]
+  %surface_color.1.2.ph.ph.ph = phi float [ 0.000000e+00, %bb113.preheader ], [ %surface_color.1.15763, %bb111 ]
+  %surface_color.2.2.ph.ph.ph = phi float [ 0.000000e+00, %bb113.preheader ], [ %surface_color.2.15765, %bb111 ]
+  %memtmp40.0.ph.ph.ph = phi i128 [ %memtmp40.11484, %bb113.preheader ], [ %ins1008, %bb111 ]
+  %ray_origin.1.off0.ph.ph.ph = phi i32 [ %ray_origin.2.off01485, %bb113.preheader ], [ %ray_origin.0.off05780, %bb111 ]
+  %ray_origin.1.off32.ph.ph.ph = phi i32 [ %ray_origin.2.off321486, %bb113.preheader ], [ %ray_origin.0.off325782, %bb111 ]
+  %ray_origin.1.off64.ph.ph.ph = phi i32 [ %ray_origin.2.off641487, %bb113.preheader ], [ %ray_origin.0.off645784, %bb111 ]
+  %memtmp81.i286.2.ph.ph.ph = phi i128 [ %memtmp81.i286.31489, %bb113.preheader ], [ %ins3241, %bb111 ]
+  %memtmp69.i284.2.ph.ph.ph = phi i128 [ %memtmp69.i284.31491, %bb113.preheader ], [ %ins3285, %bb111 ]
+  %bounces.0.ph.ph.ph = phi i32 [ 0, %bb113.preheader ], [ %tmp1597, %bb111 ]
+  %count.2.ph.ph.ph = phi i32 [ %count.31493, %bb113.preheader ], [ %count.15792, %bb111 ]
+  %tmp1653 = add i64 %tmp1651, %indvar1649
+  %v_p_count.1.ph.ph.ph = trunc i64 %tmp1653 to i32
+  %tmp1656 = add i64 %tmp1655, %indvar1649
+  %scevgep1657 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %tmp1656, i32 2
+  %scevgep1658 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %tmp1656, i32 1, i64 2
+  %scevgep1659 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %tmp1656, i32 1, i64 1
+  %scevgep1660 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %tmp1656, i32 1, i64 0
+  %scevgep1661 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %tmp1656, i32 0, i32 2
+  %scevgep1662 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %tmp1656, i32 0, i32 1
+  %scevgep16631664 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %tmp1656, i32 0, i32 0
+  br label %bb113.outer.outer
 
-invcont118.lr.ph:                                 ; preds = %invcont109
-  %tmp855 = bitcast float %10 to i32
-  %tmp856 = zext i32 %tmp855 to i192
-  %tmp795 = bitcast float %11 to i32
-  %tmp796 = zext i32 %tmp795 to i192
-  %tmp797 = shl nuw nsw i192 %tmp796, 32
-  %tmp1289 = zext i32 %tmp874 to i192
-  %tmp783 = shl nuw nsw i192 %tmp1289, 64
-  %mask784.masked.masked = or i192 %tmp797, %tmp856
-  %mask846.masked = or i192 %mask784.masked.masked, %tmp783
-  %tmp2901 = zext i32 %tmp855 to i96
-  %tmp2896 = trunc i192 %tmp797 to i96
-  %ins2898 = or i96 %tmp2896, %tmp2901
-  %tmp2324 = zext i96 %ins2898 to i128
-  %tmp2319 = trunc i192 %tmp783 to i128
-  %mask2320 = or i128 %tmp2324, %tmp2319
-  br label %invcont118
+bb113.outer.outer:                                ; preds = %bb113.outer.outer.outer, %bb62.i442
+  %mask7501136.ph.ph = phi i512 [ %mask7501137, %bb62.i442 ], [ %mask7501136.ph.ph.ph, %bb113.outer.outer.outer ]
+  %surface_color.0.2.ph.ph = phi float [ %surface_color.0.15761, %bb62.i442 ], [ %surface_color.0.2.ph.ph.ph, %bb113.outer.outer.outer ]
+  %surface_color.1.2.ph.ph = phi float [ %surface_color.1.15763, %bb62.i442 ], [ %surface_color.1.2.ph.ph.ph, %bb113.outer.outer.outer ]
+  %surface_color.2.2.ph.ph = phi float [ %surface_color.2.15765, %bb62.i442 ], [ %surface_color.2.2.ph.ph.ph, %bb113.outer.outer.outer ]
+  %memtmp40.0.ph.ph = phi i128 [ %ins1008, %bb62.i442 ], [ %memtmp40.0.ph.ph.ph, %bb113.outer.outer.outer ]
+  %ray_origin.1.off0.ph.ph = phi i32 [ %ray_origin.0.off05780, %bb62.i442 ], [ %ray_origin.1.off0.ph.ph.ph, %bb113.outer.outer.outer ]
+  %ray_origin.1.off32.ph.ph = phi i32 [ %ray_origin.0.off325782, %bb62.i442 ], [ %ray_origin.1.off32.ph.ph.ph, %bb113.outer.outer.outer ]
+  %ray_origin.1.off64.ph.ph = phi i32 [ %ray_origin.0.off645784, %bb62.i442 ], [ %ray_origin.1.off64.ph.ph.ph, %bb113.outer.outer.outer ]
+  %memtmp81.i286.2.ph.ph = phi i128 [ %ins3241, %bb62.i442 ], [ %memtmp81.i286.2.ph.ph.ph, %bb113.outer.outer.outer ]
+  %memtmp69.i284.2.ph.ph = phi i128 [ %ins3285, %bb62.i442 ], [ %memtmp69.i284.2.ph.ph.ph, %bb113.outer.outer.outer ]
+  %bounces.0.ph.ph = phi i32 [ %tmp1597, %bb62.i442 ], [ %bounces.0.ph.ph.ph, %bb113.outer.outer.outer ]
+  %count.2.ph.ph = phi i32 [ %count.15792, %bb62.i442 ], [ %count.2.ph.ph.ph, %bb113.outer.outer.outer ]
+  br label %bb113.outer.outer1439
 
-invcont118:                                       ; preds = %invcont160, %invcont118.lr.ph
-  %storemerge11400 = phi i32 [ %252, %invcont118.lr.ph ], [ %739, %invcont160 ]
-  %memtmp31.i.31398 = phi i128 [ undef, %invcont118.lr.ph ], [ %memtmp31.i.2, %invcont160 ]
-  %memtmp4.i238.11394 = phi i128 [ undef, %invcont118.lr.ph ], [ %memtmp4.i238.0, %invcont160 ]
-  %mask55112031387 = phi i512 [ undef, %invcont118.lr.ph ], [ %mask5511204, %invcont160 ]
-  %259 = sdiv i32 %storemerge11400, %0
-  %260 = srem i32 %storemerge11400, %0
-  %261 = sitofp i32 %260 to float
-  %262 = fadd float %261, %255
-  %263 = fadd float %262, 5.000000e-01
-  %264 = fmul float %263, 2.000000e+00
-  %265 = fdiv float %264, %254
-  %266 = sitofp i32 %259 to float
-  %267 = fadd float %266, %257
-  %268 = fadd float %267, 5.000000e-01
-  %269 = fmul float %268, 2.000000e+00
-  %270 = fdiv float %269, %256
-  %271 = fmul float %26, %270
-  %272 = fmul float %27, %270
-  %273 = fmul float %28, %270
-  %274 = fmul float %22, %265
-  %275 = fmul float %23, %265
-  %276 = fmul float %24, %265
-  %277 = fadd float %271, %274
-  %278 = fadd float %272, %275
-  %279 = fadd float %276, %273
-  %280 = fadd float %277, %18
-  %281 = fadd float %278, %19
-  %282 = fadd float %20, %279
-  %283 = fmul float %280, %280
-  %284 = fmul float %281, %281
-  %285 = fadd float %283, %284
-  %286 = fmul float %282, %282
-  %287 = fadd float %285, %286
-  %288 = call float @llvm.trax.invsqrt(float %287) nounwind
-  %289 = fdiv float 1.000000e+00, %288
-  %290 = fdiv float %282, %289
-  %291 = fdiv float %281, %289
-  %292 = fdiv float %280, %289
-  %tmp843 = bitcast float %292 to i32
-  %tmp844 = zext i32 %tmp843 to i192
-  %tmp845 = shl nuw nsw i192 %tmp844, 96
-  %tmp827 = bitcast float %291 to i32
-  %tmp828 = zext i32 %tmp827 to i192
-  %tmp829 = shl nuw nsw i192 %tmp828, 128
-  %tmp809 = bitcast float %290 to i32
-  %tmp810 = zext i32 %tmp809 to i192
-  %tmp811 = shl nuw i192 %tmp810, 160
-  %mask830.masked = or i192 %mask846.masked, %tmp829
-  %mask812 = or i192 %mask830.masked, %tmp845
-  %ins813 = or i192 %mask812, %tmp811
-  %mask474 = and i512 %mask55112031387, -726838724295606890549323807878830539891817061676795686782676873123622580271327503353597348126162915664230802099766744271117060969332736
-  %ins475 = or i512 %mask474, 1343554297
-  %tmp731 = lshr i192 %ins813, 160
-  %tmp732 = trunc i192 %tmp731 to i32
-  %tmp733 = bitcast i32 %tmp732 to float
-  br label %bb.outer.i134
+bb113.outer.outer1439:                            ; preds = %bb113.outer.outer, %bb29.i387, %bb108
+  %mask7501136.ph.ph1440 = phi i512 [ %mask7501136.ph.ph, %bb113.outer.outer ], [ %mask7501137, %bb108 ], [ %mask7501137, %bb29.i387 ]
+  %surface_color.0.2.ph.ph1441 = phi float [ %surface_color.0.2.ph.ph, %bb113.outer.outer ], [ %surface_color.0.15761, %bb108 ], [ %surface_color.0.15761, %bb29.i387 ]
+  %surface_color.1.2.ph.ph1442 = phi float [ %surface_color.1.2.ph.ph, %bb113.outer.outer ], [ %surface_color.1.15763, %bb108 ], [ %surface_color.1.15763, %bb29.i387 ]
+  %surface_color.2.2.ph.ph1443 = phi float [ %surface_color.2.2.ph.ph, %bb113.outer.outer ], [ %surface_color.2.15765, %bb108 ], [ %surface_color.2.15765, %bb29.i387 ]
+  %memtmp40.0.ph.ph1445 = phi i128 [ %memtmp40.0.ph.ph, %bb113.outer.outer ], [ %ins1008, %bb108 ], [ %ins1008, %bb29.i387 ]
+  %ray_origin.1.off0.ph.ph1446 = phi i32 [ %ray_origin.1.off0.ph.ph, %bb113.outer.outer ], [ %ray_origin.0.off05780, %bb108 ], [ %ray_origin.0.off05780, %bb29.i387 ]
+  %ray_origin.1.off32.ph.ph1447 = phi i32 [ %ray_origin.1.off32.ph.ph, %bb113.outer.outer ], [ %ray_origin.0.off325782, %bb108 ], [ %ray_origin.0.off325782, %bb29.i387 ]
+  %ray_origin.1.off64.ph.ph1448 = phi i32 [ %ray_origin.1.off64.ph.ph, %bb113.outer.outer ], [ %ray_origin.0.off645784, %bb108 ], [ %ray_origin.0.off645784, %bb29.i387 ]
+  %bounces.0.ph.ph1450 = phi i32 [ %bounces.0.ph.ph, %bb113.outer.outer ], [ %tmp1597, %bb108 ], [ %tmp1597, %bb29.i387 ]
+  %count.2.ph.ph1451 = phi i32 [ %count.2.ph.ph, %bb113.outer.outer ], [ %count.15792, %bb108 ], [ %count.15792, %bb29.i387 ]
+  br label %bb113.outer
 
-bb.outer.i134:                                    ; preds = %bb9.i234, %invcont118
-  %mask5511205 = phi i512 [ %ins475, %invcont118 ], [ %mask5511204, %bb9.i234 ]
-  %node_id.0.ph.i129 = phi i32 [ 0, %invcont118 ], [ %450, %bb9.i234 ]
-  %sp.0.ph.i130 = phi i32 [ -1, %invcont118 ], [ %451, %bb9.i234 ]
-  %tmp404.i132 = add i32 %sp.0.ph.i130, 1
-  %tmp1470 = sext i32 %tmp404.i132 to i64
-  %tmp1474 = zext i32 %sp.0.ph.i130 to i64
-  br label %bb.i146
+bb113.outer:                                      ; preds = %bb113.outer.outer1439, %invcont97
+  %mask7501136.ph = phi i512 [ %mask7501137, %invcont97 ], [ %mask7501136.ph.ph1440, %bb113.outer.outer1439 ]
+  %surface_color.0.2.ph = phi float [ %surface_color.0.0, %invcont97 ], [ %surface_color.0.2.ph.ph1441, %bb113.outer.outer1439 ]
+  %surface_color.1.2.ph = phi float [ %surface_color.1.0, %invcont97 ], [ %surface_color.1.2.ph.ph1442, %bb113.outer.outer1439 ]
+  %surface_color.2.2.ph = phi float [ %surface_color.2.0, %invcont97 ], [ %surface_color.2.2.ph.ph1443, %bb113.outer.outer1439 ]
+  %memtmp40.0.ph = phi i128 [ %ins1008, %invcont97 ], [ %memtmp40.0.ph.ph1445, %bb113.outer.outer1439 ]
+  %ray_origin.1.off0.ph = phi i32 [ %tmp17.i.i, %invcont97 ], [ %ray_origin.1.off0.ph.ph1446, %bb113.outer.outer1439 ]
+  %ray_origin.1.off32.ph = phi i32 [ %tmp11.i.i, %invcont97 ], [ %ray_origin.1.off32.ph.ph1447, %bb113.outer.outer1439 ]
+  %ray_origin.1.off64.ph = phi i32 [ %tmp916, %invcont97 ], [ %ray_origin.1.off64.ph.ph1448, %bb113.outer.outer1439 ]
+  %bounces.0.ph = phi i32 [ %tmp1597, %invcont97 ], [ %bounces.0.ph.ph1450, %bb113.outer.outer1439 ]
+  %272 = fmul float %surface_color.0.2.ph, 0x3FE6666660000000
+  %273 = fmul float %surface_color.1.2.ph, 0x3FE6666660000000
+  %274 = fmul float %surface_color.2.2.ph, 0x3FE6666660000000
+  %tmp631 = bitcast i32 %ray_origin.1.off0.ph to float
+  %tmp625 = bitcast i32 %ray_origin.1.off32.ph to float
+  %tmp617 = bitcast i32 %ray_origin.1.off64.ph to float
+  %tmp1596 = add i32 %bounces.0.ph, 1
+  br label %bb113
 
-bb.i146:                                          ; preds = %bb3.i162, %bb.outer.i134
-  %indvar.i135 = phi i64 [ %indvar.next.i161, %bb3.i162 ], [ 0, %bb.outer.i134 ]
-  %node_id.0.i136 = phi i32 [ %328, %bb3.i162 ], [ %node_id.0.ph.i129, %bb.outer.i134 ]
-  %tmp1473 = add i64 %tmp1470, %indvar.i135
-  %scevgep.i140 = getelementptr [32 x i32]* %stack.i, i64 0, i64 %tmp1473
-  %tmp1475 = add i64 %tmp1474, %indvar.i135
-  %sp.0.i138 = trunc i64 %tmp1475 to i32
-  %293 = shl nsw i32 %node_id.0.i136, 3
-  %294 = add nsw i32 %293, %37
-  %295 = call float @llvm.trax.loadf(i32 %294, i32 2) nounwind
-  %296 = call float @llvm.trax.loadf(i32 %294, i32 1) nounwind
-  %297 = call float @llvm.trax.loadf(i32 %294, i32 0) nounwind
-  %298 = call float @llvm.trax.loadf(i32 %294, i32 5) nounwind
-  %299 = call float @llvm.trax.loadf(i32 %294, i32 4) nounwind
-  %300 = call float @llvm.trax.loadf(i32 %294, i32 3) nounwind
-  %301 = fsub float %297, %10
-  %302 = fdiv float %301, %292
-  %303 = fsub float %300, %10
-  %304 = fdiv float %303, %292
-  %305 = fcmp ogt float %302, %304
-  %tx1.i.0.i141 = select i1 %305, float %304, float %302
-  %tx2.i.0.i142 = select i1 %305, float %302, float %304
-  %306 = fcmp ogt float %tx1.i.0.i141, -1.000000e+10
-  %tnear.i.0.i143 = select i1 %306, float %tx1.i.0.i141, float -1.000000e+10
-  %307 = fcmp olt float %tx2.i.0.i142, 1.000000e+10
-  %tfar.i.0.i144 = select i1 %307, float %tx2.i.0.i142, float 1.000000e+10
-  %308 = fcmp ogt float %tnear.i.0.i143, %tfar.i.0.i144
-  %309 = fcmp olt float %tfar.i.0.i144, 0.000000e+00
-  %or.cond.i145 = or i1 %308, %309
-  br i1 %or.cond.i145, label %bb7.i233, label %bb29.i.i152
+bb113:                                            ; preds = %bb113.outer, %invcont54.bb107_crit_edge
+  %indvar1593 = phi i32 [ 0, %bb113.outer ], [ %indvar.next1594, %invcont54.bb107_crit_edge ]
+  %mask7501136 = phi i512 [ %mask7501136.ph, %bb113.outer ], [ %mask7501137, %invcont54.bb107_crit_edge ]
+  %memtmp40.0 = phi i128 [ %memtmp40.0.ph, %bb113.outer ], [ %ins1008, %invcont54.bb107_crit_edge ]
+  %bounces.0 = add i32 %bounces.0.ph, %indvar1593
+  %tmp1597 = add i32 %tmp1596, %indvar1593
+  %275 = icmp slt i32 %bounces.0, 3
+  br i1 %275, label %bb.i86, label %bb115
 
-bb29.i.i152:                                      ; preds = %bb.i146
-  %310 = fsub float %296, %11
-  %311 = fdiv float %310, %291
-  %312 = fsub float %299, %11
-  %313 = fdiv float %312, %291
-  %314 = fcmp ogt float %311, %313
-  %ty1.i.0.i147 = select i1 %314, float %313, float %311
-  %ty2.i.0.i148 = select i1 %314, float %311, float %313
-  %315 = fcmp ogt float %ty1.i.0.i147, %tnear.i.0.i143
-  %tnear.i.1.i149 = select i1 %315, float %ty1.i.0.i147, float %tnear.i.0.i143
-  %316 = fcmp olt float %ty2.i.0.i148, %tfar.i.0.i144
-  %tfar.i.1.i150 = select i1 %316, float %ty2.i.0.i148, float %tfar.i.0.i144
-  %317 = fcmp ogt float %tnear.i.1.i149, %tfar.i.1.i150
-  %318 = fcmp olt float %tfar.i.1.i150, 0.000000e+00
-  %or.cond1395.i151 = or i1 %317, %318
-  br i1 %or.cond1395.i151, label %bb7.i233, label %bb62.i.i158
+bb115:                                            ; preds = %bb113
+  %276 = add nsw i32 %iterator.01494, 1
+  %exitcond1665 = icmp eq i32 %276, 110000
+  br i1 %exitcond1665, label %invcont120, label %bb113.preheader
 
-bb62.i.i158:                                      ; preds = %bb29.i.i152
-  %319 = fsub float %295, %12
-  %320 = fdiv float %319, %tmp733
-  %321 = fsub float %298, %12
-  %322 = fdiv float %321, %tmp733
-  %323 = fcmp ogt float %320, %322
-  %tz1.i.0.i153 = select i1 %323, float %322, float %320
-  %tz2.i.0.i154 = select i1 %323, float %320, float %322
-  %324 = fcmp ogt float %tz1.i.0.i153, %tnear.i.1.i149
-  %tnear.i.2.i155 = select i1 %324, float %tz1.i.0.i153, float %tnear.i.1.i149
-  %325 = fcmp olt float %tz2.i.0.i154, %tfar.i.1.i150
-  %tfar.i.2.i156 = select i1 %325, float %tz2.i.0.i154, float %tfar.i.1.i150
-  %326 = fcmp ogt float %tnear.i.2.i155, %tfar.i.2.i156
-  %327 = fcmp olt float %tfar.i.2.i156, 0.000000e+00
-  %or.cond1396.i157 = or i1 %326, %327
-  br i1 %or.cond1396.i157, label %bb7.i233, label %bb1.i159
+bb113.preheader:                                  ; preds = %bb115, %invcont24
+  %v_p_count.21495 = phi i32 [ 0, %invcont24 ], [ %v_p_count.1.ph.ph.ph, %bb115 ]
+  %iterator.01494 = phi i32 [ 0, %invcont24 ], [ %276, %bb115 ]
+  %count.31493 = phi i32 [ 0, %invcont24 ], [ %count.2.ph.ph1451, %bb115 ]
+  %memtmp69.i284.31491 = phi i128 [ undef, %invcont24 ], [ %memtmp69.i284.2.ph.ph, %bb115 ]
+  %memtmp81.i286.31489 = phi i128 [ undef, %invcont24 ], [ %memtmp81.i286.2.ph.ph, %bb115 ]
+  %ray_origin.2.off641487 = phi i32 [ %tmp1092, %invcont24 ], [ %ray_origin.1.off64.ph, %bb115 ]
+  %ray_origin.2.off321486 = phi i32 [ %tmp1098, %invcont24 ], [ %ray_origin.1.off32.ph, %bb115 ]
+  %ray_origin.2.off01485 = phi i32 [ %tmp1104, %invcont24 ], [ %ray_origin.1.off0.ph, %bb115 ]
+  %memtmp40.11484 = phi i128 [ undef, %invcont24 ], [ %memtmp40.0, %bb115 ]
+  %mask75011351482 = phi i512 [ undef, %invcont24 ], [ %mask7501136, %bb115 ]
+  %tmp1651 = zext i32 %v_p_count.21495 to i64
+  %tmp1655 = sext i32 %v_p_count.21495 to i64
+  br label %bb113.outer.outer.outer
 
-bb1.i159:                                         ; preds = %bb62.i.i158
-  %328 = call i32 @llvm.trax.loadi(i32 %294, i32 7) nounwind
-  %329 = call i32 @llvm.trax.loadi(i32 %294, i32 6) nounwind
-  %330 = icmp slt i32 %329, 0
-  br i1 %330, label %bb3.i162, label %bb6.preheader.i160
+invcont120:                                       ; preds = %bb115
+  call void @llvm.trax.printf(float 0.000000e+00)
+  %277 = call i32 @llvm.trax.atominc(i32 0)
+  %278 = mul nsw i32 %1, %0
+  %279 = sitofp i32 %0 to float
+  %280 = fdiv float %279, -2.000000e+00
+  %281 = sitofp i32 %1 to float
+  %282 = fdiv float %281, -2.000000e+00
+  %283 = icmp sgt i32 %278, %277
+  br i1 %283, label %invcont129.lr.ph, label %return
 
-bb6.preheader.i160:                               ; preds = %bb1.i159
-  %331 = icmp sgt i32 %329, 0
-  br i1 %331, label %bb5.i173, label %bb7.i233
+invcont129.lr.ph:                                 ; preds = %invcont120
+  %tmp923 = bitcast float %10 to i32
+  %tmp924 = zext i32 %tmp923 to i192
+  %tmp846 = bitcast float %11 to i32
+  %tmp847 = zext i32 %tmp846 to i192
+  %tmp848 = shl nuw nsw i192 %tmp847, 32
+  %tmp828 = bitcast float %12 to i32
+  %tmp829 = zext i32 %tmp828 to i192
+  %tmp830 = shl nuw nsw i192 %tmp829, 64
+  %mask831.masked.masked = or i192 %tmp848, %tmp924
+  %mask909.masked = or i192 %mask831.masked.masked, %tmp830
+  %tmp5535 = zext i32 %tmp923 to i96
+  %tmp3217 = trunc i192 %tmp848 to i96
+  %tmp2905 = trunc i192 %tmp830 to i128
+  %284 = fsub float 2.650000e+02, %10
+  %285 = fsub float 0x4073A00420000000, %10
+  %286 = fsub float 2.960000e+02, %11
+  %287 = fsub float 0x407C800420000000, %11
+  %ins3035 = or i96 %tmp3217, %tmp5535
+  %tmp2734 = zext i96 %ins3035 to i128
+  %mask2730 = or i128 %tmp2734, %tmp2905
+  br label %invcont129
 
-bb3.i162:                                         ; preds = %bb1.i159
-  %332 = add nsw i32 %328, 1
-  store i32 %332, i32* %scevgep.i140, align 4
-  %indvar.next.i161 = add i64 %indvar.i135, 1
-  br label %bb.i146
+invcont129:                                       ; preds = %_ZN5Image3setEii5Color.exit463, %invcont129.lr.ph
+  %storemerge21382 = phi i32 [ %277, %invcont129.lr.ph ], [ %840, %_ZN5Image3setEii5Color.exit463 ]
+  %memtmp4.i657.11379 = phi i128 [ undef, %invcont129.lr.ph ], [ %memtmp4.i657.0, %_ZN5Image3setEii5Color.exit463 ]
+  %memtmp31.i.31371 = phi i128 [ undef, %invcont129.lr.ph ], [ %memtmp31.i.2, %_ZN5Image3setEii5Color.exit463 ]
+  %memtmp5.i.41364 = phi i128 [ undef, %invcont129.lr.ph ], [ %memtmp5.i.3, %_ZN5Image3setEii5Color.exit463 ]
+  %memtmp25.i.41362 = phi i128 [ undef, %invcont129.lr.ph ], [ %memtmp25.i.3, %_ZN5Image3setEii5Color.exit463 ]
+  %memtmp170.11360 = phi i128 [ undef, %invcont129.lr.ph ], [ %memtmp170.0, %_ZN5Image3setEii5Color.exit463 ]
+  %mask56111431359 = phi i512 [ undef, %invcont129.lr.ph ], [ %mask5611144, %_ZN5Image3setEii5Color.exit463 ]
+  %288 = sdiv i32 %storemerge21382, %0
+  %289 = srem i32 %storemerge21382, %0
+  %290 = sitofp i32 %289 to float
+  %291 = fadd float %290, %280
+  %292 = fadd float %291, 5.000000e-01
+  %293 = fmul float %292, 2.000000e+00
+  %294 = fdiv float %293, %279
+  %295 = sitofp i32 %288 to float
+  %296 = fadd float %295, %282
+  %297 = fadd float %296, 5.000000e-01
+  %298 = fmul float %297, 2.000000e+00
+  %299 = fdiv float %298, %281
+  %300 = fmul float %26, %299
+  %301 = fmul float %27, %299
+  %302 = fmul float %28, %299
+  %303 = fmul float %22, %294
+  %304 = fmul float %23, %294
+  %305 = fmul float %24, %294
+  %306 = fadd float %300, %303
+  %307 = fadd float %301, %304
+  %308 = fadd float %305, %302
+  %309 = fadd float %306, %18
+  %310 = fadd float %307, %19
+  %311 = fadd float %20, %308
+  %312 = fmul float %309, %309
+  %313 = fmul float %310, %310
+  %314 = fadd float %312, %313
+  %315 = fmul float %311, %311
+  %316 = fadd float %314, %315
+  %317 = call float @llvm.trax.invsqrt(float %316) nounwind
+  %318 = fdiv float 1.000000e+00, %317
+  %319 = fdiv float %311, %318
+  %320 = fdiv float %310, %318
+  %321 = fdiv float %309, %318
+  %tmp906 = bitcast float %321 to i32
+  %tmp907 = zext i32 %tmp906 to i192
+  %tmp908 = shl nuw nsw i192 %tmp907, 96
+  %tmp882 = bitcast float %320 to i32
+  %tmp883 = zext i32 %tmp882 to i192
+  %tmp884 = shl nuw nsw i192 %tmp883, 128
+  %tmp860 = bitcast float %319 to i32
+  %tmp861 = zext i32 %tmp860 to i192
+  %tmp862 = shl nuw i192 %tmp861, 160
+  %mask885.masked = or i192 %mask909.masked, %tmp884
+  %mask863 = or i192 %mask885.masked, %tmp908
+  %ins864 = or i192 %mask863, %tmp862
+  %mask488 = and i512 %mask56111431359, -726838724295606890549323807878830539891817061676795686782676873123622580271327503353597348126162915664230802099766744271117060969332736
+  %ins489 = or i512 %mask488, 1343554297
+  %tmp760 = lshr i192 %ins864, 160
+  %tmp764 = trunc i192 %tmp760 to i32
+  %tmp765 = bitcast i32 %tmp764 to float
+  br label %bb.outer.i65
 
-bb5.i173:                                         ; preds = %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i232, %bb6.preheader.i160
-  %mask5511202 = phi i512 [ %mask5511201, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i232 ], [ %mask5511205, %bb6.preheader.i160 ]
-  %storemerge388.i163 = phi i32 [ %446, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i232 ], [ 0, %bb6.preheader.i160 ]
-  %tmp1464 = mul i32 %storemerge388.i163, 11
-  %tmp396.i165 = add i32 %328, %tmp1464
-  %333 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 2) nounwind
-  %334 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 1) nounwind
-  %335 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 0) nounwind
-  %336 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 5) nounwind
-  %337 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 4) nounwind
-  %338 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 3) nounwind
-  %339 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 8) nounwind
-  %340 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 7) nounwind
-  %341 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 6) nounwind
-  %342 = call i32 @llvm.trax.loadi(i32 %tmp396.i165, i32 10) nounwind
-  %343 = call i32 @llvm.trax.loadi(i32 %tmp396.i165, i32 9) nounwind
-  %344 = call i32 @llvm.trax.loadi(i32 0, i32 9) nounwind
-  %345 = mul nsw i32 %342, 25
-  %346 = add nsw i32 %344, %345
-  %347 = call float @llvm.trax.loadf(i32 %346, i32 6) nounwind
-  %348 = call float @llvm.trax.loadf(i32 %346, i32 5) nounwind
-  %349 = call float @llvm.trax.loadf(i32 %346, i32 4) nounwind
-  %350 = fsub float %335, %341
-  %351 = fsub float %334, %340
-  %352 = fsub float %333, %339
-  %353 = fsub float %338, %341
-  %354 = fsub float %337, %340
-  %355 = fsub float %336, %339
-  %356 = fmul float %351, %355
-  %357 = fmul float %354, %352
-  %358 = fsub float %356, %357
-  %359 = fmul float %353, %352
-  %360 = fmul float %350, %355
-  %361 = fsub float %359, %360
-  %362 = fmul float %354, %350
-  %363 = fmul float %353, %351
-  %364 = fsub float %362, %363
-  %365 = fmul float %358, %358
-  %366 = fmul float %361, %361
-  %367 = fadd float %365, %366
-  %368 = fmul float %364, %364
-  %369 = fadd float %367, %368
-  %370 = call float @llvm.trax.invsqrt(float %369) nounwind
-  %371 = fmul float %291, %355
-  %372 = fmul float %354, %tmp733
-  %373 = fsub float %371, %372
-  %374 = fmul float %353, %tmp733
-  %375 = fmul float %292, %355
-  %376 = fsub float %374, %375
-  %377 = fmul float %354, %292
-  %378 = fmul float %353, %291
-  %379 = fsub float %377, %378
-  %380 = fmul float %373, %350
-  %381 = fadd float %380, 0.000000e+00
-  %382 = fmul float %376, %351
-  %383 = fadd float %382, %381
-  %384 = fmul float %379, %352
-  %385 = fadd float %384, %383
-  %386 = fdiv float 1.000000e+00, %385
-  %387 = fsub float %10, %341
-  %388 = fsub float %11, %340
-  %389 = fsub float %12, %339
-  %390 = fmul float %373, %387
-  %391 = fadd float %390, 0.000000e+00
-  %392 = fmul float %376, %388
-  %393 = fadd float %392, %391
-  %394 = fmul float %379, %389
-  %395 = fadd float %394, %393
-  %396 = fmul float %395, %386
-  %397 = fcmp olt float %396, 0.000000e+00
-  %398 = fcmp ogt float %396, 1.000000e+00
-  %or.cond1397.i172 = or i1 %397, %398
-  br i1 %or.cond1397.i172, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i232, label %bb73.i.i174
+bb.outer.i65:                                     ; preds = %bb9.i165, %invcont129
+  %mask5611145 = phi i512 [ %ins489, %invcont129 ], [ %mask5611144, %bb9.i165 ]
+  %node_id.0.ph.i60 = phi i32 [ 0, %invcont129 ], [ %479, %bb9.i165 ]
+  %sp.0.ph.i61 = phi i32 [ -1, %invcont129 ], [ %480, %bb9.i165 ]
+  %tmp404.i63 = add i32 %sp.0.ph.i61, 1
+  %tmp1520 = sext i32 %tmp404.i63 to i64
+  %tmp1522 = zext i32 %sp.0.ph.i61 to i64
+  br label %bb.i77
 
-bb73.i.i174:                                      ; preds = %bb5.i173
-  %399 = fmul float %388, %352
-  %400 = fmul float %351, %389
-  %401 = fsub float %399, %400
-  %402 = fmul float %350, %389
-  %403 = fmul float %387, %352
-  %404 = fsub float %402, %403
-  %405 = fmul float %351, %387
-  %406 = fmul float %350, %388
-  %407 = fsub float %405, %406
-  %408 = fmul float %401, %292
-  %409 = fadd float %408, 0.000000e+00
-  %410 = fmul float %404, %291
-  %411 = fadd float %410, %409
-  %412 = fmul float %407, %tmp733
-  %413 = fadd float %412, %411
-  %414 = fmul float %413, %386
-  %415 = fcmp olt float %414, 0.000000e+00
-  br i1 %415, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i232, label %bb94.i55.i175
+bb.i77:                                           ; preds = %bb3.i93, %bb.outer.i65
+  %indvar.i66 = phi i64 [ %indvar.next.i92, %bb3.i93 ], [ 0, %bb.outer.i65 ]
+  %node_id.0.i67 = phi i32 [ %357, %bb3.i93 ], [ %node_id.0.ph.i60, %bb.outer.i65 ]
+  %tmp1521 = add i64 %tmp1520, %indvar.i66
+  %scevgep.i71 = getelementptr [32 x i32]* %stack.i, i64 0, i64 %tmp1521
+  %tmp1523 = add i64 %tmp1522, %indvar.i66
+  %sp.0.i69 = trunc i64 %tmp1523 to i32
+  %322 = shl nsw i32 %node_id.0.i67, 3
+  %323 = add nsw i32 %322, %37
+  %324 = call float @llvm.trax.loadf(i32 %323, i32 2) nounwind
+  %325 = call float @llvm.trax.loadf(i32 %323, i32 1) nounwind
+  %326 = call float @llvm.trax.loadf(i32 %323, i32 0) nounwind
+  %327 = call float @llvm.trax.loadf(i32 %323, i32 5) nounwind
+  %328 = call float @llvm.trax.loadf(i32 %323, i32 4) nounwind
+  %329 = call float @llvm.trax.loadf(i32 %323, i32 3) nounwind
+  %330 = fsub float %326, %10
+  %331 = fdiv float %330, %321
+  %332 = fsub float %329, %10
+  %333 = fdiv float %332, %321
+  %334 = fcmp ogt float %331, %333
+  %tx1.i.0.i72 = select i1 %334, float %333, float %331
+  %tx2.i.0.i73 = select i1 %334, float %331, float %333
+  %335 = fcmp ogt float %tx1.i.0.i72, -1.000000e+10
+  %tnear.i.0.i74 = select i1 %335, float %tx1.i.0.i72, float -1.000000e+10
+  %336 = fcmp olt float %tx2.i.0.i73, 1.000000e+10
+  %tfar.i.0.i75 = select i1 %336, float %tx2.i.0.i73, float 1.000000e+10
+  %337 = fcmp ogt float %tnear.i.0.i74, %tfar.i.0.i75
+  %338 = fcmp olt float %tfar.i.0.i75, 0.000000e+00
+  %or.cond.i76 = or i1 %337, %338
+  br i1 %or.cond.i76, label %bb7.i164, label %bb29.i.i83
 
-bb94.i55.i175:                                    ; preds = %bb73.i.i174
-  %416 = fadd float %414, %396
-  %417 = fcmp ogt float %416, 1.000000e+00
-  br i1 %417, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i232, label %bb96.i.i178
+bb29.i.i83:                                       ; preds = %bb.i77
+  %339 = fsub float %325, %11
+  %340 = fdiv float %339, %320
+  %341 = fsub float %328, %11
+  %342 = fdiv float %341, %320
+  %343 = fcmp ogt float %340, %342
+  %ty1.i.0.i78 = select i1 %343, float %342, float %340
+  %ty2.i.0.i79 = select i1 %343, float %340, float %342
+  %344 = fcmp ogt float %ty1.i.0.i78, %tnear.i.0.i74
+  %tnear.i.1.i80 = select i1 %344, float %ty1.i.0.i78, float %tnear.i.0.i74
+  %345 = fcmp olt float %ty2.i.0.i79, %tfar.i.0.i75
+  %tfar.i.1.i81 = select i1 %345, float %ty2.i.0.i79, float %tfar.i.0.i75
+  %346 = fcmp ogt float %tnear.i.1.i80, %tfar.i.1.i81
+  %347 = fcmp olt float %tfar.i.1.i81, 0.000000e+00
+  %or.cond1395.i82 = or i1 %346, %347
+  br i1 %or.cond1395.i82, label %bb7.i164, label %bb62.i.i89
 
-bb96.i.i178:                                      ; preds = %bb94.i55.i175
-  %418 = fmul float %401, %353
-  %419 = fadd float %418, 0.000000e+00
-  %420 = fmul float %404, %354
-  %421 = fadd float %420, %419
-  %422 = fmul float %407, %355
-  %423 = fadd float %422, %421
-  %424 = fmul float %423, %386
-  %425 = fcmp ule float %424, 0.000000e+00
-  %426 = fcmp olt float %424, 0x3F50624DE0000000
-  %or.cond1398.i176 = or i1 %425, %426
-  %427 = fcmp oeq float %424, 1.000000e+10
-  %or.cond1399.i177 = or i1 %or.cond1398.i176, %427
-  br i1 %or.cond1399.i177, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i232, label %bb2.i.i.i179
+bb62.i.i89:                                       ; preds = %bb29.i.i83
+  %348 = fsub float %324, %12
+  %349 = fdiv float %348, %tmp765
+  %350 = fsub float %327, %12
+  %351 = fdiv float %350, %tmp765
+  %352 = fcmp ogt float %349, %351
+  %tz1.i.0.i84 = select i1 %352, float %351, float %349
+  %tz2.i.0.i85 = select i1 %352, float %349, float %351
+  %353 = fcmp ogt float %tz1.i.0.i84, %tnear.i.1.i80
+  %tnear.i.2.i86 = select i1 %353, float %tz1.i.0.i84, float %tnear.i.1.i80
+  %354 = fcmp olt float %tz2.i.0.i85, %tfar.i.1.i81
+  %tfar.i.2.i87 = select i1 %354, float %tz2.i.0.i85, float %tfar.i.1.i81
+  %355 = fcmp ogt float %tnear.i.2.i86, %tfar.i.2.i87
+  %356 = fcmp olt float %tfar.i.2.i87, 0.000000e+00
+  %or.cond1396.i88 = or i1 %355, %356
+  br i1 %or.cond1396.i88, label %bb7.i164, label %bb1.i90
 
-bb2.i.i.i179:                                     ; preds = %bb96.i.i178
-  %tmp457 = trunc i512 %mask5511202 to i32
-  %tmp458 = bitcast i32 %tmp457 to float
-  %428 = fcmp ogt float %tmp458, %424
-  br i1 %428, label %bb3.i.i.i230, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i232
+bb1.i90:                                          ; preds = %bb62.i.i89
+  %357 = call i32 @llvm.trax.loadi(i32 %323, i32 7) nounwind
+  %358 = call i32 @llvm.trax.loadi(i32 %323, i32 6) nounwind
+  %359 = icmp slt i32 %358, 0
+  br i1 %359, label %bb3.i93, label %bb6.preheader.i91
 
-bb3.i.i.i230:                                     ; preds = %bb2.i.i.i179
-  %tmp452 = bitcast float %424 to i32
-  %tmp453 = zext i32 %tmp452 to i512
-  %429 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 2) nounwind
-  %430 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 1) nounwind
-  %431 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 0) nounwind
-  %432 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 5) nounwind
-  %433 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 4) nounwind
-  %434 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 3) nounwind
-  %435 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 8) nounwind
-  %436 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 7) nounwind
-  %437 = call float @llvm.trax.loadf(i32 %tmp396.i165, i32 6) nounwind
-  %438 = call i32 @llvm.trax.loadi(i32 %tmp396.i165, i32 10) nounwind
-  %439 = call i32 @llvm.trax.loadi(i32 %tmp396.i165, i32 9) nounwind
-  %tmp369.i180 = bitcast float %431 to i32
-  %tmp370.i181 = zext i32 %tmp369.i180 to i480
-  %tmp301.i182 = bitcast float %430 to i32
-  %tmp302.i183 = zext i32 %tmp301.i182 to i480
-  %tmp303.i184 = shl nuw nsw i480 %tmp302.i183, 32
-  %tmp295.i185 = bitcast float %429 to i32
-  %tmp296.i186 = zext i32 %tmp295.i185 to i480
-  %tmp297.i187 = shl nuw nsw i480 %tmp296.i186, 64
-  %tmp363.i188 = bitcast float %434 to i32
-  %tmp364.i189 = zext i32 %tmp363.i188 to i480
-  %tmp365.i190 = shl nuw nsw i480 %tmp364.i189, 96
-  %tmp357.i191 = bitcast float %433 to i32
-  %tmp358.i192 = zext i32 %tmp357.i191 to i480
-  %tmp359.i193 = shl nuw nsw i480 %tmp358.i192, 128
-  %tmp351.i194 = bitcast float %432 to i32
-  %tmp352.i195 = zext i32 %tmp351.i194 to i480
-  %tmp353.i196 = shl nuw nsw i480 %tmp352.i195, 160
-  %tmp345.i197 = bitcast float %437 to i32
-  %tmp346.i198 = zext i32 %tmp345.i197 to i480
-  %tmp347.i199 = shl nuw nsw i480 %tmp346.i198, 192
-  %tmp339.i200 = bitcast float %436 to i32
-  %tmp340.i201 = zext i32 %tmp339.i200 to i480
-  %tmp341.i202 = shl nuw nsw i480 %tmp340.i201, 224
-  %tmp333.i203 = bitcast float %435 to i32
-  %tmp334.i204 = zext i32 %tmp333.i203 to i480
-  %tmp335.i205 = shl nuw nsw i480 %tmp334.i204, 256
-  %tmp290.i206 = zext i32 %439 to i480
-  %tmp291.i207 = shl nuw nsw i480 %tmp290.i206, 288
-  %440 = call i32 @llvm.trax.loadi(i32 0, i32 9) nounwind
-  %441 = mul nsw i32 %438, 25
-  %442 = add nsw i32 %440, %441
-  %443 = call float @llvm.trax.loadf(i32 %442, i32 6) nounwind
-  %444 = call float @llvm.trax.loadf(i32 %442, i32 5) nounwind
-  %445 = call float @llvm.trax.loadf(i32 %442, i32 4) nounwind
-  %tmp325.i208 = bitcast float %445 to i32
-  %tmp326.i209 = zext i32 %tmp325.i208 to i480
-  %tmp327.i210 = shl nuw nsw i480 %tmp326.i209, 320
-  %tmp317.i211 = bitcast float %444 to i32
-  %tmp318.i212 = zext i32 %tmp317.i211 to i480
-  %tmp319.i213 = shl nuw nsw i480 %tmp318.i212, 352
-  %tmp309.i214 = bitcast float %443 to i32
-  %tmp310.i215 = zext i32 %tmp309.i214 to i480
-  %tmp311.i216 = shl nuw nsw i480 %tmp310.i215, 384
-  %mask298.i217 = or i480 %tmp297.i187, %tmp370.i181
-  %mask366.i218 = or i480 %mask298.i217, %tmp303.i184
-  %mask360.masked.masked.masked.masked.masked.i219 = or i480 %mask366.i218, %tmp353.i196
-  %mask354.masked.masked.masked.masked.masked.masked.i220 = or i480 %mask360.masked.masked.masked.masked.masked.i219, %tmp359.i193
-  %mask348.masked.masked.masked.masked.masked.masked.masked.masked.i221 = or i480 %mask354.masked.masked.masked.masked.masked.masked.i220, %tmp365.i190
-  %mask342.masked.masked.masked.masked.masked.masked.masked.i222 = or i480 %mask348.masked.masked.masked.masked.masked.masked.masked.masked.i221, %tmp335.i205
-  %mask336.masked.masked.masked.masked.masked.masked.i223 = or i480 %mask342.masked.masked.masked.masked.masked.masked.masked.i222, %tmp341.i202
-  %mask292.masked.masked.masked.masked.masked.i224 = or i480 %mask336.masked.masked.masked.masked.masked.masked.i223, %tmp347.i199
-  %mask328.masked.masked.masked.masked.i225 = or i480 %mask292.masked.masked.masked.masked.masked.i224, %tmp291.i207
-  %mask320.masked.masked.masked.i226 = or i480 %mask328.masked.masked.masked.masked.i225, %tmp311.i216
-  %mask312.masked.masked.i227 = or i480 %mask320.masked.masked.masked.i226, %tmp319.i213
-  %ins288.i228 = or i480 %mask312.masked.masked.i227, %tmp327.i210
-  %ins285.i229 = or i480 %ins288.i228, 770681673391627619131312691654083964084373995933406099189890146314966155308140517402099473489517307419678932548501811235986099843289400054120448
-  %tmp449 = zext i480 %ins285.i229 to i512
-  %tmp450 = shl nuw i512 %tmp449, 32
-  %ins = or i512 %tmp450, %tmp453
-  br label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i232
+bb6.preheader.i91:                                ; preds = %bb1.i90
+  %360 = icmp sgt i32 %358, 0
+  br i1 %360, label %bb5.i104, label %bb7.i164
 
-_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i232: ; preds = %bb3.i.i.i230, %bb2.i.i.i179, %bb96.i.i178, %bb94.i55.i175, %bb73.i.i174, %bb5.i173
-  %mask5511201 = phi i512 [ %ins, %bb3.i.i.i230 ], [ %mask5511202, %bb2.i.i.i179 ], [ %mask5511202, %bb96.i.i178 ], [ %mask5511202, %bb94.i55.i175 ], [ %mask5511202, %bb73.i.i174 ], [ %mask5511202, %bb5.i173 ]
-  %446 = add nsw i32 %storemerge388.i163, 1
-  %exitcond1463 = icmp eq i32 %446, %329
-  br i1 %exitcond1463, label %bb7.i233, label %bb5.i173
+bb3.i93:                                          ; preds = %bb1.i90
+  %361 = add nsw i32 %357, 1
+  store i32 %361, i32* %scevgep.i71, align 4
+  %indvar.next.i92 = add i64 %indvar.i66, 1
+  br label %bb.i77
 
-bb7.i233:                                         ; preds = %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i232, %bb6.preheader.i160, %bb62.i.i158, %bb29.i.i152, %bb.i146
-  %mask5511204 = phi i512 [ %mask5511205, %bb6.preheader.i160 ], [ %mask5511201, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i232 ], [ %mask5511205, %bb.i146 ], [ %mask5511205, %bb29.i.i152 ], [ %mask5511205, %bb62.i.i158 ]
-  %447 = icmp slt i32 %sp.0.i138, 0
-  br i1 %447, label %_ZN3BVH9intersectER9HitRecordR3Ray.exit235, label %bb9.i234
+bb5.i104:                                         ; preds = %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i163, %bb6.preheader.i91
+  %mask5611142 = phi i512 [ %mask5611141, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i163 ], [ %mask5611145, %bb6.preheader.i91 ]
+  %storemerge388.i94 = phi i32 [ %475, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i163 ], [ 0, %bb6.preheader.i91 ]
+  %tmp1514 = mul i32 %storemerge388.i94, 11
+  %tmp396.i96 = add i32 %357, %tmp1514
+  %362 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 2) nounwind
+  %363 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 1) nounwind
+  %364 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 0) nounwind
+  %365 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 5) nounwind
+  %366 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 4) nounwind
+  %367 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 3) nounwind
+  %368 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 8) nounwind
+  %369 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 7) nounwind
+  %370 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 6) nounwind
+  %371 = call i32 @llvm.trax.loadi(i32 %tmp396.i96, i32 10) nounwind
+  %372 = call i32 @llvm.trax.loadi(i32 %tmp396.i96, i32 9) nounwind
+  %373 = call i32 @llvm.trax.loadi(i32 0, i32 9) nounwind
+  %374 = mul nsw i32 %371, 25
+  %375 = add nsw i32 %373, %374
+  %376 = call float @llvm.trax.loadf(i32 %375, i32 6) nounwind
+  %377 = call float @llvm.trax.loadf(i32 %375, i32 5) nounwind
+  %378 = call float @llvm.trax.loadf(i32 %375, i32 4) nounwind
+  %379 = fsub float %364, %370
+  %380 = fsub float %363, %369
+  %381 = fsub float %362, %368
+  %382 = fsub float %367, %370
+  %383 = fsub float %366, %369
+  %384 = fsub float %365, %368
+  %385 = fmul float %380, %384
+  %386 = fmul float %383, %381
+  %387 = fsub float %385, %386
+  %388 = fmul float %382, %381
+  %389 = fmul float %379, %384
+  %390 = fsub float %388, %389
+  %391 = fmul float %383, %379
+  %392 = fmul float %382, %380
+  %393 = fsub float %391, %392
+  %394 = fmul float %387, %387
+  %395 = fmul float %390, %390
+  %396 = fadd float %394, %395
+  %397 = fmul float %393, %393
+  %398 = fadd float %396, %397
+  %399 = call float @llvm.trax.invsqrt(float %398) nounwind
+  %400 = fmul float %320, %384
+  %401 = fmul float %383, %tmp765
+  %402 = fsub float %400, %401
+  %403 = fmul float %382, %tmp765
+  %404 = fmul float %321, %384
+  %405 = fsub float %403, %404
+  %406 = fmul float %383, %321
+  %407 = fmul float %382, %320
+  %408 = fsub float %406, %407
+  %409 = fmul float %402, %379
+  %410 = fadd float %409, 0.000000e+00
+  %411 = fmul float %405, %380
+  %412 = fadd float %411, %410
+  %413 = fmul float %408, %381
+  %414 = fadd float %413, %412
+  %415 = fdiv float 1.000000e+00, %414
+  %416 = fsub float %10, %370
+  %417 = fsub float %11, %369
+  %418 = fsub float %12, %368
+  %419 = fmul float %402, %416
+  %420 = fadd float %419, 0.000000e+00
+  %421 = fmul float %405, %417
+  %422 = fadd float %421, %420
+  %423 = fmul float %408, %418
+  %424 = fadd float %423, %422
+  %425 = fmul float %424, %415
+  %426 = fcmp olt float %425, 0.000000e+00
+  %427 = fcmp ogt float %425, 1.000000e+00
+  %or.cond1397.i103 = or i1 %426, %427
+  br i1 %or.cond1397.i103, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i163, label %bb73.i.i105
 
-bb9.i234:                                         ; preds = %bb7.i233
-  %448 = sext i32 %sp.0.i138 to i64
-  %449 = getelementptr inbounds [32 x i32]* %stack.i, i64 0, i64 %448
-  %450 = load i32* %449, align 4
-  %451 = add nsw i32 %sp.0.i138, -1
-  br label %bb.outer.i134
+bb73.i.i105:                                      ; preds = %bb5.i104
+  %428 = fmul float %417, %381
+  %429 = fmul float %380, %418
+  %430 = fsub float %428, %429
+  %431 = fmul float %379, %418
+  %432 = fmul float %416, %381
+  %433 = fsub float %431, %432
+  %434 = fmul float %380, %416
+  %435 = fmul float %379, %417
+  %436 = fsub float %434, %435
+  %437 = fmul float %430, %321
+  %438 = fadd float %437, 0.000000e+00
+  %439 = fmul float %433, %320
+  %440 = fadd float %439, %438
+  %441 = fmul float %436, %tmp765
+  %442 = fadd float %441, %440
+  %443 = fmul float %442, %415
+  %444 = fcmp olt float %443, 0.000000e+00
+  br i1 %444, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i163, label %bb94.i55.i106
 
-_ZN3BVH9intersectER9HitRecordR3Ray.exit235:       ; preds = %bb7.i233
-  %tmp1280 = trunc i512 %mask5511204 to i32
-  %tmp1281 = bitcast i32 %tmp1280 to float
-  %452 = fcmp olt float %tmp1281, 1.000000e+10
-  %tmp1226 = lshr i512 %mask5511204, 32
-  %tmp1227 = trunc i512 %tmp1226 to i32
-  %tmp1228 = bitcast i32 %tmp1227 to float
-  %tmp1222 = lshr i512 %mask5511204, 64
-  %tmp1223 = trunc i512 %tmp1222 to i32
-  %tmp1224 = bitcast i32 %tmp1223 to float
-  %tmp1218 = lshr i512 %mask5511204, 96
-  %tmp1219 = trunc i512 %tmp1218 to i32
-  %tmp1220 = bitcast i32 %tmp1219 to float
-  %tmp1273 = lshr i512 %mask5511204, 128
-  %tmp1274 = trunc i512 %tmp1273 to i32
-  %tmp1275 = bitcast i32 %tmp1274 to float
-  %tmp1269 = lshr i512 %mask5511204, 160
-  %tmp1270 = trunc i512 %tmp1269 to i32
-  %tmp1271 = bitcast i32 %tmp1270 to float
-  %tmp1265 = lshr i512 %mask5511204, 192
-  %tmp1266 = trunc i512 %tmp1265 to i32
-  %tmp1267 = bitcast i32 %tmp1266 to float
-  %tmp1261 = lshr i512 %mask5511204, 224
-  %tmp1262 = trunc i512 %tmp1261 to i32
-  %tmp1263 = bitcast i32 %tmp1262 to float
-  %tmp1257 = lshr i512 %mask5511204, 256
-  %tmp1258 = trunc i512 %tmp1257 to i32
-  %tmp1259 = bitcast i32 %tmp1258 to float
-  %tmp1253 = lshr i512 %mask5511204, 288
-  %tmp1254 = trunc i512 %tmp1253 to i32
-  %tmp1255 = bitcast i32 %tmp1254 to float
-  %tmp1238 = lshr i512 %mask5511204, 352
-  br i1 %452, label %bb.i263, label %_ZN3BVH9intersectER9HitRecordR3Ray.exit235.invcont123_crit_edge
+bb94.i55.i106:                                    ; preds = %bb73.i.i105
+  %445 = fadd float %443, %425
+  %446 = fcmp ogt float %445, 1.000000e+00
+  br i1 %446, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i163, label %bb96.i.i109
 
-_ZN3BVH9intersectER9HitRecordR3Ray.exit235.invcont123_crit_edge: ; preds = %_ZN3BVH9intersectER9HitRecordR3Ray.exit235
-  %.pre = fmul float %292, %tmp1281
-  %.pre1576 = fmul float %291, %tmp1281
-  %.pre1578 = fadd float %.pre, %10
-  %.pre1580 = fadd float %.pre1576, %11
-  %.pre1582 = fsub float %tmp1228, %tmp1275
-  %.pre1584 = fsub float %tmp1224, %tmp1271
-  %.pre1586 = fsub float %tmp1220, %tmp1267
-  %.pre1588 = fsub float %tmp1275, %tmp1263
-  %.pre1590 = fsub float %tmp1271, %tmp1259
-  %.pre1592 = fsub float %tmp1267, %tmp1255
-  %.pre1594 = fmul float %.pre1584, %.pre1592
-  %.pre1596 = fmul float %.pre1590, %.pre1586
-  %.pre1598 = fsub float %.pre1594, %.pre1596
-  %.pre1600 = fmul float %.pre1588, %.pre1586
-  %.pre1602 = fmul float %.pre1582, %.pre1592
-  %.pre1604 = fsub float %.pre1600, %.pre1602
-  %.pre1606 = fmul float %.pre1590, %.pre1582
-  %.pre1608 = fmul float %.pre1588, %.pre1584
-  %.pre1610 = fsub float %.pre1606, %.pre1608
-  %.pre1612 = fmul float %.pre1598, %.pre1598
-  %.pre1614 = fmul float %.pre1604, %.pre1604
-  %.pre1616 = fadd float %.pre1612, %.pre1614
-  %.pre1618 = fmul float %.pre1610, %.pre1610
-  %.pre1620 = fadd float %.pre1616, %.pre1618
-  %extract.t = trunc i512 %tmp1238 to i32
-  %extract.t1627 = trunc i512 %tmp1238 to i128
-  br label %invcont123
+bb96.i.i109:                                      ; preds = %bb94.i55.i106
+  %447 = fmul float %430, %382
+  %448 = fadd float %447, 0.000000e+00
+  %449 = fmul float %433, %383
+  %450 = fadd float %449, %448
+  %451 = fmul float %436, %384
+  %452 = fadd float %451, %450
+  %453 = fmul float %452, %415
+  %454 = fcmp ule float %453, 0.000000e+00
+  %455 = fcmp olt float %453, 0x3F50624DE0000000
+  %or.cond1398.i107 = or i1 %454, %455
+  %456 = fcmp oeq float %453, 1.000000e+10
+  %or.cond1399.i108 = or i1 %or.cond1398.i107, %456
+  br i1 %or.cond1399.i108, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i163, label %bb2.i.i.i110
 
-bb.i263:                                          ; preds = %_ZN3BVH9intersectER9HitRecordR3Ray.exit235
-  %tmp1242 = lshr i512 %mask5511204, 480
-  %tmp1243 = trunc i512 %tmp1242 to i32
-  %tmp1244 = bitcast i32 %tmp1243 to float
-  %453 = lshr i192 %ins813, 96
-  %.tr1323 = trunc i192 %453 to i128
-  %tmp2363 = and i128 %.tr1323, 79228162495817593519834398720
-  %tmp2350 = lshr exact i128 %tmp2363, 64
-  %tmp2351 = trunc i128 %tmp2350 to i32
-  %tmp2352 = bitcast i32 %tmp2351 to float
-  %454 = fmul float %292, %tmp1281
-  %455 = fmul float %291, %tmp1281
-  %456 = fmul float %tmp2352, %tmp1281
-  %tmp2854 = bitcast float %454 to i32
-  %tmp2855 = zext i32 %tmp2854 to i96
-  %tmp2848 = bitcast float %455 to i32
-  %tmp2849 = zext i32 %tmp2848 to i96
-  %tmp2850 = shl nuw nsw i96 %tmp2849, 32
-  %ins2852 = or i96 %tmp2850, %tmp2855
-  %tmp2842 = bitcast float %456 to i32
-  %tmp2346 = zext i96 %ins2852 to i128
-  %mask2347 = and i128 %memtmp4.i238.11394, -79228162514264337593543950336
-  %tmp2340 = zext i32 %tmp2842 to i128
-  %tmp2341 = shl nuw nsw i128 %tmp2340, 64
-  %mask2342 = or i128 %tmp2341, %mask2347
-  %ins2343 = or i128 %mask2342, %tmp2346
-  %ins2343.tr = trunc i128 %ins2343 to i96
-  %tmp2306 = lshr i128 %mask2320, 64
-  %tmp2307 = trunc i128 %tmp2306 to i32
-  %tmp2308 = bitcast i32 %tmp2307 to float
-  %tmp2441 = lshr i96 %ins2343.tr, 64
-  %tmp2442 = trunc i96 %tmp2441 to i32
-  %tmp2443 = bitcast i32 %tmp2442 to float
-  %457 = fadd float %454, %10
-  %458 = fadd float %455, %11
-  %459 = fadd float %tmp2308, %tmp2443
-  %460 = fsub float %tmp1228, %tmp1275
-  %461 = fsub float %tmp1224, %tmp1271
-  %462 = fsub float %tmp1220, %tmp1267
-  %463 = fsub float %tmp1275, %tmp1263
-  %464 = fsub float %tmp1271, %tmp1259
-  %465 = fsub float %tmp1267, %tmp1255
-  %466 = fmul float %461, %465
-  %467 = fmul float %464, %462
-  %468 = fsub float %466, %467
-  %469 = fmul float %463, %462
-  %470 = fmul float %460, %465
-  %471 = fsub float %469, %470
-  %472 = fmul float %464, %460
-  %473 = fmul float %463, %461
-  %474 = fsub float %472, %473
-  %475 = fmul float %468, %468
-  %476 = fmul float %471, %471
-  %477 = fadd float %475, %476
-  %478 = fmul float %474, %474
-  %479 = fadd float %477, %478
-  %480 = call float @llvm.trax.invsqrt(float %479) nounwind
-  %481 = fdiv float 1.000000e+00, %480
-  %482 = fdiv float %474, %481
-  %483 = fdiv float %471, %481
-  %484 = fdiv float %468, %481
-  %485 = fmul float %292, %292
-  %486 = fmul float %291, %291
-  %487 = fadd float %485, %486
-  %488 = fmul float %tmp2352, %tmp2352
-  %489 = fadd float %487, %488
-  %490 = call float @llvm.trax.invsqrt(float %489) nounwind
-  %491 = fdiv float 1.000000e+00, %490
-  %492 = fdiv float %tmp2352, %491
-  %493 = fdiv float %291, %491
-  %494 = fdiv float %292, %491
-  %495 = fmul float %494, %484
-  %496 = fadd float %495, 0.000000e+00
-  %497 = fmul float %493, %483
-  %498 = fadd float %497, %496
-  %499 = fmul float %492, %482
-  %500 = fadd float %499, %498
-  %501 = fcmp ogt float %500, 0.000000e+00
-  br i1 %501, label %bb46.i, label %bb53.i
+bb2.i.i.i110:                                     ; preds = %bb96.i.i109
+  %tmp472 = trunc i512 %mask5611142 to i32
+  %tmp473 = bitcast i32 %tmp472 to float
+  %457 = fcmp ogt float %tmp473, %453
+  br i1 %457, label %bb3.i.i.i161, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i163
 
-bb46.i:                                           ; preds = %bb.i263
-  %502 = fmul float %484, -1.000000e+00
-  %503 = fmul float %483, -1.000000e+00
-  %504 = fmul float %482, -1.000000e+00
+bb3.i.i.i161:                                     ; preds = %bb2.i.i.i110
+  %tmp467 = bitcast float %453 to i32
+  %tmp468 = zext i32 %tmp467 to i512
+  %458 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 2) nounwind
+  %459 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 1) nounwind
+  %460 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 0) nounwind
+  %461 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 5) nounwind
+  %462 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 4) nounwind
+  %463 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 3) nounwind
+  %464 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 8) nounwind
+  %465 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 7) nounwind
+  %466 = call float @llvm.trax.loadf(i32 %tmp396.i96, i32 6) nounwind
+  %467 = call i32 @llvm.trax.loadi(i32 %tmp396.i96, i32 10) nounwind
+  %468 = call i32 @llvm.trax.loadi(i32 %tmp396.i96, i32 9) nounwind
+  %tmp369.i111 = bitcast float %460 to i32
+  %tmp370.i112 = zext i32 %tmp369.i111 to i480
+  %tmp301.i113 = bitcast float %459 to i32
+  %tmp302.i114 = zext i32 %tmp301.i113 to i480
+  %tmp303.i115 = shl nuw nsw i480 %tmp302.i114, 32
+  %tmp295.i116 = bitcast float %458 to i32
+  %tmp296.i117 = zext i32 %tmp295.i116 to i480
+  %tmp297.i118 = shl nuw nsw i480 %tmp296.i117, 64
+  %tmp363.i119 = bitcast float %463 to i32
+  %tmp364.i120 = zext i32 %tmp363.i119 to i480
+  %tmp365.i121 = shl nuw nsw i480 %tmp364.i120, 96
+  %tmp357.i122 = bitcast float %462 to i32
+  %tmp358.i123 = zext i32 %tmp357.i122 to i480
+  %tmp359.i124 = shl nuw nsw i480 %tmp358.i123, 128
+  %tmp351.i125 = bitcast float %461 to i32
+  %tmp352.i126 = zext i32 %tmp351.i125 to i480
+  %tmp353.i127 = shl nuw nsw i480 %tmp352.i126, 160
+  %tmp345.i128 = bitcast float %466 to i32
+  %tmp346.i129 = zext i32 %tmp345.i128 to i480
+  %tmp347.i130 = shl nuw nsw i480 %tmp346.i129, 192
+  %tmp339.i131 = bitcast float %465 to i32
+  %tmp340.i132 = zext i32 %tmp339.i131 to i480
+  %tmp341.i133 = shl nuw nsw i480 %tmp340.i132, 224
+  %tmp333.i134 = bitcast float %464 to i32
+  %tmp334.i135 = zext i32 %tmp333.i134 to i480
+  %tmp335.i136 = shl nuw nsw i480 %tmp334.i135, 256
+  %tmp290.i137 = zext i32 %468 to i480
+  %tmp291.i138 = shl nuw nsw i480 %tmp290.i137, 288
+  %469 = call i32 @llvm.trax.loadi(i32 0, i32 9) nounwind
+  %470 = mul nsw i32 %467, 25
+  %471 = add nsw i32 %469, %470
+  %472 = call float @llvm.trax.loadf(i32 %471, i32 6) nounwind
+  %473 = call float @llvm.trax.loadf(i32 %471, i32 5) nounwind
+  %474 = call float @llvm.trax.loadf(i32 %471, i32 4) nounwind
+  %tmp325.i139 = bitcast float %474 to i32
+  %tmp326.i140 = zext i32 %tmp325.i139 to i480
+  %tmp327.i141 = shl nuw nsw i480 %tmp326.i140, 320
+  %tmp317.i142 = bitcast float %473 to i32
+  %tmp318.i143 = zext i32 %tmp317.i142 to i480
+  %tmp319.i144 = shl nuw nsw i480 %tmp318.i143, 352
+  %tmp309.i145 = bitcast float %472 to i32
+  %tmp310.i146 = zext i32 %tmp309.i145 to i480
+  %tmp311.i147 = shl nuw nsw i480 %tmp310.i146, 384
+  %mask298.i148 = or i480 %tmp297.i118, %tmp370.i112
+  %mask366.i149 = or i480 %mask298.i148, %tmp303.i115
+  %mask360.masked.masked.masked.masked.masked.i150 = or i480 %mask366.i149, %tmp353.i127
+  %mask354.masked.masked.masked.masked.masked.masked.i151 = or i480 %mask360.masked.masked.masked.masked.masked.i150, %tmp359.i124
+  %mask348.masked.masked.masked.masked.masked.masked.masked.masked.i152 = or i480 %mask354.masked.masked.masked.masked.masked.masked.i151, %tmp365.i121
+  %mask342.masked.masked.masked.masked.masked.masked.masked.i153 = or i480 %mask348.masked.masked.masked.masked.masked.masked.masked.masked.i152, %tmp335.i136
+  %mask336.masked.masked.masked.masked.masked.masked.i154 = or i480 %mask342.masked.masked.masked.masked.masked.masked.masked.i153, %tmp341.i133
+  %mask292.masked.masked.masked.masked.masked.i155 = or i480 %mask336.masked.masked.masked.masked.masked.masked.i154, %tmp347.i130
+  %mask328.masked.masked.masked.masked.i156 = or i480 %mask292.masked.masked.masked.masked.masked.i155, %tmp291.i138
+  %mask320.masked.masked.masked.i157 = or i480 %mask328.masked.masked.masked.masked.i156, %tmp311.i147
+  %mask312.masked.masked.i158 = or i480 %mask320.masked.masked.masked.i157, %tmp319.i144
+  %ins288.i159 = or i480 %mask312.masked.masked.i158, %tmp327.i141
+  %ins285.i160 = or i480 %ins288.i159, 770681673391627619131312691654083964084373995933406099189890146314966155308140517402099473489517307419678932548501811235986099843289400054120448
+  %tmp464 = zext i480 %ins285.i160 to i512
+  %tmp465 = shl nuw i512 %tmp464, 32
+  %ins = or i512 %tmp465, %tmp468
+  br label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i163
+
+_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i163: ; preds = %bb3.i.i.i161, %bb2.i.i.i110, %bb96.i.i109, %bb94.i55.i106, %bb73.i.i105, %bb5.i104
+  %mask5611141 = phi i512 [ %ins, %bb3.i.i.i161 ], [ %mask5611142, %bb2.i.i.i110 ], [ %mask5611142, %bb96.i.i109 ], [ %mask5611142, %bb94.i55.i106 ], [ %mask5611142, %bb73.i.i105 ], [ %mask5611142, %bb5.i104 ]
+  %475 = add nsw i32 %storemerge388.i94, 1
+  %exitcond1513 = icmp eq i32 %475, %358
+  br i1 %exitcond1513, label %bb7.i164, label %bb5.i104
+
+bb7.i164:                                         ; preds = %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i163, %bb6.preheader.i91, %bb62.i.i89, %bb29.i.i83, %bb.i77
+  %mask5611144 = phi i512 [ %mask5611145, %bb6.preheader.i91 ], [ %mask5611141, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i163 ], [ %mask5611145, %bb.i77 ], [ %mask5611145, %bb29.i.i83 ], [ %mask5611145, %bb62.i.i89 ]
+  %476 = icmp slt i32 %sp.0.i69, 0
+  br i1 %476, label %_ZN3BVH9intersectER9HitRecordR3Ray.exit166, label %bb9.i165
+
+bb9.i165:                                         ; preds = %bb7.i164
+  %477 = sext i32 %sp.0.i69 to i64
+  %478 = getelementptr inbounds [32 x i32]* %stack.i, i64 0, i64 %477
+  %479 = load i32* %478, align 4
+  %480 = add nsw i32 %sp.0.i69, -1
+  br label %bb.outer.i65
+
+_ZN3BVH9intersectER9HitRecordR3Ray.exit166:       ; preds = %bb7.i164
+  %tmp1220 = trunc i512 %mask5611144 to i32
+  %tmp1221 = bitcast i32 %tmp1220 to float
+  %481 = fcmp olt float %tmp1221, 1.000000e+10
+  %tmp1166 = lshr i512 %mask5611144, 32
+  %tmp1167 = trunc i512 %tmp1166 to i32
+  %tmp1168 = bitcast i32 %tmp1167 to float
+  %tmp1162 = lshr i512 %mask5611144, 64
+  %tmp1163 = trunc i512 %tmp1162 to i32
+  %tmp1164 = bitcast i32 %tmp1163 to float
+  %tmp1158 = lshr i512 %mask5611144, 96
+  %tmp1159 = trunc i512 %tmp1158 to i32
+  %tmp1160 = bitcast i32 %tmp1159 to float
+  %tmp1213 = lshr i512 %mask5611144, 128
+  %tmp1214 = trunc i512 %tmp1213 to i32
+  %tmp1215 = bitcast i32 %tmp1214 to float
+  %tmp1209 = lshr i512 %mask5611144, 160
+  %tmp1210 = trunc i512 %tmp1209 to i32
+  %tmp1211 = bitcast i32 %tmp1210 to float
+  %tmp1205 = lshr i512 %mask5611144, 192
+  %tmp1206 = trunc i512 %tmp1205 to i32
+  %tmp1207 = bitcast i32 %tmp1206 to float
+  %tmp1201 = lshr i512 %mask5611144, 224
+  %tmp1202 = trunc i512 %tmp1201 to i32
+  %tmp1203 = bitcast i32 %tmp1202 to float
+  %tmp1197 = lshr i512 %mask5611144, 256
+  %tmp1198 = trunc i512 %tmp1197 to i32
+  %tmp1199 = bitcast i32 %tmp1198 to float
+  %tmp1193 = lshr i512 %mask5611144, 288
+  %tmp1194 = trunc i512 %tmp1193 to i32
+  %tmp1195 = bitcast i32 %tmp1194 to float
+  %tmp1178 = lshr i512 %mask5611144, 352
+  br i1 %481, label %bb.i705, label %_ZN3BVH9intersectER9HitRecordR3Ray.exit166.invcont134_crit_edge
+
+_ZN3BVH9intersectER9HitRecordR3Ray.exit166.invcont134_crit_edge: ; preds = %_ZN3BVH9intersectER9HitRecordR3Ray.exit166
+  %.pre1699 = fmul float %321, %tmp1221
+  %.pre1700 = fmul float %320, %tmp1221
+  %.pre1702 = fadd float %.pre1699, %10
+  %.pre1704 = fadd float %.pre1700, %11
+  %.pre1706 = fsub float %tmp1168, %tmp1215
+  %.pre1708 = fsub float %tmp1164, %tmp1211
+  %.pre1710 = fsub float %tmp1160, %tmp1207
+  %.pre1712 = fsub float %tmp1215, %tmp1203
+  %.pre1714 = fsub float %tmp1211, %tmp1199
+  %.pre1716 = fsub float %tmp1207, %tmp1195
+  %.pre1718 = fmul float %.pre1708, %.pre1716
+  %.pre1720 = fmul float %.pre1714, %.pre1710
+  %.pre1722 = fsub float %.pre1718, %.pre1720
+  %.pre1724 = fmul float %.pre1712, %.pre1710
+  %.pre1726 = fmul float %.pre1706, %.pre1716
+  %.pre1728 = fsub float %.pre1724, %.pre1726
+  %.pre1730 = fmul float %.pre1714, %.pre1706
+  %.pre1732 = fmul float %.pre1712, %.pre1708
+  %.pre1734 = fsub float %.pre1730, %.pre1732
+  %.pre1736 = fmul float %.pre1722, %.pre1722
+  %.pre1738 = fmul float %.pre1728, %.pre1728
+  %.pre1740 = fadd float %.pre1736, %.pre1738
+  %.pre1742 = fmul float %.pre1734, %.pre1734
+  %.pre1744 = fadd float %.pre1740, %.pre1742
+  %extract.t = trunc i512 %tmp1178 to i32
+  %extract.t1751 = trunc i512 %tmp1178 to i128
+  br label %invcont134
+
+bb.i705:                                          ; preds = %_ZN3BVH9intersectER9HitRecordR3Ray.exit166
+  %tmp1182 = lshr i512 %mask5611144, 480
+  %tmp1183 = trunc i512 %tmp1182 to i32
+  %tmp1184 = bitcast i32 %tmp1183 to float
+  %482 = lshr i192 %ins864, 96
+  %.tr1272 = trunc i192 %482 to i128
+  %tmp4997 = and i128 %.tr1272, 79228162495817593519834398720
+  %tmp4984 = lshr exact i128 %tmp4997, 64
+  %tmp4985 = trunc i128 %tmp4984 to i32
+  %tmp4986 = bitcast i32 %tmp4985 to float
+  %483 = fmul float %321, %tmp1221
+  %484 = fmul float %320, %tmp1221
+  %485 = fmul float %tmp4986, %tmp1221
+  %tmp5488 = bitcast float %483 to i32
+  %tmp5489 = zext i32 %tmp5488 to i96
+  %tmp5482 = bitcast float %484 to i32
+  %tmp5483 = zext i32 %tmp5482 to i96
+  %tmp5484 = shl nuw nsw i96 %tmp5483, 32
+  %ins5486 = or i96 %tmp5484, %tmp5489
+  %tmp5476 = bitcast float %485 to i32
+  %tmp4980 = zext i96 %ins5486 to i128
+  %mask4981 = and i128 %memtmp4.i657.11379, -79228162514264337593543950336
+  %tmp4974 = zext i32 %tmp5476 to i128
+  %tmp4975 = shl nuw nsw i128 %tmp4974, 64
+  %mask4976 = or i128 %tmp4975, %mask4981
+  %ins4977 = or i128 %mask4976, %tmp4980
+  %ins4977.tr = trunc i128 %ins4977 to i96
+  %tmp5075 = lshr i96 %ins4977.tr, 64
+  %tmp5076 = trunc i96 %tmp5075 to i32
+  %tmp5077 = bitcast i32 %tmp5076 to float
+  %486 = fadd float %483, %10
+  %487 = fadd float %484, %11
+  %488 = fadd float %12, %tmp5077
+  %489 = fsub float %tmp1168, %tmp1215
+  %490 = fsub float %tmp1164, %tmp1211
+  %491 = fsub float %tmp1160, %tmp1207
+  %492 = fsub float %tmp1215, %tmp1203
+  %493 = fsub float %tmp1211, %tmp1199
+  %494 = fsub float %tmp1207, %tmp1195
+  %495 = fmul float %490, %494
+  %496 = fmul float %493, %491
+  %497 = fsub float %495, %496
+  %498 = fmul float %492, %491
+  %499 = fmul float %489, %494
+  %500 = fsub float %498, %499
+  %501 = fmul float %493, %489
+  %502 = fmul float %492, %490
+  %503 = fsub float %501, %502
+  %504 = fmul float %497, %497
+  %505 = fmul float %500, %500
+  %506 = fadd float %504, %505
+  %507 = fmul float %503, %503
+  %508 = fadd float %506, %507
+  %509 = call float @llvm.trax.invsqrt(float %508) nounwind
+  %510 = fdiv float 1.000000e+00, %509
+  %511 = fdiv float %503, %510
+  %512 = fdiv float %500, %510
+  %513 = fdiv float %497, %510
+  %514 = fmul float %321, %321
+  %515 = fmul float %320, %320
+  %516 = fadd float %514, %515
+  %517 = fmul float %tmp4986, %tmp4986
+  %518 = fadd float %516, %517
+  %519 = call float @llvm.trax.invsqrt(float %518) nounwind
+  %520 = fdiv float 1.000000e+00, %519
+  %521 = fdiv float %tmp4986, %520
+  %522 = fdiv float %320, %520
+  %523 = fdiv float %321, %520
+  %524 = fmul float %523, %513
+  %525 = fadd float %524, 0.000000e+00
+  %526 = fmul float %522, %512
+  %527 = fadd float %526, %525
+  %528 = fmul float %521, %511
+  %529 = fadd float %528, %527
+  %530 = fcmp ogt float %529, 0.000000e+00
+  br i1 %530, label %bb46.i711, label %bb53.i
+
+bb46.i711:                                        ; preds = %bb.i705
+  %531 = fmul float %513, -1.000000e+00
+  %532 = fmul float %512, -1.000000e+00
+  %533 = fmul float %511, -1.000000e+00
   br label %bb53.i
 
-bb53.i:                                           ; preds = %bb46.i, %bb.i263
-  %N.i.0.0 = phi float [ %502, %bb46.i ], [ %484, %bb.i263 ]
-  %N.i.1.0 = phi float [ %503, %bb46.i ], [ %483, %bb.i263 ]
-  %N.i.2.0 = phi float [ %504, %bb46.i ], [ %482, %bb.i263 ]
-  %505 = fsub float %6, %457
-  %506 = fsub float %7, %458
-  %507 = fsub float %8, %459
-  %508 = fmul float %505, %505
-  %509 = fmul float %506, %506
-  %510 = fadd float %508, %509
-  %511 = fmul float %507, %507
-  %512 = fadd float %510, %511
-  %513 = call float @llvm.trax.invsqrt(float %512) nounwind
-  %514 = fdiv float 1.000000e+00, %513
-  %515 = fdiv float %507, %514
-  %516 = fdiv float %506, %514
-  %517 = fdiv float %505, %514
-  %518 = fmul float %517, %N.i.0.0
-  %519 = fadd float %518, 0.000000e+00
-  %520 = fmul float %516, %N.i.1.0
-  %521 = fadd float %520, %519
-  %522 = fmul float %515, %N.i.2.0
-  %523 = fadd float %522, %521
-  %524 = fcmp ogt float %523, 0.000000e+00
-  br i1 %524, label %bb88.i, label %bb115.i
+bb53.i:                                           ; preds = %bb46.i711, %bb.i705
+  %N.i655.0.0 = phi float [ %531, %bb46.i711 ], [ %513, %bb.i705 ]
+  %N.i655.1.0 = phi float [ %532, %bb46.i711 ], [ %512, %bb.i705 ]
+  %N.i655.2.0 = phi float [ %533, %bb46.i711 ], [ %511, %bb.i705 ]
+  %534 = fsub float %6, %486
+  %535 = fsub float %7, %487
+  %536 = fsub float %8, %488
+  %537 = fmul float %534, %534
+  %538 = fmul float %535, %535
+  %539 = fadd float %537, %538
+  %540 = fmul float %536, %536
+  %541 = fadd float %539, %540
+  %542 = call float @llvm.trax.invsqrt(float %541) nounwind
+  %543 = fdiv float 1.000000e+00, %542
+  %544 = fdiv float %536, %543
+  %545 = fdiv float %535, %543
+  %546 = fdiv float %534, %543
+  %547 = fmul float %546, %N.i655.0.0
+  %548 = fadd float %547, 0.000000e+00
+  %549 = fmul float %545, %N.i655.1.0
+  %550 = fadd float %549, %548
+  %551 = fmul float %544, %N.i655.2.0
+  %552 = fadd float %551, %550
+  %553 = fcmp ogt float %552, 0.000000e+00
+  br i1 %553, label %bb88.i713, label %bb115.i
 
-bb88.i:                                           ; preds = %bb53.i
-  %525 = call float @llvm.trax.invsqrt(float %512) nounwind
-  br label %bb.outer.i302
+bb88.i713:                                        ; preds = %bb53.i
+  %554 = call float @llvm.trax.invsqrt(float %541) nounwind
+  br label %bb.outer.i224
 
-bb.outer.i302:                                    ; preds = %bb9.i402, %bb88.i
-  %tmp12791285.off0 = phi i32 [ %tmp1280, %bb88.i ], [ %tmp12791284.off0, %bb9.i402 ]
-  %node_id.0.ph.i297 = phi i32 [ 0, %bb88.i ], [ %683, %bb9.i402 ]
-  %sp.0.ph.i298 = phi i32 [ -1, %bb88.i ], [ %684, %bb9.i402 ]
-  %tmp404.i300 = add i32 %sp.0.ph.i298, 1
-  %tmp1458 = sext i32 %tmp404.i300 to i64
-  %tmp1460 = zext i32 %sp.0.ph.i298 to i64
-  br label %bb.i314
+bb.outer.i224:                                    ; preds = %bb9.i324, %bb88.i713
+  %tmp12191225.off0 = phi i32 [ %tmp1220, %bb88.i713 ], [ %tmp12191224.off0, %bb9.i324 ]
+  %node_id.0.ph.i219 = phi i32 [ 0, %bb88.i713 ], [ %712, %bb9.i324 ]
+  %sp.0.ph.i220 = phi i32 [ -1, %bb88.i713 ], [ %713, %bb9.i324 ]
+  %tmp404.i222 = add i32 %sp.0.ph.i220, 1
+  %tmp1508 = sext i32 %tmp404.i222 to i64
+  %tmp1510 = zext i32 %sp.0.ph.i220 to i64
+  br label %bb.i236
 
-bb.i314:                                          ; preds = %bb3.i330, %bb.outer.i302
-  %indvar.i303 = phi i64 [ %indvar.next.i329, %bb3.i330 ], [ 0, %bb.outer.i302 ]
-  %node_id.0.i304 = phi i32 [ %561, %bb3.i330 ], [ %node_id.0.ph.i297, %bb.outer.i302 ]
-  %tmp1459 = add i64 %tmp1458, %indvar.i303
-  %scevgep.i308 = getelementptr [32 x i32]* %stack.i, i64 0, i64 %tmp1459
-  %tmp1461 = add i64 %tmp1460, %indvar.i303
-  %sp.0.i306 = trunc i64 %tmp1461 to i32
-  %526 = shl nsw i32 %node_id.0.i304, 3
-  %527 = add nsw i32 %526, %37
-  %528 = call float @llvm.trax.loadf(i32 %527, i32 2) nounwind
-  %529 = call float @llvm.trax.loadf(i32 %527, i32 1) nounwind
-  %530 = call float @llvm.trax.loadf(i32 %527, i32 0) nounwind
-  %531 = call float @llvm.trax.loadf(i32 %527, i32 5) nounwind
-  %532 = call float @llvm.trax.loadf(i32 %527, i32 4) nounwind
-  %533 = call float @llvm.trax.loadf(i32 %527, i32 3) nounwind
-  %534 = fsub float %530, %457
-  %535 = fdiv float %534, %517
-  %536 = fsub float %533, %457
-  %537 = fdiv float %536, %517
-  %538 = fcmp ogt float %535, %537
-  %tx1.i.0.i309 = select i1 %538, float %537, float %535
-  %tx2.i.0.i310 = select i1 %538, float %535, float %537
-  %539 = fcmp ogt float %tx1.i.0.i309, -1.000000e+10
-  %tnear.i.0.i311 = select i1 %539, float %tx1.i.0.i309, float -1.000000e+10
-  %540 = fcmp olt float %tx2.i.0.i310, 1.000000e+10
-  %tfar.i.0.i312 = select i1 %540, float %tx2.i.0.i310, float 1.000000e+10
-  %541 = fcmp ogt float %tnear.i.0.i311, %tfar.i.0.i312
-  %542 = fcmp olt float %tfar.i.0.i312, 0.000000e+00
-  %or.cond.i313 = or i1 %541, %542
-  br i1 %or.cond.i313, label %bb7.i401, label %bb29.i.i320
+bb.i236:                                          ; preds = %bb3.i252, %bb.outer.i224
+  %indvar.i225 = phi i64 [ %indvar.next.i251, %bb3.i252 ], [ 0, %bb.outer.i224 ]
+  %node_id.0.i226 = phi i32 [ %590, %bb3.i252 ], [ %node_id.0.ph.i219, %bb.outer.i224 ]
+  %tmp1509 = add i64 %tmp1508, %indvar.i225
+  %scevgep.i230 = getelementptr [32 x i32]* %stack.i, i64 0, i64 %tmp1509
+  %tmp1511 = add i64 %tmp1510, %indvar.i225
+  %sp.0.i228 = trunc i64 %tmp1511 to i32
+  %555 = shl nsw i32 %node_id.0.i226, 3
+  %556 = add nsw i32 %555, %37
+  %557 = call float @llvm.trax.loadf(i32 %556, i32 2) nounwind
+  %558 = call float @llvm.trax.loadf(i32 %556, i32 1) nounwind
+  %559 = call float @llvm.trax.loadf(i32 %556, i32 0) nounwind
+  %560 = call float @llvm.trax.loadf(i32 %556, i32 5) nounwind
+  %561 = call float @llvm.trax.loadf(i32 %556, i32 4) nounwind
+  %562 = call float @llvm.trax.loadf(i32 %556, i32 3) nounwind
+  %563 = fsub float %559, %486
+  %564 = fdiv float %563, %546
+  %565 = fsub float %562, %486
+  %566 = fdiv float %565, %546
+  %567 = fcmp ogt float %564, %566
+  %tx1.i.0.i231 = select i1 %567, float %566, float %564
+  %tx2.i.0.i232 = select i1 %567, float %564, float %566
+  %568 = fcmp ogt float %tx1.i.0.i231, -1.000000e+10
+  %tnear.i.0.i233 = select i1 %568, float %tx1.i.0.i231, float -1.000000e+10
+  %569 = fcmp olt float %tx2.i.0.i232, 1.000000e+10
+  %tfar.i.0.i234 = select i1 %569, float %tx2.i.0.i232, float 1.000000e+10
+  %570 = fcmp ogt float %tnear.i.0.i233, %tfar.i.0.i234
+  %571 = fcmp olt float %tfar.i.0.i234, 0.000000e+00
+  %or.cond.i235 = or i1 %570, %571
+  br i1 %or.cond.i235, label %bb7.i323, label %bb29.i.i242
 
-bb29.i.i320:                                      ; preds = %bb.i314
-  %543 = fsub float %529, %458
-  %544 = fdiv float %543, %516
-  %545 = fsub float %532, %458
-  %546 = fdiv float %545, %516
-  %547 = fcmp ogt float %544, %546
-  %ty1.i.0.i315 = select i1 %547, float %546, float %544
-  %ty2.i.0.i316 = select i1 %547, float %544, float %546
-  %548 = fcmp ogt float %ty1.i.0.i315, %tnear.i.0.i311
-  %tnear.i.1.i317 = select i1 %548, float %ty1.i.0.i315, float %tnear.i.0.i311
-  %549 = fcmp olt float %ty2.i.0.i316, %tfar.i.0.i312
-  %tfar.i.1.i318 = select i1 %549, float %ty2.i.0.i316, float %tfar.i.0.i312
-  %550 = fcmp ogt float %tnear.i.1.i317, %tfar.i.1.i318
-  %551 = fcmp olt float %tfar.i.1.i318, 0.000000e+00
-  %or.cond1395.i319 = or i1 %550, %551
-  br i1 %or.cond1395.i319, label %bb7.i401, label %bb62.i.i326
+bb29.i.i242:                                      ; preds = %bb.i236
+  %572 = fsub float %558, %487
+  %573 = fdiv float %572, %545
+  %574 = fsub float %561, %487
+  %575 = fdiv float %574, %545
+  %576 = fcmp ogt float %573, %575
+  %ty1.i.0.i237 = select i1 %576, float %575, float %573
+  %ty2.i.0.i238 = select i1 %576, float %573, float %575
+  %577 = fcmp ogt float %ty1.i.0.i237, %tnear.i.0.i233
+  %tnear.i.1.i239 = select i1 %577, float %ty1.i.0.i237, float %tnear.i.0.i233
+  %578 = fcmp olt float %ty2.i.0.i238, %tfar.i.0.i234
+  %tfar.i.1.i240 = select i1 %578, float %ty2.i.0.i238, float %tfar.i.0.i234
+  %579 = fcmp ogt float %tnear.i.1.i239, %tfar.i.1.i240
+  %580 = fcmp olt float %tfar.i.1.i240, 0.000000e+00
+  %or.cond1395.i241 = or i1 %579, %580
+  br i1 %or.cond1395.i241, label %bb7.i323, label %bb62.i.i248
 
-bb62.i.i326:                                      ; preds = %bb29.i.i320
-  %552 = fsub float %528, %459
-  %553 = fdiv float %552, %515
-  %554 = fsub float %531, %459
-  %555 = fdiv float %554, %515
-  %556 = fcmp ogt float %553, %555
-  %tz1.i.0.i321 = select i1 %556, float %555, float %553
-  %tz2.i.0.i322 = select i1 %556, float %553, float %555
-  %557 = fcmp ogt float %tz1.i.0.i321, %tnear.i.1.i317
-  %tnear.i.2.i323 = select i1 %557, float %tz1.i.0.i321, float %tnear.i.1.i317
-  %558 = fcmp olt float %tz2.i.0.i322, %tfar.i.1.i318
-  %tfar.i.2.i324 = select i1 %558, float %tz2.i.0.i322, float %tfar.i.1.i318
-  %559 = fcmp ogt float %tnear.i.2.i323, %tfar.i.2.i324
-  %560 = fcmp olt float %tfar.i.2.i324, 0.000000e+00
-  %or.cond1396.i325 = or i1 %559, %560
-  br i1 %or.cond1396.i325, label %bb7.i401, label %bb1.i327
+bb62.i.i248:                                      ; preds = %bb29.i.i242
+  %581 = fsub float %557, %488
+  %582 = fdiv float %581, %544
+  %583 = fsub float %560, %488
+  %584 = fdiv float %583, %544
+  %585 = fcmp ogt float %582, %584
+  %tz1.i.0.i243 = select i1 %585, float %584, float %582
+  %tz2.i.0.i244 = select i1 %585, float %582, float %584
+  %586 = fcmp ogt float %tz1.i.0.i243, %tnear.i.1.i239
+  %tnear.i.2.i245 = select i1 %586, float %tz1.i.0.i243, float %tnear.i.1.i239
+  %587 = fcmp olt float %tz2.i.0.i244, %tfar.i.1.i240
+  %tfar.i.2.i246 = select i1 %587, float %tz2.i.0.i244, float %tfar.i.1.i240
+  %588 = fcmp ogt float %tnear.i.2.i245, %tfar.i.2.i246
+  %589 = fcmp olt float %tfar.i.2.i246, 0.000000e+00
+  %or.cond1396.i247 = or i1 %588, %589
+  br i1 %or.cond1396.i247, label %bb7.i323, label %bb1.i249
 
-bb1.i327:                                         ; preds = %bb62.i.i326
-  %561 = call i32 @llvm.trax.loadi(i32 %527, i32 7) nounwind
-  %562 = call i32 @llvm.trax.loadi(i32 %527, i32 6) nounwind
-  %563 = icmp slt i32 %562, 0
-  br i1 %563, label %bb3.i330, label %bb6.preheader.i328
+bb1.i249:                                         ; preds = %bb62.i.i248
+  %590 = call i32 @llvm.trax.loadi(i32 %556, i32 7) nounwind
+  %591 = call i32 @llvm.trax.loadi(i32 %556, i32 6) nounwind
+  %592 = icmp slt i32 %591, 0
+  br i1 %592, label %bb3.i252, label %bb6.preheader.i250
 
-bb6.preheader.i328:                               ; preds = %bb1.i327
-  %564 = icmp sgt i32 %562, 0
-  br i1 %564, label %bb5.i341, label %bb7.i401
+bb6.preheader.i250:                               ; preds = %bb1.i249
+  %593 = icmp sgt i32 %591, 0
+  br i1 %593, label %bb5.i263, label %bb7.i323
 
-bb3.i330:                                         ; preds = %bb1.i327
-  %565 = add nsw i32 %561, 1
-  store i32 %565, i32* %scevgep.i308, align 4
-  %indvar.next.i329 = add i64 %indvar.i303, 1
-  br label %bb.i314
+bb3.i252:                                         ; preds = %bb1.i249
+  %594 = add nsw i32 %590, 1
+  store i32 %594, i32* %scevgep.i230, align 4
+  %indvar.next.i251 = add i64 %indvar.i225, 1
+  br label %bb.i236
 
-bb5.i341:                                         ; preds = %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i400, %bb6.preheader.i328
-  %tmp12791283.off0 = phi i32 [ %tmp12791282.off0, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i400 ], [ %tmp12791285.off0, %bb6.preheader.i328 ]
-  %storemerge388.i331 = phi i32 [ %679, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i400 ], [ 0, %bb6.preheader.i328 ]
-  %tmp = mul i32 %storemerge388.i331, 11
-  %tmp396.i333 = add i32 %561, %tmp
-  %566 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 2) nounwind
-  %567 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 1) nounwind
-  %568 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 0) nounwind
-  %569 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 5) nounwind
-  %570 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 4) nounwind
-  %571 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 3) nounwind
-  %572 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 8) nounwind
-  %573 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 7) nounwind
-  %574 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 6) nounwind
-  %575 = call i32 @llvm.trax.loadi(i32 %tmp396.i333, i32 10) nounwind
-  %576 = call i32 @llvm.trax.loadi(i32 %tmp396.i333, i32 9) nounwind
-  %577 = call i32 @llvm.trax.loadi(i32 0, i32 9) nounwind
-  %578 = mul nsw i32 %575, 25
-  %579 = add nsw i32 %577, %578
-  %580 = call float @llvm.trax.loadf(i32 %579, i32 6) nounwind
-  %581 = call float @llvm.trax.loadf(i32 %579, i32 5) nounwind
-  %582 = call float @llvm.trax.loadf(i32 %579, i32 4) nounwind
-  %583 = fsub float %568, %574
-  %584 = fsub float %567, %573
-  %585 = fsub float %566, %572
-  %586 = fsub float %571, %574
-  %587 = fsub float %570, %573
-  %588 = fsub float %569, %572
-  %589 = fmul float %584, %588
-  %590 = fmul float %587, %585
-  %591 = fsub float %589, %590
-  %592 = fmul float %586, %585
-  %593 = fmul float %583, %588
-  %594 = fsub float %592, %593
-  %595 = fmul float %587, %583
-  %596 = fmul float %586, %584
-  %597 = fsub float %595, %596
-  %598 = fmul float %591, %591
-  %599 = fmul float %594, %594
-  %600 = fadd float %598, %599
-  %601 = fmul float %597, %597
-  %602 = fadd float %600, %601
-  %603 = call float @llvm.trax.invsqrt(float %602) nounwind
-  %604 = fmul float %516, %588
-  %605 = fmul float %587, %515
-  %606 = fsub float %604, %605
-  %607 = fmul float %586, %515
-  %608 = fmul float %517, %588
-  %609 = fsub float %607, %608
-  %610 = fmul float %587, %517
-  %611 = fmul float %586, %516
-  %612 = fsub float %610, %611
-  %613 = fmul float %606, %583
-  %614 = fadd float %613, 0.000000e+00
-  %615 = fmul float %609, %584
-  %616 = fadd float %615, %614
-  %617 = fmul float %612, %585
-  %618 = fadd float %617, %616
-  %619 = fdiv float 1.000000e+00, %618
-  %620 = fsub float %457, %574
-  %621 = fsub float %458, %573
-  %622 = fsub float %459, %572
-  %623 = fmul float %606, %620
-  %624 = fadd float %623, 0.000000e+00
-  %625 = fmul float %609, %621
-  %626 = fadd float %625, %624
-  %627 = fmul float %612, %622
-  %628 = fadd float %627, %626
-  %629 = fmul float %628, %619
-  %630 = fcmp olt float %629, 0.000000e+00
-  %631 = fcmp ogt float %629, 1.000000e+00
-  %or.cond1397.i340 = or i1 %630, %631
-  br i1 %or.cond1397.i340, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i400, label %bb73.i.i342
+bb5.i263:                                         ; preds = %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i322, %bb6.preheader.i250
+  %tmp12191223.off0 = phi i32 [ %tmp12191222.off0, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i322 ], [ %tmp12191225.off0, %bb6.preheader.i250 ]
+  %storemerge388.i253 = phi i32 [ %708, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i322 ], [ 0, %bb6.preheader.i250 ]
+  %tmp = mul i32 %storemerge388.i253, 11
+  %tmp396.i255 = add i32 %590, %tmp
+  %595 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 2) nounwind
+  %596 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 1) nounwind
+  %597 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 0) nounwind
+  %598 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 5) nounwind
+  %599 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 4) nounwind
+  %600 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 3) nounwind
+  %601 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 8) nounwind
+  %602 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 7) nounwind
+  %603 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 6) nounwind
+  %604 = call i32 @llvm.trax.loadi(i32 %tmp396.i255, i32 10) nounwind
+  %605 = call i32 @llvm.trax.loadi(i32 %tmp396.i255, i32 9) nounwind
+  %606 = call i32 @llvm.trax.loadi(i32 0, i32 9) nounwind
+  %607 = mul nsw i32 %604, 25
+  %608 = add nsw i32 %606, %607
+  %609 = call float @llvm.trax.loadf(i32 %608, i32 6) nounwind
+  %610 = call float @llvm.trax.loadf(i32 %608, i32 5) nounwind
+  %611 = call float @llvm.trax.loadf(i32 %608, i32 4) nounwind
+  %612 = fsub float %597, %603
+  %613 = fsub float %596, %602
+  %614 = fsub float %595, %601
+  %615 = fsub float %600, %603
+  %616 = fsub float %599, %602
+  %617 = fsub float %598, %601
+  %618 = fmul float %613, %617
+  %619 = fmul float %616, %614
+  %620 = fsub float %618, %619
+  %621 = fmul float %615, %614
+  %622 = fmul float %612, %617
+  %623 = fsub float %621, %622
+  %624 = fmul float %616, %612
+  %625 = fmul float %615, %613
+  %626 = fsub float %624, %625
+  %627 = fmul float %620, %620
+  %628 = fmul float %623, %623
+  %629 = fadd float %627, %628
+  %630 = fmul float %626, %626
+  %631 = fadd float %629, %630
+  %632 = call float @llvm.trax.invsqrt(float %631) nounwind
+  %633 = fmul float %545, %617
+  %634 = fmul float %616, %544
+  %635 = fsub float %633, %634
+  %636 = fmul float %615, %544
+  %637 = fmul float %546, %617
+  %638 = fsub float %636, %637
+  %639 = fmul float %616, %546
+  %640 = fmul float %615, %545
+  %641 = fsub float %639, %640
+  %642 = fmul float %635, %612
+  %643 = fadd float %642, 0.000000e+00
+  %644 = fmul float %638, %613
+  %645 = fadd float %644, %643
+  %646 = fmul float %641, %614
+  %647 = fadd float %646, %645
+  %648 = fdiv float 1.000000e+00, %647
+  %649 = fsub float %486, %603
+  %650 = fsub float %487, %602
+  %651 = fsub float %488, %601
+  %652 = fmul float %635, %649
+  %653 = fadd float %652, 0.000000e+00
+  %654 = fmul float %638, %650
+  %655 = fadd float %654, %653
+  %656 = fmul float %641, %651
+  %657 = fadd float %656, %655
+  %658 = fmul float %657, %648
+  %659 = fcmp olt float %658, 0.000000e+00
+  %660 = fcmp ogt float %658, 1.000000e+00
+  %or.cond1397.i262 = or i1 %659, %660
+  br i1 %or.cond1397.i262, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i322, label %bb73.i.i264
 
-bb73.i.i342:                                      ; preds = %bb5.i341
-  %632 = fmul float %621, %585
-  %633 = fmul float %584, %622
-  %634 = fsub float %632, %633
-  %635 = fmul float %583, %622
-  %636 = fmul float %620, %585
-  %637 = fsub float %635, %636
-  %638 = fmul float %584, %620
-  %639 = fmul float %583, %621
-  %640 = fsub float %638, %639
-  %641 = fmul float %634, %517
-  %642 = fadd float %641, 0.000000e+00
-  %643 = fmul float %637, %516
-  %644 = fadd float %643, %642
-  %645 = fmul float %640, %515
-  %646 = fadd float %645, %644
-  %647 = fmul float %646, %619
-  %648 = fcmp olt float %647, 0.000000e+00
-  br i1 %648, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i400, label %bb94.i55.i343
+bb73.i.i264:                                      ; preds = %bb5.i263
+  %661 = fmul float %650, %614
+  %662 = fmul float %613, %651
+  %663 = fsub float %661, %662
+  %664 = fmul float %612, %651
+  %665 = fmul float %649, %614
+  %666 = fsub float %664, %665
+  %667 = fmul float %613, %649
+  %668 = fmul float %612, %650
+  %669 = fsub float %667, %668
+  %670 = fmul float %663, %546
+  %671 = fadd float %670, 0.000000e+00
+  %672 = fmul float %666, %545
+  %673 = fadd float %672, %671
+  %674 = fmul float %669, %544
+  %675 = fadd float %674, %673
+  %676 = fmul float %675, %648
+  %677 = fcmp olt float %676, 0.000000e+00
+  br i1 %677, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i322, label %bb94.i55.i265
 
-bb94.i55.i343:                                    ; preds = %bb73.i.i342
-  %649 = fadd float %647, %629
-  %650 = fcmp ogt float %649, 1.000000e+00
-  br i1 %650, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i400, label %bb96.i.i346
+bb94.i55.i265:                                    ; preds = %bb73.i.i264
+  %678 = fadd float %676, %658
+  %679 = fcmp ogt float %678, 1.000000e+00
+  br i1 %679, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i322, label %bb96.i.i268
 
-bb96.i.i346:                                      ; preds = %bb94.i55.i343
-  %651 = fmul float %634, %586
-  %652 = fadd float %651, 0.000000e+00
-  %653 = fmul float %637, %587
-  %654 = fadd float %653, %652
-  %655 = fmul float %640, %588
-  %656 = fadd float %655, %654
-  %657 = fmul float %656, %619
-  %658 = fcmp ule float %657, 0.000000e+00
-  %659 = fcmp olt float %657, 0x3F50624DE0000000
-  %or.cond1398.i344 = or i1 %658, %659
-  %660 = fcmp oeq float %657, 1.000000e+10
-  %or.cond1399.i345 = or i1 %or.cond1398.i344, %660
-  br i1 %or.cond1399.i345, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i400, label %bb2.i.i.i347
+bb96.i.i268:                                      ; preds = %bb94.i55.i265
+  %680 = fmul float %663, %615
+  %681 = fadd float %680, 0.000000e+00
+  %682 = fmul float %666, %616
+  %683 = fadd float %682, %681
+  %684 = fmul float %669, %617
+  %685 = fadd float %684, %683
+  %686 = fmul float %685, %648
+  %687 = fcmp ule float %686, 0.000000e+00
+  %688 = fcmp olt float %686, 0x3F50624DE0000000
+  %or.cond1398.i266 = or i1 %687, %688
+  %689 = fcmp oeq float %686, 1.000000e+10
+  %or.cond1399.i267 = or i1 %or.cond1398.i266, %689
+  br i1 %or.cond1399.i267, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i322, label %bb2.i.i.i269
 
-bb2.i.i.i347:                                     ; preds = %bb96.i.i346
-  %tmp1216 = bitcast i32 %tmp12791283.off0 to float
-  %661 = fcmp ogt float %tmp1216, %657
-  br i1 %661, label %bb3.i.i.i398, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i400
+bb2.i.i.i269:                                     ; preds = %bb96.i.i268
+  %tmp1156 = bitcast i32 %tmp12191223.off0 to float
+  %690 = fcmp ogt float %tmp1156, %686
+  br i1 %690, label %bb3.i.i.i320, label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i322
 
-bb3.i.i.i398:                                     ; preds = %bb2.i.i.i347
-  %tmp1210 = bitcast float %657 to i32
-  %662 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 2) nounwind
-  %663 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 1) nounwind
-  %664 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 0) nounwind
-  %665 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 5) nounwind
-  %666 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 4) nounwind
-  %667 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 3) nounwind
-  %668 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 8) nounwind
-  %669 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 7) nounwind
-  %670 = call float @llvm.trax.loadf(i32 %tmp396.i333, i32 6) nounwind
-  %671 = call i32 @llvm.trax.loadi(i32 %tmp396.i333, i32 10) nounwind
-  %672 = call i32 @llvm.trax.loadi(i32 %tmp396.i333, i32 9) nounwind
-  %673 = call i32 @llvm.trax.loadi(i32 0, i32 9) nounwind
-  %674 = mul nsw i32 %671, 25
-  %675 = add nsw i32 %673, %674
-  %676 = call float @llvm.trax.loadf(i32 %675, i32 6) nounwind
-  %677 = call float @llvm.trax.loadf(i32 %675, i32 5) nounwind
-  %678 = call float @llvm.trax.loadf(i32 %675, i32 4) nounwind
-  br label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i400
+bb3.i.i.i320:                                     ; preds = %bb2.i.i.i269
+  %tmp1150 = bitcast float %686 to i32
+  %691 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 2) nounwind
+  %692 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 1) nounwind
+  %693 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 0) nounwind
+  %694 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 5) nounwind
+  %695 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 4) nounwind
+  %696 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 3) nounwind
+  %697 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 8) nounwind
+  %698 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 7) nounwind
+  %699 = call float @llvm.trax.loadf(i32 %tmp396.i255, i32 6) nounwind
+  %700 = call i32 @llvm.trax.loadi(i32 %tmp396.i255, i32 10) nounwind
+  %701 = call i32 @llvm.trax.loadi(i32 %tmp396.i255, i32 9) nounwind
+  %702 = call i32 @llvm.trax.loadi(i32 0, i32 9) nounwind
+  %703 = mul nsw i32 %700, 25
+  %704 = add nsw i32 %702, %703
+  %705 = call float @llvm.trax.loadf(i32 %704, i32 6) nounwind
+  %706 = call float @llvm.trax.loadf(i32 %704, i32 5) nounwind
+  %707 = call float @llvm.trax.loadf(i32 %704, i32 4) nounwind
+  br label %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i322
 
-_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i400: ; preds = %bb3.i.i.i398, %bb2.i.i.i347, %bb96.i.i346, %bb94.i55.i343, %bb73.i.i342, %bb5.i341
-  %tmp12791282.off0 = phi i32 [ %tmp1210, %bb3.i.i.i398 ], [ %tmp12791283.off0, %bb2.i.i.i347 ], [ %tmp12791283.off0, %bb96.i.i346 ], [ %tmp12791283.off0, %bb94.i55.i343 ], [ %tmp12791283.off0, %bb73.i.i342 ], [ %tmp12791283.off0, %bb5.i341 ]
-  %679 = add nsw i32 %storemerge388.i331, 1
-  %exitcond = icmp eq i32 %679, %562
-  br i1 %exitcond, label %bb7.i401, label %bb5.i341
+_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i322: ; preds = %bb3.i.i.i320, %bb2.i.i.i269, %bb96.i.i268, %bb94.i55.i265, %bb73.i.i264, %bb5.i263
+  %tmp12191222.off0 = phi i32 [ %tmp1150, %bb3.i.i.i320 ], [ %tmp12191223.off0, %bb2.i.i.i269 ], [ %tmp12191223.off0, %bb96.i.i268 ], [ %tmp12191223.off0, %bb94.i55.i265 ], [ %tmp12191223.off0, %bb73.i.i264 ], [ %tmp12191223.off0, %bb5.i263 ]
+  %708 = add nsw i32 %storemerge388.i253, 1
+  %exitcond = icmp eq i32 %708, %591
+  br i1 %exitcond, label %bb7.i323, label %bb5.i263
 
-bb7.i401:                                         ; preds = %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i400, %bb6.preheader.i328, %bb62.i.i326, %bb29.i.i320, %bb.i314
-  %tmp12791284.off0 = phi i32 [ %tmp12791285.off0, %bb6.preheader.i328 ], [ %tmp12791282.off0, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i400 ], [ %tmp12791285.off0, %bb.i314 ], [ %tmp12791285.off0, %bb29.i.i320 ], [ %tmp12791285.off0, %bb62.i.i326 ]
-  %680 = icmp slt i32 %sp.0.i306, 0
-  br i1 %680, label %_ZN3BVH9intersectER9HitRecordR3Ray.exit403, label %bb9.i402
+bb7.i323:                                         ; preds = %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i322, %bb6.preheader.i250, %bb62.i.i248, %bb29.i.i242, %bb.i236
+  %tmp12191224.off0 = phi i32 [ %tmp12191225.off0, %bb6.preheader.i250 ], [ %tmp12191222.off0, %_ZN8Trigonum10intersectsER9HitRecord3RayRKi.exit.i322 ], [ %tmp12191225.off0, %bb.i236 ], [ %tmp12191225.off0, %bb29.i.i242 ], [ %tmp12191225.off0, %bb62.i.i248 ]
+  %709 = icmp slt i32 %sp.0.i228, 0
+  br i1 %709, label %_ZN3BVH9intersectER9HitRecordR3Ray.exit325, label %bb9.i324
 
-bb9.i402:                                         ; preds = %bb7.i401
-  %681 = sext i32 %sp.0.i306 to i64
-  %682 = getelementptr inbounds [32 x i32]* %stack.i, i64 0, i64 %681
-  %683 = load i32* %682, align 4
-  %684 = add nsw i32 %sp.0.i306, -1
-  br label %bb.outer.i302
+bb9.i324:                                         ; preds = %bb7.i323
+  %710 = sext i32 %sp.0.i228 to i64
+  %711 = getelementptr inbounds [32 x i32]* %stack.i, i64 0, i64 %710
+  %712 = load i32* %711, align 4
+  %713 = add nsw i32 %sp.0.i228, -1
+  br label %bb.outer.i224
 
-_ZN3BVH9intersectER9HitRecordR3Ray.exit403:       ; preds = %bb7.i401
-  %685 = fdiv float 1.000000e+00, %525
-  %tmp1278 = bitcast i32 %tmp12791284.off0 to float
-  %686 = fcmp uge float %tmp1278, %685
-  %687 = fcmp ule float %tmp1278, 0x3F847AE140000000
-  %or.cond3657 = or i1 %686, %687
-  br i1 %or.cond3657, label %bb92.i, label %bb115.i
+_ZN3BVH9intersectER9HitRecordR3Ray.exit325:       ; preds = %bb7.i323
+  %714 = fdiv float 1.000000e+00, %554
+  %tmp1218 = bitcast i32 %tmp12191224.off0 to float
+  %715 = fcmp uge float %tmp1218, %714
+  %716 = fcmp ule float %tmp1218, 0x3F847AE140000000
+  %or.cond5821 = or i1 %715, %716
+  br i1 %or.cond5821, label %bb92.i722, label %bb115.i
 
-bb92.i:                                           ; preds = %_ZN3BVH9intersectER9HitRecordR3Ray.exit403
-  %688 = fmul float %tmp1244, %523
-  %689 = fadd float %688, 0.000000e+00
+bb92.i722:                                        ; preds = %_ZN3BVH9intersectER9HitRecordR3Ray.exit325
+  %717 = fmul float %tmp1184, %552
+  %718 = fadd float %717, 0.000000e+00
   br label %bb115.i
 
-bb115.i:                                          ; preds = %bb92.i, %_ZN3BVH9intersectER9HitRecordR3Ray.exit403, %bb53.i
-  %690 = phi float [ %689, %bb92.i ], [ 0.000000e+00, %bb53.i ], [ 0.000000e+00, %_ZN3BVH9intersectER9HitRecordR3Ray.exit403 ]
-  %tmp2577 = trunc i512 %tmp1238 to i128
-  %tmp2578 = and i128 %tmp2577, 79228162495817593519834398720
-  %tmp2042 = lshr exact i128 %tmp2578, 64
-  %tmp2043 = trunc i128 %tmp2042 to i32
-  %tmp2044 = bitcast i32 %tmp2043 to float
-  %tmp41.i420 = trunc i512 %tmp1238 to i32
-  %tmp42.i421 = bitcast i32 %tmp41.i420 to float
-  %691 = fmul float %tmp42.i421, %690
-  %tmp37.i4221340 = lshr i512 %mask5511204, 384
-  %tmp38.i423 = trunc i512 %tmp37.i4221340 to i32
-  %tmp39.i424 = bitcast i32 %tmp38.i423 to float
-  %692 = fmul float %tmp39.i424, %690
-  %693 = fmul float %690, %tmp2044
-  %tmp11.i427 = bitcast float %692 to i32
-  %phitmp1296 = zext i32 %tmp11.i427 to i96
-  %phitmp1297 = shl nuw nsw i96 %phitmp1296, 32
-  %phitmp1299 = bitcast float %693 to i32
-  %phitmp1300 = zext i32 %phitmp1299 to i96
-  %phitmp1301 = shl nuw i96 %phitmp1300, 64
-  %extract.t1622 = trunc i512 %tmp1238 to i32
-  %extract.t1628 = trunc i512 %tmp1238 to i128
-  br label %invcont123
+bb115.i:                                          ; preds = %bb92.i722, %_ZN3BVH9intersectER9HitRecordR3Ray.exit325, %bb53.i
+  %719 = phi float [ %718, %bb92.i722 ], [ 0.000000e+00, %bb53.i ], [ 0.000000e+00, %_ZN3BVH9intersectER9HitRecordR3Ray.exit325 ]
+  %tmp5211 = trunc i512 %tmp1178 to i128
+  %tmp5212 = and i128 %tmp5211, 79228162495817593519834398720
+  %tmp4676 = lshr exact i128 %tmp5212, 64
+  %tmp4677 = trunc i128 %tmp4676 to i32
+  %tmp4678 = bitcast i32 %tmp4677 to float
+  %tmp41.i342 = trunc i512 %tmp1178 to i32
+  %tmp42.i343 = bitcast i32 %tmp41.i342 to float
+  %720 = fmul float %tmp42.i343, %719
+  %tmp37.i3441283 = lshr i512 %mask5611144, 384
+  %tmp38.i345 = trunc i512 %tmp37.i3441283 to i32
+  %tmp39.i346 = bitcast i32 %tmp38.i345 to float
+  %721 = fmul float %tmp39.i346, %719
+  %722 = fmul float %719, %tmp4678
+  %tmp11.i349 = bitcast float %721 to i32
+  %phitmp1233 = zext i32 %tmp11.i349 to i96
+  %phitmp1234 = shl nuw nsw i96 %phitmp1233, 32
+  %phitmp1236 = bitcast float %722 to i32
+  %phitmp1237 = zext i32 %phitmp1236 to i96
+  %phitmp1238 = shl nuw i96 %phitmp1237, 64
+  %extract.t1746 = trunc i512 %tmp1178 to i32
+  %extract.t1752 = trunc i512 %tmp1178 to i128
+  br label %invcont134
 
-invcont123:                                       ; preds = %bb115.i, %_ZN3BVH9intersectER9HitRecordR3Ray.exit235.invcont123_crit_edge
-  %.pre-phi1621 = phi float [ %.pre1620, %_ZN3BVH9intersectER9HitRecordR3Ray.exit235.invcont123_crit_edge ], [ %479, %bb115.i ]
-  %.pre-phi1581 = phi float [ %.pre1580, %_ZN3BVH9intersectER9HitRecordR3Ray.exit235.invcont123_crit_edge ], [ %458, %bb115.i ]
-  %.pre-phi1579 = phi float [ %.pre1578, %_ZN3BVH9intersectER9HitRecordR3Ray.exit235.invcont123_crit_edge ], [ %457, %bb115.i ]
-  %tmp489.pre-phi.off0 = phi i32 [ %extract.t, %_ZN3BVH9intersectER9HitRecordR3Ray.exit235.invcont123_crit_edge ], [ %extract.t1622, %bb115.i ]
-  %tmp489.pre-phi.off01626 = phi i128 [ %extract.t1627, %_ZN3BVH9intersectER9HitRecordR3Ray.exit235.invcont123_crit_edge ], [ %extract.t1628, %bb115.i ]
-  %.02530.0.off0.off0 = phi float [ 0x3FE1F3B640000000, %_ZN3BVH9intersectER9HitRecordR3Ray.exit235.invcont123_crit_edge ], [ %691, %bb115.i ]
-  %.12531.0.off32 = phi i96 [ 4556129611431280640, %_ZN3BVH9intersectER9HitRecordR3Ray.exit235.invcont123_crit_edge ], [ %phitmp1297, %bb115.i ]
-  %.22532.0 = phi i96 [ 19648584296011284141125402624, %_ZN3BVH9intersectER9HitRecordR3Ray.exit235.invcont123_crit_edge ], [ %phitmp1301, %bb115.i ]
-  %memtmp4.i238.0 = phi i128 [ %memtmp4.i238.11394, %_ZN3BVH9intersectER9HitRecordR3Ray.exit235.invcont123_crit_edge ], [ %ins2343, %bb115.i ]
-  %ins1053 = or i96 %.22532.0, %.12531.0.off32
-  %694 = fmul float %tmp733, %tmp1281
-  %695 = fadd float %12, %694
-  %696 = call float @llvm.trax.invsqrt(float %.pre-phi1621) nounwind
+invcont134:                                       ; preds = %bb115.i, %_ZN3BVH9intersectER9HitRecordR3Ray.exit166.invcont134_crit_edge
+  %.pre-phi1745 = phi float [ %.pre1744, %_ZN3BVH9intersectER9HitRecordR3Ray.exit166.invcont134_crit_edge ], [ %508, %bb115.i ]
+  %.pre-phi1705 = phi float [ %.pre1704, %_ZN3BVH9intersectER9HitRecordR3Ray.exit166.invcont134_crit_edge ], [ %487, %bb115.i ]
+  %.pre-phi1703 = phi float [ %.pre1702, %_ZN3BVH9intersectER9HitRecordR3Ray.exit166.invcont134_crit_edge ], [ %486, %bb115.i ]
+  %tmp503.pre-phi.off0 = phi i32 [ %extract.t, %_ZN3BVH9intersectER9HitRecordR3Ray.exit166.invcont134_crit_edge ], [ %extract.t1746, %bb115.i ]
+  %tmp503.pre-phi.off01750 = phi i128 [ %extract.t1751, %_ZN3BVH9intersectER9HitRecordR3Ray.exit166.invcont134_crit_edge ], [ %extract.t1752, %bb115.i ]
+  %.05164.0.off0.off0 = phi float [ 0x3FE1F3B640000000, %_ZN3BVH9intersectER9HitRecordR3Ray.exit166.invcont134_crit_edge ], [ %720, %bb115.i ]
+  %.15165.0.off32 = phi i96 [ 4556129611431280640, %_ZN3BVH9intersectER9HitRecordR3Ray.exit166.invcont134_crit_edge ], [ %phitmp1234, %bb115.i ]
+  %.25166.0 = phi i96 [ 19648584296011284141125402624, %_ZN3BVH9intersectER9HitRecordR3Ray.exit166.invcont134_crit_edge ], [ %phitmp1238, %bb115.i ]
+  %memtmp4.i657.0 = phi i128 [ %memtmp4.i657.11379, %_ZN3BVH9intersectER9HitRecordR3Ray.exit166.invcont134_crit_edge ], [ %ins4977, %bb115.i ]
+  %ins976 = or i96 %.25166.0, %.15165.0.off32
+  %723 = fmul float %tmp765, %tmp1221
+  %724 = fadd float %12, %723
+  %725 = call float @llvm.trax.invsqrt(float %.pre-phi1745) nounwind
   br label %bb47.i
 
-bb.i351:                                          ; preds = %bb47.i
-  %scevgep14911492 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %indvar, i32 0, i32 0
-  %scevgep1490 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %indvar, i32 0, i32 1
-  %scevgep1489 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %indvar, i32 0, i32 2
-  %697 = load float* %scevgep14911492, align 4
-  %698 = load float* %scevgep1490, align 4
-  %699 = load float* %scevgep1489, align 4
-  %tmp3372 = bitcast float %697 to i32
-  %tmp3373 = zext i32 %tmp3372 to i96
-  %tmp3366 = bitcast float %698 to i32
-  %tmp3367 = zext i32 %tmp3366 to i96
-  %tmp3368 = shl nuw nsw i96 %tmp3367, 32
-  %ins3370 = or i96 %tmp3368, %tmp3373
-  %tmp3360 = bitcast float %699 to i32
-  %tmp3012 = zext i96 %ins3370 to i128
-  %mask3013 = and i128 %memtmp31.i.0, -79228162514264337593543950336
-  %tmp3006 = zext i32 %tmp3360 to i128
-  %tmp3007 = shl nuw nsw i128 %tmp3006, 64
-  %mask3008 = or i128 %tmp3007, %mask3013
-  %ins3009 = or i128 %mask3008, %tmp3012
-  %ins3009.tr = trunc i128 %ins3009 to i96
-  %700 = fsub float %697, %.pre-phi1579
-  %701 = fsub float %698, %.pre-phi1581
-  %tmp3332 = lshr i96 %ins3009.tr, 64
-  %tmp3333 = trunc i96 %tmp3332 to i32
-  %tmp3334 = bitcast i32 %tmp3333 to float
-  %702 = fsub float %tmp3334, %695
-  %703 = fmul float %700, %700
-  %704 = fmul float %701, %701
-  %705 = fadd float %703, %704
-  %706 = fmul float %702, %702
-  %707 = fadd float %705, %706
-  %708 = fcmp olt float %707, 2.890000e+02
-  br i1 %708, label %bb45.i, label %bb46.i359
+bb.i540:                                          ; preds = %bb47.i
+  %scevgep15391540 = getelementptr [220000 x %struct.Photon]* %38, i64 0, i64 %indvar, i32 0, i32 0
+  %scevgep1538 = getelementptr [220000 x %struct.Photon]* %38, i64 0, i64 %indvar, i32 0, i32 1
+  %scevgep1537 = getelementptr [220000 x %struct.Photon]* %38, i64 0, i64 %indvar, i32 0, i32 2
+  %726 = load float* %scevgep15391540, align 4
+  %727 = load float* %scevgep1538, align 4
+  %728 = load float* %scevgep1537, align 4
+  %tmp4290 = bitcast float %726 to i32
+  %tmp4291 = zext i32 %tmp4290 to i96
+  %tmp4284 = bitcast float %727 to i32
+  %tmp4285 = zext i32 %tmp4284 to i96
+  %tmp4286 = shl nuw nsw i96 %tmp4285, 32
+  %ins4288 = or i96 %tmp4286, %tmp4291
+  %tmp4278 = bitcast float %728 to i32
+  %tmp3930 = zext i96 %ins4288 to i128
+  %mask3931 = and i128 %memtmp31.i.0, -79228162514264337593543950336
+  %tmp3924 = zext i32 %tmp4278 to i128
+  %tmp3925 = shl nuw nsw i128 %tmp3924, 64
+  %mask3926 = or i128 %tmp3925, %mask3931
+  %ins3927 = or i128 %mask3926, %tmp3930
+  %ins3927.tr = trunc i128 %ins3927 to i96
+  %729 = fsub float %726, %.pre-phi1703
+  %730 = fsub float %727, %.pre-phi1705
+  %tmp4250 = lshr i96 %ins3927.tr, 64
+  %tmp4251 = trunc i96 %tmp4250 to i32
+  %tmp4252 = bitcast i32 %tmp4251 to float
+  %731 = fsub float %tmp4252, %724
+  %732 = fmul float %729, %729
+  %733 = fmul float %730, %730
+  %734 = fadd float %732, %733
+  %735 = fmul float %731, %731
+  %736 = fadd float %734, %735
+  %737 = fcmp olt float %736, 2.890000e+02
+  br i1 %737, label %bb45.i549, label %bb46.i550
 
-bb45.i:                                           ; preds = %bb.i351
-  %709 = add nsw i32 %num_of_photons.i.1, 1
-  %710 = load float* %scevgep1488, align 4
-  %711 = fadd float %power.i.0.1, %710
-  %712 = load float* %scevgep1487, align 4
-  %713 = fadd float %power.i.1.1, %712
-  %714 = load float* %scevgep, align 4
-  %715 = fadd float %power.i.2.1, %714
-  %716 = icmp sgt i32 %709, 10
-  br i1 %716, label %bb49.i, label %bb46.i359
+bb45.i549:                                        ; preds = %bb.i540
+  %738 = add nsw i32 %num_of_photons.i499.1, 1
+  %739 = load float* %scevgep1536, align 4
+  %740 = fadd float %power.i.0.1, %739
+  %741 = load float* %scevgep1535, align 4
+  %742 = fadd float %power.i.1.1, %741
+  %743 = load float* %scevgep, align 4
+  %744 = fadd float %power.i.2.1, %743
+  %745 = icmp sgt i32 %738, 10
+  br i1 %745, label %bb49.i, label %bb46.i550
 
-bb46.i359:                                        ; preds = %bb45.i, %bb.i351
-  %power.i.0.0 = phi float [ %711, %bb45.i ], [ %power.i.0.1, %bb.i351 ]
-  %power.i.1.0 = phi float [ %713, %bb45.i ], [ %power.i.1.1, %bb.i351 ]
-  %power.i.2.0 = phi float [ %715, %bb45.i ], [ %power.i.2.1, %bb.i351 ]
-  %num_of_photons.i.0 = phi i32 [ %709, %bb45.i ], [ %num_of_photons.i.1, %bb.i351 ]
+bb46.i550:                                        ; preds = %bb45.i549, %bb.i540
+  %power.i.0.0 = phi float [ %740, %bb45.i549 ], [ %power.i.0.1, %bb.i540 ]
+  %power.i.1.0 = phi float [ %742, %bb45.i549 ], [ %power.i.1.1, %bb.i540 ]
+  %power.i.2.0 = phi float [ %744, %bb45.i549 ], [ %power.i.2.1, %bb.i540 ]
+  %num_of_photons.i499.0 = phi i32 [ %738, %bb45.i549 ], [ %num_of_photons.i499.1, %bb.i540 ]
   %indvar.next = add i64 %indvar, 1
   br label %bb47.i
 
-bb47.i:                                           ; preds = %bb46.i359, %invcont123
-  %indvar = phi i64 [ %indvar.next, %bb46.i359 ], [ 0, %invcont123 ]
-  %power.i.0.1 = phi float [ %power.i.0.0, %bb46.i359 ], [ 0.000000e+00, %invcont123 ]
-  %power.i.1.1 = phi float [ %power.i.1.0, %bb46.i359 ], [ 0.000000e+00, %invcont123 ]
-  %power.i.2.1 = phi float [ %power.i.2.0, %bb46.i359 ], [ 0.000000e+00, %invcont123 ]
-  %memtmp31.i.0 = phi i128 [ %ins3009, %bb46.i359 ], [ %memtmp31.i.31398, %invcont123 ]
-  %num_of_photons.i.1 = phi i32 [ %num_of_photons.i.0, %bb46.i359 ], [ 0, %invcont123 ]
-  %storemerge.i360 = trunc i64 %indvar to i32
-  %scevgep = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %indvar, i32 1, i64 2
-  %scevgep1487 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %indvar, i32 1, i64 1
-  %scevgep1488 = getelementptr [250000 x %struct.Photon]* %38, i64 0, i64 %indvar, i32 1, i64 0
-  %717 = icmp slt i32 %storemerge.i360, %count.2.ph.ph
-  br i1 %717, label %bb.i351, label %bb48.i
+bb47.i:                                           ; preds = %bb46.i550, %invcont134
+  %indvar = phi i64 [ %indvar.next, %bb46.i550 ], [ 0, %invcont134 ]
+  %power.i.0.1 = phi float [ %power.i.0.0, %bb46.i550 ], [ 0.000000e+00, %invcont134 ]
+  %power.i.1.1 = phi float [ %power.i.1.0, %bb46.i550 ], [ 0.000000e+00, %invcont134 ]
+  %power.i.2.1 = phi float [ %power.i.2.0, %bb46.i550 ], [ 0.000000e+00, %invcont134 ]
+  %memtmp31.i.0 = phi i128 [ %ins3927, %bb46.i550 ], [ %memtmp31.i.31371, %invcont134 ]
+  %num_of_photons.i499.1 = phi i32 [ %num_of_photons.i499.0, %bb46.i550 ], [ 0, %invcont134 ]
+  %storemerge.i551 = trunc i64 %indvar to i32
+  %scevgep = getelementptr [220000 x %struct.Photon]* %38, i64 0, i64 %indvar, i32 1, i64 2
+  %scevgep1535 = getelementptr [220000 x %struct.Photon]* %38, i64 0, i64 %indvar, i32 1, i64 1
+  %scevgep1536 = getelementptr [220000 x %struct.Photon]* %38, i64 0, i64 %indvar, i32 1, i64 0
+  %746 = icmp slt i32 %storemerge.i551, %count.2.ph.ph1451
+  br i1 %746, label %bb.i540, label %bb48.i
 
 bb48.i:                                           ; preds = %bb47.i
-  %718 = icmp eq i32 %num_of_photons.i.1, 0
-  br i1 %718, label %invcont148, label %bb49.i
+  %747 = icmp eq i32 %num_of_photons.i499.1, 0
+  br i1 %747, label %invcont159, label %bb49.i
 
-bb49.i:                                           ; preds = %bb48.i, %bb45.i
-  %power.i.0.2 = phi float [ %power.i.0.1, %bb48.i ], [ %711, %bb45.i ]
-  %power.i.1.2 = phi float [ %power.i.1.1, %bb48.i ], [ %713, %bb45.i ]
-  %power.i.2.2 = phi float [ %power.i.2.1, %bb48.i ], [ %715, %bb45.i ]
-  %memtmp31.i.1 = phi i128 [ %memtmp31.i.0, %bb48.i ], [ %ins3009, %bb45.i ]
-  %num_of_photons.i.2 = phi i32 [ %num_of_photons.i.1, %bb48.i ], [ %709, %bb45.i ]
-  %719 = sitofp i32 %num_of_photons.i.2 to float
-  %720 = fdiv float %power.i.0.2, %719
-  %721 = fdiv float %power.i.1.2, %719
-  %722 = fdiv float %power.i.2.2, %719
-  %tmp3255 = and i128 %tmp489.pre-phi.off01626, 79228162495817593519834398720
-  %tmp2972 = lshr exact i128 %tmp3255, 64
-  %tmp2973 = trunc i128 %tmp2972 to i32
-  %tmp2974 = bitcast i32 %tmp2973 to float
-  %tmp42.i54 = bitcast i32 %tmp489.pre-phi.off0 to float
-  %723 = fmul float %tmp42.i54, %720
-  %tmp37.i551312 = lshr i512 %mask5511204, 384
-  %tmp38.i56 = trunc i512 %tmp37.i551312 to i32
-  %tmp39.i57 = bitcast i32 %tmp38.i56 to float
-  %724 = fmul float %tmp39.i57, %721
-  %725 = fmul float %722, %tmp2974
-  br label %invcont148
+bb49.i:                                           ; preds = %bb48.i, %bb45.i549
+  %power.i.0.2 = phi float [ %power.i.0.1, %bb48.i ], [ %740, %bb45.i549 ]
+  %power.i.1.2 = phi float [ %power.i.1.1, %bb48.i ], [ %742, %bb45.i549 ]
+  %power.i.2.2 = phi float [ %power.i.2.1, %bb48.i ], [ %744, %bb45.i549 ]
+  %memtmp31.i.1 = phi i128 [ %memtmp31.i.0, %bb48.i ], [ %ins3927, %bb45.i549 ]
+  %num_of_photons.i499.2 = phi i32 [ %num_of_photons.i499.1, %bb48.i ], [ %738, %bb45.i549 ]
+  %748 = sitofp i32 %num_of_photons.i499.2 to float
+  %749 = fdiv float %power.i.0.2, %748
+  %750 = fdiv float %power.i.1.2, %748
+  %751 = fdiv float %power.i.2.2, %748
+  %tmp4173 = and i128 %tmp503.pre-phi.off01750, 79228162495817593519834398720
+  %tmp3890 = lshr exact i128 %tmp4173, 64
+  %tmp3891 = trunc i128 %tmp3890 to i32
+  %tmp3892 = bitcast i32 %tmp3891 to float
+  %tmp42.i385 = bitcast i32 %tmp503.pre-phi.off0 to float
+  %752 = fmul float %tmp42.i385, %749
+  %tmp37.i3861249 = lshr i512 %mask5611144, 384
+  %tmp38.i387 = trunc i512 %tmp37.i3861249 to i32
+  %tmp39.i388 = bitcast i32 %tmp38.i387 to float
+  %753 = fmul float %tmp39.i388, %750
+  %754 = fmul float %751, %tmp3892
+  br label %invcont159
 
-invcont148:                                       ; preds = %bb49.i, %bb48.i
-  %.23220.0 = phi float [ %725, %bb49.i ], [ 0.000000e+00, %bb48.i ]
-  %.13219.0 = phi float [ %724, %bb49.i ], [ 0.000000e+00, %bb48.i ]
-  %.03218.0 = phi float [ %723, %bb49.i ], [ 0.000000e+00, %bb48.i ]
+invcont159:                                       ; preds = %bb49.i, %bb48.i
+  %.04136.0 = phi float [ %752, %bb49.i ], [ 0.000000e+00, %bb48.i ]
+  %.14137.0 = phi float [ %753, %bb49.i ], [ 0.000000e+00, %bb48.i ]
+  %.24138.0 = phi float [ %754, %bb49.i ], [ 0.000000e+00, %bb48.i ]
   %memtmp31.i.2 = phi i128 [ %memtmp31.i.1, %bb49.i ], [ %memtmp31.i.0, %bb48.i ]
-  %tmp1033 = lshr exact i96 %.12531.0.off32, 32
-  %tmp1034 = trunc i96 %tmp1033 to i32
-  %tmp1035 = bitcast i32 %tmp1034 to float
-  %tmp1029 = lshr i96 %ins1053, 64
-  %tmp1030 = trunc i96 %tmp1029 to i32
-  %tmp1031 = bitcast i32 %tmp1030 to float
-  %726 = fadd float %.03218.0, %.02530.0.off0.off0
-  %727 = fadd float %.13219.0, %tmp1035
-  %728 = fadd float %tmp1031, %.23220.0
-  %729 = fcmp olt float %726, 0.000000e+00
-  br i1 %729, label %bb5.i, label %bb1.i
+  %tmp935 = lshr exact i96 %.15165.0.off32, 32
+  %tmp936 = trunc i96 %tmp935 to i32
+  %tmp937 = bitcast i32 %tmp936 to float
+  %tmp931 = lshr i96 %ins976, 64
+  %tmp932 = trunc i96 %tmp931 to i32
+  %tmp933 = bitcast i32 %tmp932 to float
+  %755 = fadd float %.04136.0, %.05164.0.off0.off0
+  %756 = fadd float %.14137.0, %tmp937
+  %757 = fadd float %tmp933, %.24138.0
+  %tmp1012 = bitcast float %755 to i32
+  %tmp1013 = zext i32 %tmp1012 to i64
+  %tmp988 = bitcast float %756 to i32
+  %tmp989 = zext i32 %tmp988 to i64
+  %tmp990 = shl nuw i64 %tmp989, 32
+  %ins992 = or i64 %tmp990, %tmp1013
+  %758 = lshr i192 %ins864, 96
+  %.tr1264 = trunc i192 %758 to i128
+  %tmp2883 = and i128 %.tr1264, 79228162495817593519834398720
+  %759 = fdiv float %284, %321
+  %760 = fdiv float %285, %321
+  %761 = fcmp ogt float %759, %760
+  %tx1.i.0 = select i1 %761, float %760, float %759
+  %tx2.i.0 = select i1 %761, float %759, float %760
+  %762 = fcmp ogt float %tx1.i.0, -1.000000e+10
+  %tnear.i.0 = select i1 %762, float %tx1.i.0, float -1.000000e+10
+  %763 = fcmp olt float %tx2.i.0, 1.000000e+10
+  %tfar.i.0 = select i1 %763, float %tx2.i.0, float 1.000000e+10
+  %764 = fcmp ogt float %tnear.i.0, %tfar.i.0
+  %765 = fcmp olt float %tfar.i.0, 0.000000e+00
+  %or.cond5822 = or i1 %764, %765
+  br i1 %or.cond5822, label %invcont198, label %bb29.i
 
-bb1.i:                                            ; preds = %invcont148
-  %730 = fcmp ogt float %726, 1.000000e+00
-  br i1 %730, label %bb5.i, label %bb4.i
+bb29.i:                                           ; preds = %invcont159
+  %766 = fdiv float %286, %320
+  %767 = fdiv float %287, %320
+  %768 = fcmp ogt float %766, %767
+  %ty1.i.0 = select i1 %768, float %767, float %766
+  %ty2.i.0 = select i1 %768, float %766, float %767
+  %769 = fcmp ogt float %ty1.i.0, %tnear.i.0
+  %tnear.i.1 = select i1 %769, float %ty1.i.0, float %tnear.i.0
+  %770 = fcmp olt float %ty2.i.0, %tfar.i.0
+  %tfar.i.1 = select i1 %770, float %ty2.i.0, float %tfar.i.0
+  %771 = fcmp ogt float %tnear.i.1, %tfar.i.1
+  %772 = fcmp olt float %tfar.i.1, 0.000000e+00
+  %or.cond5823 = or i1 %771, %772
+  br i1 %or.cond5823, label %invcont198, label %bb62.i
 
-bb4.i:                                            ; preds = %bb1.i
-  br label %bb5.i
+bb62.i:                                           ; preds = %bb29.i
+  %tmp2716 = lshr i128 %mask2730, 64
+  %tmp2717 = trunc i128 %tmp2716 to i32
+  %tmp2718 = bitcast i32 %tmp2717 to float
+  %773 = fsub float 0.000000e+00, %tmp2718
+  %tmp2694 = lshr exact i128 %tmp2883, 64
+  %tmp2695 = trunc i128 %tmp2694 to i32
+  %tmp2696 = bitcast i32 %tmp2695 to float
+  %774 = fdiv float %773, %tmp2696
+  %775 = fsub float 0x4074A00420000000, %tmp2718
+  %776 = fdiv float %775, %tmp2696
+  %777 = fcmp ogt float %774, %776
+  %tz1.i.0 = select i1 %777, float %776, float %774
+  %tz2.i.0 = select i1 %777, float %774, float %776
+  %778 = fcmp ogt float %tz1.i.0, %tnear.i.1
+  %tnear.i.2 = select i1 %778, float %tz1.i.0, float %tnear.i.1
+  %779 = fcmp olt float %tz2.i.0, %tfar.i.1
+  %tfar.i.2 = select i1 %779, float %tz2.i.0, float %tfar.i.1
+  %780 = fcmp ogt float %tnear.i.2, %tfar.i.2
+  %781 = fcmp olt float %tfar.i.2, 0.000000e+00
+  %or.cond5824 = or i1 %780, %781
+  br i1 %or.cond5824, label %invcont198, label %bb46.i.preheader
 
-bb5.i:                                            ; preds = %bb4.i, %bb1.i, %invcont148
-  %r.i.0 = phi float [ %726, %bb4.i ], [ 0.000000e+00, %invcont148 ], [ 1.000000e+00, %bb1.i ]
-  %731 = fcmp olt float %728, 0.000000e+00
-  br i1 %731, label %bb12.i, label %bb8.i
+bb46.i.preheader:                                 ; preds = %bb62.i
+  %782 = fcmp olt float %tnear.i.2, %tfar.i.2
+  br i1 %782, label %bb44.i.preheader, label %invcont191
 
-bb8.i:                                            ; preds = %bb5.i
-  %732 = fcmp ogt float %728, 1.000000e+00
-  br i1 %732, label %bb12.i, label %bb11.i
+bb1.i:                                            ; preds = %bb44.i
+  %scevgep15491550 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %indvar1541, i32 0, i32 0
+  %scevgep1548 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %indvar1541, i32 0, i32 1
+  %scevgep1547 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %indvar1541, i32 0, i32 2
+  %783 = fmul float %tmp765, %step.i.01351
+  %tmp1985 = bitcast float %783 to i32
+  %mask1741 = and i128 %memtmp5.i.0, -79228162514264337593543950336
+  %tmp1734 = zext i32 %tmp1985 to i128
+  %tmp1735 = shl nuw nsw i128 %tmp1734, 64
+  %mask1736 = or i128 %mask1741, %tmp1740
+  %ins1737 = or i128 %mask1736, %tmp1735
+  %ins1737.tr = trunc i128 %ins1737 to i96
+  %tmp1796 = lshr i96 %ins1737.tr, 64
+  %tmp1797 = trunc i96 %tmp1796 to i32
+  %tmp1798 = bitcast i32 %tmp1797 to float
+  %784 = fadd float %tmp2718, %tmp1798
+  %785 = load float* %scevgep15491550, align 8
+  %786 = load float* %scevgep1548, align 4
+  %787 = load float* %scevgep1547, align 8
+  %tmp1951 = bitcast float %785 to i32
+  %tmp1952 = zext i32 %tmp1951 to i96
+  %tmp1945 = bitcast float %786 to i32
+  %tmp1946 = zext i32 %tmp1945 to i96
+  %tmp1947 = shl nuw nsw i96 %tmp1946, 32
+  %ins1949 = or i96 %tmp1947, %tmp1952
+  %tmp1939 = bitcast float %787 to i32
+  %tmp1674 = zext i96 %ins1949 to i128
+  %mask1675 = and i128 %memtmp25.i.0, -79228162514264337593543950336
+  %tmp1668 = zext i32 %tmp1939 to i128
+  %tmp1669 = shl nuw nsw i128 %tmp1668, 64
+  %mask1670 = or i128 %tmp1669, %mask1675
+  %ins1671 = or i128 %mask1670, %tmp1674
+  %ins1671.tr = trunc i128 %ins1671 to i96
+  %788 = fsub float %785, %811
+  %789 = fsub float %786, %812
+  %tmp1911 = lshr i96 %ins1671.tr, 64
+  %tmp1912 = trunc i96 %tmp1911 to i32
+  %tmp1913 = bitcast i32 %tmp1912 to float
+  %790 = fsub float %tmp1913, %784
+  %791 = fmul float %788, %788
+  %792 = fmul float %789, %789
+  %793 = fadd float %791, %792
+  %794 = fmul float %790, %790
+  %795 = fadd float %793, %794
+  %796 = fcmp olt float %795, 1.000000e+04
+  br i1 %796, label %bb39.i, label %bb40.i
+
+bb39.i:                                           ; preds = %bb1.i
+  %797 = add nsw i32 %num_of_photons.i.1, 1
+  %798 = load float* %scevgep1546, align 4
+  %799 = fadd float %power.i.0.4, %798
+  %800 = load float* %scevgep1545, align 4
+  %801 = fadd float %power.i.1.4, %800
+  %802 = load float* %scevgep1544, align 4
+  %803 = fadd float %power.i.2.4, %802
+  %804 = icmp sgt i32 %797, 20
+  br i1 %804, label %bb45.i, label %bb40.i
+
+bb40.i:                                           ; preds = %bb39.i, %bb1.i
+  %power.i.0.3 = phi float [ %799, %bb39.i ], [ %power.i.0.4, %bb1.i ]
+  %power.i.1.3 = phi float [ %801, %bb39.i ], [ %power.i.1.4, %bb1.i ]
+  %power.i.2.3 = phi float [ %803, %bb39.i ], [ %power.i.2.4, %bb1.i ]
+  %num_of_photons.i.0 = phi i32 [ %797, %bb39.i ], [ %num_of_photons.i.1, %bb1.i ]
+  %805 = icmp eq i32 %num_of_photons.i.0, 0
+  %volume_radiance.i.0.0 = select i1 %805, float %volume_radiance.i.0.1, float %power.i.0.3
+  %volume_radiance.i.1.0 = select i1 %805, float %volume_radiance.i.1.1, float %power.i.1.3
+  %volume_radiance.i.2.0 = select i1 %805, float %volume_radiance.i.2.1, float %power.i.2.3
+  %indvar.next1542 = add i64 %indvar1541, 1
+  br label %bb44.i
+
+bb44.i:                                           ; preds = %bb44.i.preheader, %bb40.i
+  %indvar1541 = phi i64 [ 0, %bb44.i.preheader ], [ %indvar.next1542, %bb40.i ]
+  %power.i.0.4 = phi float [ %power.i.0.61340, %bb44.i.preheader ], [ %power.i.0.3, %bb40.i ]
+  %power.i.1.4 = phi float [ %power.i.1.61341, %bb44.i.preheader ], [ %power.i.1.3, %bb40.i ]
+  %power.i.2.4 = phi float [ %power.i.2.61342, %bb44.i.preheader ], [ %power.i.2.3, %bb40.i ]
+  %volume_radiance.i.0.1 = phi float [ %volume_radiance.i.0.21343, %bb44.i.preheader ], [ %volume_radiance.i.0.0, %bb40.i ]
+  %volume_radiance.i.1.1 = phi float [ %volume_radiance.i.1.21344, %bb44.i.preheader ], [ %volume_radiance.i.1.0, %bb40.i ]
+  %volume_radiance.i.2.1 = phi float [ %volume_radiance.i.2.21345, %bb44.i.preheader ], [ %volume_radiance.i.2.0, %bb40.i ]
+  %memtmp25.i.0 = phi i128 [ %memtmp25.i.21346, %bb44.i.preheader ], [ %ins1671, %bb40.i ]
+  %memtmp5.i.0 = phi i128 [ %memtmp5.i.21348, %bb44.i.preheader ], [ %ins1737, %bb40.i ]
+  %num_of_photons.i.1 = phi i32 [ %num_of_photons.i.31350, %bb44.i.preheader ], [ %num_of_photons.i.0, %bb40.i ]
+  %storemerge.i = trunc i64 %indvar1541 to i32
+  %scevgep1544 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %indvar1541, i32 1, i64 2
+  %scevgep1545 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %indvar1541, i32 1, i64 1
+  %scevgep1546 = getelementptr [20000 x %struct.Photon]* %volume_photons, i64 0, i64 %indvar1541, i32 1, i64 0
+  %806 = icmp slt i32 %storemerge.i, %v_p_count.1.ph.ph.ph
+  br i1 %806, label %bb1.i, label %bb45.i
+
+bb45.i:                                           ; preds = %bb44.i, %bb39.i
+  %power.i.0.5 = phi float [ %799, %bb39.i ], [ %power.i.0.4, %bb44.i ]
+  %power.i.1.5 = phi float [ %801, %bb39.i ], [ %power.i.1.4, %bb44.i ]
+  %power.i.2.5 = phi float [ %803, %bb39.i ], [ %power.i.2.4, %bb44.i ]
+  %memtmp25.i.1 = phi i128 [ %ins1671, %bb39.i ], [ %memtmp25.i.0, %bb44.i ]
+  %memtmp5.i.1 = phi i128 [ %ins1737, %bb39.i ], [ %memtmp5.i.0, %bb44.i ]
+  %num_of_photons.i.2 = phi i32 [ %797, %bb39.i ], [ %num_of_photons.i.1, %bb44.i ]
+  %807 = fadd float %step.i.01351, 1.000000e+00
+  %808 = fcmp olt float %807, %tfar.i.2
+  br i1 %808, label %bb44.i.preheader, label %invcont191
+
+bb44.i.preheader:                                 ; preds = %bb45.i, %bb46.i.preheader
+  %step.i.01351 = phi float [ %807, %bb45.i ], [ %tnear.i.2, %bb46.i.preheader ]
+  %num_of_photons.i.31350 = phi i32 [ %num_of_photons.i.2, %bb45.i ], [ 0, %bb46.i.preheader ]
+  %memtmp5.i.21348 = phi i128 [ %memtmp5.i.1, %bb45.i ], [ %memtmp5.i.41364, %bb46.i.preheader ]
+  %memtmp25.i.21346 = phi i128 [ %memtmp25.i.1, %bb45.i ], [ %memtmp25.i.41362, %bb46.i.preheader ]
+  %volume_radiance.i.2.21345 = phi float [ %volume_radiance.i.2.1, %bb45.i ], [ 0.000000e+00, %bb46.i.preheader ]
+  %volume_radiance.i.1.21344 = phi float [ %volume_radiance.i.1.1, %bb45.i ], [ 0.000000e+00, %bb46.i.preheader ]
+  %volume_radiance.i.0.21343 = phi float [ %volume_radiance.i.0.1, %bb45.i ], [ 0.000000e+00, %bb46.i.preheader ]
+  %power.i.2.61342 = phi float [ %power.i.2.5, %bb45.i ], [ 0.000000e+00, %bb46.i.preheader ]
+  %power.i.1.61341 = phi float [ %power.i.1.5, %bb45.i ], [ 0.000000e+00, %bb46.i.preheader ]
+  %power.i.0.61340 = phi float [ %power.i.0.5, %bb45.i ], [ 0.000000e+00, %bb46.i.preheader ]
+  %809 = fmul float %321, %step.i.01351
+  %810 = fmul float %320, %step.i.01351
+  %tmp1997 = bitcast float %809 to i32
+  %tmp1998 = zext i32 %tmp1997 to i96
+  %tmp1991 = bitcast float %810 to i32
+  %tmp1992 = zext i32 %tmp1991 to i96
+  %tmp1993 = shl nuw nsw i96 %tmp1992, 32
+  %ins1995 = or i96 %tmp1993, %tmp1998
+  %tmp1740 = zext i96 %ins1995 to i128
+  %811 = fadd float %809, %10
+  %812 = fadd float %810, %11
+  br label %bb44.i
+
+invcont191:                                       ; preds = %bb45.i, %bb46.i.preheader
+  %step.i.0.lcssa = phi float [ %tnear.i.2, %bb46.i.preheader ], [ %807, %bb45.i ]
+  %memtmp5.i.2.lcssa = phi i128 [ %memtmp5.i.41364, %bb46.i.preheader ], [ %memtmp5.i.1, %bb45.i ]
+  %memtmp25.i.2.lcssa = phi i128 [ %memtmp25.i.41362, %bb46.i.preheader ], [ %memtmp25.i.1, %bb45.i ]
+  %volume_radiance.i.2.2.lcssa = phi float [ 0.000000e+00, %bb46.i.preheader ], [ %volume_radiance.i.2.1, %bb45.i ]
+  %volume_radiance.i.1.2.lcssa = phi float [ 0.000000e+00, %bb46.i.preheader ], [ %volume_radiance.i.1.1, %bb45.i ]
+  %volume_radiance.i.0.2.lcssa = phi float [ 0.000000e+00, %bb46.i.preheader ], [ %volume_radiance.i.0.1, %bb45.i ]
+  %813 = fdiv float 1.000000e+00, %step.i.0.lcssa
+  %814 = fmul float %volume_radiance.i.0.2.lcssa, %813
+  %815 = fmul float %volume_radiance.i.1.2.lcssa, %813
+  %816 = fmul float %volume_radiance.i.2.2.lcssa, %813
+  %tmp1884 = bitcast float %814 to i32
+  %tmp1885 = zext i32 %tmp1884 to i96
+  %tmp1878 = bitcast float %815 to i32
+  %tmp1879 = zext i32 %tmp1878 to i96
+  %tmp1880 = shl nuw nsw i96 %tmp1879, 32
+  %ins1882 = or i96 %tmp1880, %tmp1885
+  %tmp1872 = bitcast float %816 to i32
+  %tmp1652 = zext i96 %ins1882 to i128
+  %tmp1646 = zext i32 %tmp1872 to i128
+  %tmp1647 = shl nuw nsw i128 %tmp1646, 64
+  %mask792 = and i128 %memtmp170.11360, -79228162514264337593543950336
+  %mask787 = or i128 %tmp1652, %mask792
+  %ins788 = or i128 %mask787, %tmp1647
+  %tmp773 = lshr i128 %ins788, 64
+  %tmp774 = trunc i128 %tmp773 to i32
+  %tmp775 = bitcast i32 %tmp774 to float
+  %817 = fadd float %814, %755
+  %818 = fadd float %815, %756
+  %819 = fadd float %757, %tmp775
+  %tmp1004 = bitcast float %817 to i32
+  %tmp1007 = zext i32 %tmp1004 to i64
+  %tmp982 = bitcast float %818 to i32
+  %tmp983 = zext i32 %tmp982 to i64
+  %tmp984 = shl nuw i64 %tmp983, 32
+  %ins986 = or i64 %tmp984, %tmp1007
+  %820 = fcmp olt float %817, 0.000000e+00
+  br i1 %820, label %bb5.i444, label %bb1.i443
+
+bb1.i443:                                         ; preds = %invcont191
+  %821 = fcmp ogt float %817, 1.000000e+00
+  br i1 %821, label %bb5.i444, label %bb4.i
+
+bb4.i:                                            ; preds = %bb1.i443
+  br label %bb5.i444
+
+bb5.i444:                                         ; preds = %bb4.i, %bb1.i443, %invcont191
+  %r.0.i = phi float [ %817, %bb4.i ], [ 0.000000e+00, %invcont191 ], [ 1.000000e+00, %bb1.i443 ]
+  %822 = fcmp olt float %819, 0.000000e+00
+  br i1 %822, label %bb12.i, label %bb8.i
+
+bb8.i:                                            ; preds = %bb5.i444
+  %823 = fcmp ogt float %819, 1.000000e+00
+  br i1 %823, label %bb12.i, label %bb11.i
 
 bb11.i:                                           ; preds = %bb8.i
   br label %bb12.i
 
-bb12.i:                                           ; preds = %bb11.i, %bb8.i, %bb5.i
-  %b.i.0 = phi float [ %728, %bb11.i ], [ 0.000000e+00, %bb5.i ], [ 1.000000e+00, %bb8.i ]
-  %733 = fcmp olt float %727, 0.000000e+00
-  br i1 %733, label %invcont160, label %bb15.i
+bb12.i:                                           ; preds = %bb11.i, %bb8.i, %bb5.i444
+  %b.0.i = phi float [ %819, %bb11.i ], [ 0.000000e+00, %bb5.i444 ], [ 1.000000e+00, %bb8.i ]
+  %824 = fcmp olt float %818, 0.000000e+00
+  br i1 %824, label %_ZN5Image3setEii5Color.exit, label %bb15.i
 
 bb15.i:                                           ; preds = %bb12.i
-  %734 = fcmp ogt float %727, 1.000000e+00
-  br i1 %734, label %invcont160, label %bb18.i
+  %825 = fcmp ogt float %818, 1.000000e+00
+  br i1 %825, label %_ZN5Image3setEii5Color.exit, label %bb18.i
 
 bb18.i:                                           ; preds = %bb15.i
-  br label %invcont160
+  br label %_ZN5Image3setEii5Color.exit
 
-invcont160:                                       ; preds = %bb18.i, %bb15.i, %bb12.i
-  %g.i.0 = phi float [ %727, %bb18.i ], [ 0.000000e+00, %bb12.i ], [ 1.000000e+00, %bb15.i ]
-  %735 = mul nsw i32 %259, %0
-  %736 = add nsw i32 %735, %260
-  %737 = mul nsw i32 %736, 3
-  %738 = add nsw i32 %737, %2
-  call void @llvm.trax.storef(float %r.i.0, i32 %738, i32 0) nounwind
-  call void @llvm.trax.storef(float %g.i.0, i32 %738, i32 1) nounwind
-  call void @llvm.trax.storef(float %b.i.0, i32 %738, i32 2) nounwind
-  %739 = call i32 @llvm.trax.atominc(i32 0)
-  %740 = icmp sgt i32 %253, %739
-  br i1 %740, label %invcont118, label %return
+_ZN5Image3setEii5Color.exit:                      ; preds = %bb18.i, %bb15.i, %bb12.i
+  %g.0.i = phi float [ %818, %bb18.i ], [ 0.000000e+00, %bb12.i ], [ 1.000000e+00, %bb15.i ]
+  %826 = mul nsw i32 %288, %0
+  %827 = add nsw i32 %826, %289
+  %828 = mul nsw i32 %827, 3
+  %829 = add nsw i32 %828, %2
+  call void @llvm.trax.storef(float %r.0.i, i32 %829, i32 0) nounwind
+  call void @llvm.trax.storef(float %g.0.i, i32 %829, i32 1) nounwind
+  call void @llvm.trax.storef(float %b.0.i, i32 %829, i32 2) nounwind
+  br label %invcont198
 
-return:                                           ; preds = %invcont160, %invcont109
+invcont198:                                       ; preds = %_ZN5Image3setEii5Color.exit, %bb62.i, %bb29.i, %invcont159
+  %val194.in = phi i64 [ %ins986, %_ZN5Image3setEii5Color.exit ], [ %ins992, %invcont159 ], [ %ins992, %bb29.i ], [ %ins992, %bb62.i ]
+  %val196 = phi float [ %819, %_ZN5Image3setEii5Color.exit ], [ %757, %invcont159 ], [ %757, %bb29.i ], [ %757, %bb62.i ]
+  %memtmp170.0 = phi i128 [ %ins788, %_ZN5Image3setEii5Color.exit ], [ %memtmp170.11360, %invcont159 ], [ %memtmp170.11360, %bb29.i ], [ %memtmp170.11360, %bb62.i ]
+  %memtmp25.i.3 = phi i128 [ %memtmp25.i.2.lcssa, %_ZN5Image3setEii5Color.exit ], [ %memtmp25.i.41362, %invcont159 ], [ %memtmp25.i.41362, %bb29.i ], [ %memtmp25.i.41362, %bb62.i ]
+  %memtmp5.i.3 = phi i128 [ %memtmp5.i.2.lcssa, %_ZN5Image3setEii5Color.exit ], [ %memtmp5.i.41364, %invcont159 ], [ %memtmp5.i.41364, %bb29.i ], [ %memtmp5.i.41364, %bb62.i ]
+  %tmp47.i447 = trunc i64 %val194.in to i32
+  %tmp48.i448 = bitcast i32 %tmp47.i447 to float
+  %830 = fcmp olt float %tmp48.i448, 0.000000e+00
+  br i1 %830, label %bb5.i452, label %bb1.i449
+
+bb1.i449:                                         ; preds = %invcont198
+  %831 = fcmp ogt float %tmp48.i448, 1.000000e+00
+  br i1 %831, label %bb5.i452, label %bb4.i450
+
+bb4.i450:                                         ; preds = %bb1.i449
+  br label %bb5.i452
+
+bb5.i452:                                         ; preds = %bb4.i450, %bb1.i449, %invcont198
+  %r.0.i451 = phi float [ %tmp48.i448, %bb4.i450 ], [ 0.000000e+00, %invcont198 ], [ 1.000000e+00, %bb1.i449 ]
+  %832 = fcmp olt float %val196, 0.000000e+00
+  br i1 %832, label %bb12.i459, label %bb8.i453
+
+bb8.i453:                                         ; preds = %bb5.i452
+  %833 = fcmp ogt float %val196, 1.000000e+00
+  br i1 %833, label %bb12.i459, label %bb11.i454
+
+bb11.i454:                                        ; preds = %bb8.i453
+  br label %bb12.i459
+
+bb12.i459:                                        ; preds = %bb11.i454, %bb8.i453, %bb5.i452
+  %b.0.i455 = phi float [ %val196, %bb11.i454 ], [ 0.000000e+00, %bb5.i452 ], [ 1.000000e+00, %bb8.i453 ]
+  %tmp35.i456 = lshr i64 %val194.in, 32
+  %tmp36.i457 = trunc i64 %tmp35.i456 to i32
+  %tmp37.i458 = bitcast i32 %tmp36.i457 to float
+  %834 = fcmp olt float %tmp37.i458, 0.000000e+00
+  br i1 %834, label %_ZN5Image3setEii5Color.exit463, label %bb15.i460
+
+bb15.i460:                                        ; preds = %bb12.i459
+  %835 = fcmp ogt float %tmp37.i458, 1.000000e+00
+  br i1 %835, label %_ZN5Image3setEii5Color.exit463, label %bb18.i461
+
+bb18.i461:                                        ; preds = %bb15.i460
+  br label %_ZN5Image3setEii5Color.exit463
+
+_ZN5Image3setEii5Color.exit463:                   ; preds = %bb18.i461, %bb15.i460, %bb12.i459
+  %g.0.i462 = phi float [ %tmp37.i458, %bb18.i461 ], [ 0.000000e+00, %bb12.i459 ], [ 1.000000e+00, %bb15.i460 ]
+  %836 = mul nsw i32 %288, %0
+  %837 = add nsw i32 %836, %289
+  %838 = mul nsw i32 %837, 3
+  %839 = add nsw i32 %838, %2
+  call void @llvm.trax.storef(float %r.0.i451, i32 %839, i32 0) nounwind
+  call void @llvm.trax.storef(float %g.0.i462, i32 %839, i32 1) nounwind
+  call void @llvm.trax.storef(float %b.0.i455, i32 %839, i32 2) nounwind
+  %840 = call i32 @llvm.trax.atominc(i32 0)
+  %841 = icmp sgt i32 %278, %840
+  br i1 %841, label %invcont129, label %return
+
+return:                                           ; preds = %_ZN5Image3setEii5Color.exit463, %invcont120
   ret i32 0
 }
 
